@@ -13,12 +13,11 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	console.log(data);
 </script>
 
 {#if data.complete}
 	<Card title="Congratulations!"
-		><p>Pole Level 1 Achievement Unlocked</p>
+		><p>Pole Level {data.level} Achievement Unlocked</p>
 		<form
 			method="POST"
 			action="?/reset"

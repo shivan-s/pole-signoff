@@ -2,7 +2,6 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { cubicInOut } from 'svelte/easing';
-	import type { PageData } from './$types';
 	import { fade } from 'svelte/transition';
 	import { page } from '$app/stores';
 
