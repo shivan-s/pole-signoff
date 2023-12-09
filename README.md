@@ -1,38 +1,13 @@
-# create-svelte
+# Pole Signoff
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## Inspiration
 
-## Creating a project
+I started pole in July 2023 and on the 6th December of the same year I attained level 2 and in order to celebrate I wanted to create this small concept application.
 
-If you're seeing this, you've probably already done this step. Congrats!
+Usually sign off sheets are done by paper. As we know paper can be lost of destroyed, this is an attempt to digitise the process.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+This is work-on-progress/concept. There are many things that don't work or aren't implemented. For example,
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- Permissions
+- Admin to set up moves
+- No database
