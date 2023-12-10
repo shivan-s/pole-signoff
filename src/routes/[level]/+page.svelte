@@ -15,6 +15,7 @@
 	export let data: PageData;
 </script>
 
+<H1>{data.pageTitle}</H1>
 {#if data.complete}
 	<Card title="Congratulations!"
 		><p>Pole Level {data.level} Achievement Unlocked</p>
@@ -33,12 +34,11 @@
 		</form></Card
 	>
 {/if}
-<H1>{data.pageTitle}</H1>
 <Table>
 	<THead>
 		<TR>
 			<TH>Move</TH>
-			<TH>Signed</TH>
+			<TH centered>Signed</TH>
 		</TR>
 	</THead>
 	<Tbody>

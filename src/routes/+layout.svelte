@@ -4,8 +4,9 @@
 	import { cubicInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
 	import { page } from '$app/stores';
+	import type { LayoutData } from './$types';
 
-	export let data: PageData;
+	export let data: LayoutData;
 </script>
 
 {#if $page.data['pageTitle']}
@@ -56,9 +57,10 @@
 
 	main {
 		display: flex;
+		flex-direction: column;
+		align-items: center;
 		margin-right: auto;
 		margin-left: auto;
-		flex-direction: column;
 		gap: 1rem;
 		padding: 4rem 0rem;
 		flex-grow: 1;

@@ -11,14 +11,16 @@
 
 <style>
 	article {
-		min-width: 320px;
 		padding: 2rem 3rem 2rem 3rem;
 		border: 2px var(--primary) solid;
 		border-radius: 15px;
+		width: 100%;
+		max-width: 640px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		box-shadow: var(--primary) 0.5rem 0.5rem;
 	}
 
 	.heading {

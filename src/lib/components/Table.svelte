@@ -7,7 +7,7 @@
 <style>
 	table {
 		table-layout: fixed;
-		min-width: 100%;
+		width: 100%;
 		border-collapse: collapse;
 		color: var(--text);
 	}
