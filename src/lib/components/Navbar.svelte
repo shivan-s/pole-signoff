@@ -40,13 +40,13 @@
 		border-bottom: 3px solid var(--primary);
 		backdrop-filter: blur(10px);
 		overflow-x: auto;
+		height: 100%;
 	}
 
 	nav > * {
 		display: flex;
 		align-items: center;
 		padding: 0 2rem 0 2rem;
-		min-height: 4rem;
 	}
 
 	a {

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
-	import { cubicInOut } from 'svelte/easing';
-	import { fade } from 'svelte/transition';
 	import { page } from '$app/stores';
 	import type { LayoutData } from './$types';
+	import Container from '$lib/components/Container.svelte';
+	import H2 from '$lib/components/H2.svelte';
 
 	export let data: LayoutData;
 </script>
@@ -14,13 +14,16 @@
 {:else}
 	<title>Pole Signoff</title>
 {/if}
-<header><Navbar /></header>
-{#key data.routeURL}
-	<main in:fade={{ easing: cubicInOut }}>
-		<slot />
-	</main>
-{/key}
-<footer><Footer /></footer>
+
+<div class="wrapper">
+	<header><Navbar /></header>
+	{#key data.routeURL}
+		<Container>
+			<slot />
+		</Container>
+	{/key}
+	<footer><Footer /></footer>
+</div>
 
 <style>
 	:root {
@@ -47,74 +50,27 @@
 		scroll-behavior: smooth;
 	}
 
-	:global(body) {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		min-height: 100vh;
+	.wrapper {
+		display: grid;
+		min-height: 100dvh;
 		background: var(--bg);
-	}
-
-	main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin-right: auto;
-		margin-left: auto;
-		gap: 1rem;
-		padding: 4rem 0rem;
-		flex-grow: 1;
-		z-index: 0;
-	}
-
-	/* Extra small devices (phones, 600px and down) */
-	@media only screen and (max-width: 600px) {
-		main {
-			min-width: 320px;
-			padding-left: 0.5rem;
-			padding-right: 0.5rem;
-		}
-	}
-
-	/* Small devices (portrait tablets and large phones, 600px and up) */
-	@media only screen and (min-width: 600px) {
-		main {
-			min-width: 480px;
-			padding-left: 1rem;
-			padding-right: 1rem;
-		}
-	}
-
-	/* Medium devices (landscape tablets, 768px and up) */
-	@media only screen and (min-width: 768px) {
-		main {
-			min-width: 600px;
-			padding-left: 2rem;
-			padding-right: 2rem;
-		}
-	}
-
-	/* Large devices (laptops/desktops, 992px and up) */
-	@media only screen and (min-width: 992px) {
-		main {
-			min-width: 768px;
-			padding-left: 4rem;
-			padding-right: 4rem;
-		}
-	}
-
-	/* Extra large devices (large laptops and desktops, 1200px and up) */
-	@media only screen and (min-width: 1200px) {
-		main {
-			min-width: 922px;
-			padding-left: 6rem;
-			padding-right: 6rem;
-		}
+		grid-template-areas:
+			'header'
+			'main'
+			'footer';
+		grid-template-rows: 4rem 1fr 4rem;
+		grid-template-columns: 100vw;
+		gap: 0;
 	}
 
 	header {
+		grid-area: header;
 		position: sticky;
 		top: 0px;
 		z-index: 1;
+	}
+
+	footer {
+		grid-area: footer;
 	}
 </style>

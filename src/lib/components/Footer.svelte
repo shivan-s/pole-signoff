@@ -11,14 +11,15 @@
 <style>
 	nav {
 		justify-content: center;
+		align-items: center;
 		display: flex;
 		border-top: 3px solid var(--primary);
+		height: 100%;
 	}
 
 	nav > * {
 		display: flex;
 		align-items: center;
 		padding: 0 2rem 0 2rem;
-		min-height: 4rem;
 	}
 </style>

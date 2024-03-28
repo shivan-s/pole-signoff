@@ -11,6 +11,7 @@
 	import Tbody from '$lib/components/Tbody.svelte';
 	import { loading } from '$lib/stores';
 	import type { PageData } from './$types';
+	import { fromNow } from '$lib/utils';
 
 	export let data: PageData;
 </script>
@@ -47,7 +48,7 @@
 				<TD>{name}</TD>
 				<TD centered>
 					{#if date}
-						{date.toLocaleString()}
+						{date.toLocaleString()} ({fromNow(date)})
 					{:else}
 						<form
 							method="POST"
