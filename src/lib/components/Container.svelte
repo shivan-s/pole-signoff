@@ -14,7 +14,8 @@
 		align-items: center;
 		margin-right: auto;
 		margin-left: auto;
-		gap: 1rem;
+		margin-bottom: 50dvh;
+		gap: 3rem;
 		padding: 1rem 0rem;
 		flex-grow: 1;
 		z-index: 0;

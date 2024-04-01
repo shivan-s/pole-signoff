@@ -3,24 +3,12 @@
 	import { loading } from '$lib/stores';
 	import { navigating, page } from '$app/stores';
 
-	const urls: { url: string; name: string }[] = [
-		{
-			url: '/1',
-			name: 'Level 1'
-		},
-		{
-			url: '/2',
-			name: 'Level 2'
-		},
-		{
-			url: '/3',
-			name: 'Level 3'
-		},
-		{
-			url: '/4',
-			name: 'Level 4'
-		}
-	];
+	export let userLevels: { level: number }[] = $page.data['userLevels'];
+
+	const urls: { url: string; name: string }[] = userLevels.map((u) => ({
+		url: `/${u.level}`,
+		name: `Level ${u.level}`
+	}));
 </script>
 
 {#if $loading || $navigating}
@@ -28,6 +16,7 @@
 {/if}
 <nav>
 	<a href=".">Pole Signoff</a>
+	<a href="/admin">Admin</a>
 	{#each urls as { url, name }}
 		<a class:current={url === $page.url.pathname} href={url}>{name}</a>
 	{/each}

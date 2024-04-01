@@ -4,33 +4,40 @@
 	import { page } from '$app/stores';
 	import type { LayoutData } from './$types';
 	import Container from '$lib/components/Container.svelte';
-	import H2 from '$lib/components/H2.svelte';
+	import H1 from '$lib/components/H1.svelte';
 
 	export let data: LayoutData;
+	$: pageTitle = $page.data['pageTitle'];
 </script>
 
-{#if $page.data['pageTitle']}
-	<title>{$page.data['pageTitle']} - Pole Signoff</title>
+{#if pageTitle}
+	<title>{pageTitle} - Pole Signoff</title>
 {:else}
 	<title>Pole Signoff</title>
 {/if}
 
-<div class="wrapper">
+<body class="wrapper">
 	<header><Navbar /></header>
 	{#key data.routeURL}
 		<Container>
+			<header><H1>{pageTitle}</H1></header>
 			<slot />
 		</Container>
 	{/key}
 	<footer><Footer /></footer>
-</div>
+</body>
 
 <style>
 	:root {
-		--primary: #ff00ff;
-		--bg: #ffe6ff;
-		--text: #332933;
-		--accent: #ff9500;
+		--primary: hsla(300, 100%, 50%, 1);
+		--grey: hsla(0, 0%, 50%, 1);
+		--gray: var(--grey);
+		--bg: hsla(300, 100%, 95%, 1);
+		--text: hsla(300, 10%, 20%, 1);
+		--accent: hsla(35, 100%, 50, 1);
+		--success: hsla(112, 90%, 60%, 1);
+		--danger: hsla(0, 90%, 60%, 1);
+		--warning: hsla(45, 90%, 60%, 1);
 	}
 
 	:global(*) {
@@ -51,6 +58,7 @@
 	}
 
 	.wrapper {
+		position: relative;
 		display: grid;
 		min-height: 100dvh;
 		background: var(--bg);
@@ -59,11 +67,11 @@
 			'main'
 			'footer';
 		grid-template-rows: 4rem 1fr 4rem;
-		grid-template-columns: 100vw;
+		grid-template-columns: 100%;
 		gap: 0;
 	}
 
-	header {
+	body > header {
 		grid-area: header;
 		position: sticky;
 		top: 0px;

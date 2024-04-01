@@ -1,1 +1,1 @@
-export { fromNow } from './time';
+export { dateStamp, fromNow } from './time';

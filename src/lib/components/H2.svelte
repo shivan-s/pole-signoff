@@ -4,7 +4,7 @@
 	h1 {
 		font-weight: 500;
 		font-size: 2rem;
-		padding: 1rem 0rem 2rem 0rem;
+		padding: 0.5rem 0rem 0.5rem 0rem;
 		color: var(--text);
 	}
 </style>
