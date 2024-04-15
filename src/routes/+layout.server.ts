@@ -9,6 +9,12 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		.innerJoin(moves, eq(userMoves.moveId, moves.id))
 		.orderBy(asc(moves.level))
 		.groupBy(moves.level);
+	if (userLevels.length === 0) {
+		userLevels.push({
+			level: 1,
+			count: 0
+		});
+	}
 	return {
 		userLevels
 	};

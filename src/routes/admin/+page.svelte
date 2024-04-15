@@ -11,6 +11,18 @@
 	export let data: PageData;
 </script>
 
+<!-- {#if data.activeMovesOnly} -->
+<!-- 	<form method="GET"> -->
+<!-- 		<input name="activeMovesOnly" type="hidden" value={null} /> -->
+<!-- 		<Button>Show All Moves</Button> -->
+<!-- 	</form> -->
+<!-- {:else} -->
+<!-- 	<form method="GET"> -->
+<!-- 		<input name="activeMovesOnly" type="hidden" value={1} /> -->
+<!-- 		<Button>Show Active Moves</Button> -->
+<!-- 	</form> -->
+<!-- {/if} -->
+
 <Card>
 	{#if data.movesByLevel.length > 0}
 		{#each data.movesByLevel as level}
@@ -19,7 +31,12 @@
 				{#if data.updateMove === id}
 					<Card>
 						<form method="POST" action="?/updateMove">
-							<MoveForm />
+							<input name="id" type="hidden" value={id} />
+							<MoveForm
+								name={level.moves.at(n)}
+								description={level.descriptions.at(n)}
+								level={level.level}
+							/>
 						</form>
 						<div
 							style="display: flex; flex-wrap: wrap; align-items: end; gap: 0.25rem; align-self:end"
@@ -28,7 +45,7 @@
 								<input name="updateMove" type="hidden" required value={null} />
 								<Button directive="warning">Cancel</Button>
 							</form>
-							<form method="POST" action="?/deactivateMove">
+							<form method="POST" action="?/deleteMove">
 								<input name="id" type="hidden" required value={id} />
 								<Button directive="danger">Delete</Button>
 							</form>
@@ -61,15 +78,12 @@
 			{/each}
 		{/each}
 	{:else}
-		<span
-			>No moves.
-			<Link href="#createMove">Please create a move below.</Link>
-		</span>
+		<span>No moves to display. </span>
 	{/if}
 </Card>
 
 <Card header="Create a Move" id="createMove">
 	<form method="POST" action="?/createMove" inert={$loading} use:enhance>
-		<MoveForm />
+		<MoveForm formId={data.formId} />
 	</form>
 </Card>

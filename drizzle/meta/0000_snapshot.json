@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "2bcaa4e4-42f1-4949-af78-97bcbc4ad9b1",
+  "id": "0709a82c-b094-4e19-8e56-609ea0b21390",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "emails": {
@@ -94,15 +94,7 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "moves_name_unique": {
-          "name": "moves_name_unique",
-          "columns": [
-            "name"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}

@@ -3,17 +3,23 @@
 	import { loading } from '$lib/stores';
 	import { dateStamp, fromNow } from '$lib/utils';
 	import Button from '$lib/components/Button.svelte';
-	export let moves: Map<number, { name: string; date: Date | null }>;
+
+	export let moves: {
+		id: number;
+		name: string;
+		description: string | null;
+		achievedAt: Date | null;
+	}[];
 </script>
 
 <div class="wrapper">
 	<span class="header">Move</span>
 	<span class="header" style="text-align: center">Signed</span>
-	{#each moves.entries() as [id, { name, date }]}
-		<span class="data" style="justify-self: start">{name}</span>
+	{#each moves as move}
+		<span class="data" style="justify-self: start">{move.name}</span>
 		<span class="data">
-			{#if date}
-				<p title={fromNow(date)}>{dateStamp(date)}</p>
+			{#if move.achievedAt}
+				<p title={fromNow(move.achievedAt)}>{dateStamp(move.achievedAt)}</p>
 			{:else}
 				<form
 					id="signOff"
@@ -27,7 +33,7 @@
 						};
 					}}
 				>
-					<input name="id" type="hidden" value={id} />
+					<input name="id" type="hidden" value={move.id} />
 				</form>
 				<Button form="signOff" type="submit">Sign off</Button>
 			{/if}

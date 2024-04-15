@@ -10,9 +10,6 @@
 	export let data: PageData;
 </script>
 
-<pre>{JSON.stringify(data, null, 2)}</pre>
-
-<!-- <H1>{data.pageTitle}</H1> -->
 <!-- {#if data.complete} -->
 <!-- 	<Card header="Congratulations!" -->
 <!-- 		><p>Pole Level {data.level} Achievement Unlocked</p> -->
@@ -33,4 +30,4 @@
 <!-- 	</Card> -->
 <!-- {/if} -->
 <!---->
-<!-- <LevelTable moves={data.moves} /> -->
+<LevelTable moves={data.moves} />

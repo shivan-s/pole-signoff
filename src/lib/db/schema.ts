@@ -20,7 +20,7 @@ export const users = sqliteTable('users', {
 
 export const moves = sqliteTable('moves', {
 	id: integer('id').primaryKey(),
-	name: text('name').notNull().unique(),
+	name: text('name').notNull(),
 	description: text('description'),
 	level: integer('level').notNull(),
 	rank: integer('rank'),

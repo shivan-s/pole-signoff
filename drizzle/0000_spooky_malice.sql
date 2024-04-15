@@ -30,5 +30,4 @@ CREATE TABLE `users` (
 	`created_at` text DEFAULT TIMESTAMP NOT NULL
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `moves_name_unique` ON `moves` (`name`);--> statement-breakpoint
 CREATE UNIQUE INDEX `users_username_unique` ON `users` (`username`);

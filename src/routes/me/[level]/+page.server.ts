@@ -1,17 +1,21 @@
 import type { Actions, PageServerLoad } from './$types';
-import { levels, moves, userMoves } from '$lib/db/schema';
-import { eq } from 'drizzle-orm';
+import { moves, userMoves } from '$lib/db/schema';
+import { and, eq, isNull } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	const db = locals.db;
-	const results = await db
-		.select()
+	const levelMoves = await db
+		.select({
+			id: moves.id,
+			name: moves.name,
+			description: moves.description,
+			achievedAt: userMoves.achievedAt
+		})
 		.from(userMoves)
-		.leftJoin(moves, eq(userMoves.moveId, moves.id))
-		.innerJoin(levels, eq(levels.id, moves.levelId))
-		.where(eq(levels.level, parseInt(params.level)));
+		.rightJoin(moves, eq(userMoves.moveId, moves.id))
+		.where(and(eq(moves.level, parseInt(params.level)), isNull(moves.deletedAt)));
 	return {
-		results,
+		moves: levelMoves,
 		level: params.level,
 		pageTitle: `Level ${params.level}`
 	};

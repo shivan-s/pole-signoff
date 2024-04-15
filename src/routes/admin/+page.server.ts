@@ -1,11 +1,14 @@
 import type { Actions, PageServerLoad } from './$types';
 import { moves } from '$lib/db/schema';
-import { asc, eq, sql } from 'drizzle-orm';
+import { asc, eq, isNull, sql } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
+import { v4 as uuid } from 'uuid';
+import { detectDuplicate } from '$lib/utils';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	const sp = url.searchParams;
 	const updateMove = sp.get('updateMove');
+	const activeMovesOnly = sp.get('activeMovesOnly');
 	const allMoves = await locals.db
 		.select({
 			ids: sql<string>`STRING_AGG(${moves.id}, ';')`,
@@ -15,6 +18,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 			level: moves.level
 		})
 		.from(moves)
+		.where(activeMovesOnly ? isNull(moves.deletedAt) : undefined)
 		.orderBy(asc(moves.level))
 		.groupBy(moves.level);
 
@@ -26,7 +30,9 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		deletedAt: m.deletedAts.split(';').map((d) => (Date.parse(d) ? new Date(Date.parse(d)) : null))
 	}));
 	return {
+		formId: uuid(),
 		updateMove: updateMove && parseInt(updateMove),
+		activeMovesOnly,
 		movesByLevel,
 		pageTitle: 'Admin'
 	};
@@ -35,6 +41,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 export const actions: Actions = {
 	createMove: async ({ request, locals }) => {
 		const formData = await request.formData();
+		detectDuplicate({ fd: formData, action: 'createMove' });
 		const name = formData.get('name');
 		if (typeof name !== 'string') {
 			console.log("Error 'name': ", name);

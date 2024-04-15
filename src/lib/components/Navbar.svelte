@@ -6,7 +6,7 @@
 	export let userLevels: { level: number }[] = $page.data['userLevels'];
 
 	const urls: { url: string; name: string }[] = userLevels.map((u) => ({
-		url: `/${u.level}`,
+		url: `me/${u.level}`,
 		name: `Level ${u.level}`
 	}));
 </script>
