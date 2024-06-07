@@ -33,6 +33,7 @@
 	div {
 		width: 100%;
 		display: flex;
+		background-color: var(--bg);
 		justify-content: center;
 		flex-direction: column;
 		gap: 1rem;

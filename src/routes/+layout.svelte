@@ -5,6 +5,8 @@
 	import type { LayoutData } from './$types';
 	import Container from '$lib/components/Container.svelte';
 	import H1 from '$lib/components/H1.svelte';
+	import Toasts from '$lib/components/Toasts.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	export let data: LayoutData;
 	$: pageTitle = $page.data['pageTitle'];
@@ -26,6 +28,7 @@
 	{/key}
 	<footer><Footer /></footer>
 </body>
+<Toasts />
 
 <style>
 	:root {

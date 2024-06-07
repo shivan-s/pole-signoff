@@ -1,8 +1,7 @@
 <script lang="ts">
 	import H2 from '$lib/components/H2.svelte';
 	export let level: { level: number; ids: number[] };
-
-	const moves = level.ids.length;
+	$: moves = level.ids.length;
 </script>
 
 <div>

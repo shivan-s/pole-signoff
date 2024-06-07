@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { cubicInOut } from 'svelte/easing';
+	import { fade } from 'svelte/transition';
 	export let directive: 'danger' | 'success' | 'warning' | 'primary' = 'primary';
 </script>
 
 <button
+	in:fade={{ easing: cubicInOut }}
 	class:danger={directive === 'danger'}
 	class:success={directive === 'success'}
 	class:warning={directive === 'warning'}
@@ -12,12 +15,17 @@
 
 <style>
 	button {
+		display: flex;
+		gap: 0.25rem;
+		align-items: center;
+		justify-content: center;
 		background: var(--bg);
 		color: var(--primary);
 		border: 2px solid var(--primary);
 		padding: 0.5rem 1rem 0.5rem 1rem;
 		text-transform: uppercase;
 		font-size: 0.75rem;
+		transition: all 0.2s ease-in-out;
 	}
 
 	button:not(:disabled):hover {
@@ -49,11 +57,7 @@
 	}
 
 	button:not(:disabled):active {
-		color: var(--text);
-		background: var(--primary);
-		box-shadow: var(--text) 0.5rem 0.5rem;
-		border: 2px solid var(--text);
-		transition: all 0.2s ease-in-out 0s;
+		box-shadow: none;
 		text-decoration: underline;
 	}
 

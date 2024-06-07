@@ -1,14 +1,14 @@
 import type { Actions, PageServerLoad } from './$types';
 import { moves } from '$lib/db/schema';
-import { asc, eq, isNull, sql } from 'drizzle-orm';
+import { asc, eq, sql } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
 import { v4 as uuid } from 'uuid';
 import { detectDuplicate } from '$lib/utils';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
+	console.log('TODO: Admin permission check');
 	const sp = url.searchParams;
 	const updateMove = sp.get('updateMove');
-	const activeMovesOnly = sp.get('activeMovesOnly');
 	const allMoves = await locals.db
 		.select({
 			ids: sql<string>`STRING_AGG(${moves.id}, ';')`,
@@ -18,7 +18,6 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 			level: moves.level
 		})
 		.from(moves)
-		.where(activeMovesOnly ? isNull(moves.deletedAt) : undefined)
 		.orderBy(asc(moves.level))
 		.groupBy(moves.level);
 
@@ -32,7 +31,6 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	return {
 		formId: uuid(),
 		updateMove: updateMove && parseInt(updateMove),
-		activeMovesOnly,
 		movesByLevel,
 		pageTitle: 'Admin'
 	};
@@ -40,6 +38,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 
 export const actions: Actions = {
 	createMove: async ({ request, locals }) => {
+		console.log('TODO: Admin permission check');
 		const formData = await request.formData();
 		detectDuplicate({ fd: formData, action: 'createMove' });
 		const name = formData.get('name');
@@ -131,6 +130,24 @@ export const actions: Actions = {
 			console.log("Error 'id': ", id);
 			error(400, 'Invalid data in form');
 		}
+		await locals.db
+			.update(moves)
+			.set({
+				deletedAt: null
+			})
+			.where(eq(moves.id, parseInt(id)));
+	},
+	promoteMove: async ({ request, locals }) => {
+		const formData = await request.formData();
+		const id = formData.get('id');
+		if (typeof id !== 'string' || isNaN(parseInt(id))) {
+			console.log("Error 'id': ", id);
+			error(400, 'Invalid data in form');
+		}
+		const movesLevel = locals.db
+			.select()
+			.from(moves)
+			.where((moves, { eq }) => eq(moves.level));
 		await locals.db
 			.update(moves)
 			.set({

@@ -15,7 +15,8 @@ export const users = sqliteTable('users', {
 	name: text('name').default('').notNull(),
 	createdAt: text('created_at')
 		.default(sql`TIMESTAMP`)
-		.notNull()
+		.notNull(),
+	admin: integer('admin', { mode: 'boolean' })
 });
 
 export const moves = sqliteTable('moves', {
