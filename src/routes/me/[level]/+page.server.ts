@@ -1,6 +1,7 @@
 import type { Actions, PageServerLoad } from './$types';
 import { moves, userMoves } from '$lib/db/schema';
 import { and, eq, isNull } from 'drizzle-orm';
+import { error } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	const db = locals.db;
@@ -22,13 +23,34 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 };
 
 export const actions: Actions = {
+	signoff: async ({ request, params, locals }) => {
+		const db = locals.db;
+		const formData = await request.formData();
+		const moveId = formData.get('id');
+		if (typeof moveId !== 'string') {
+			console.log('moveId is not valid type: ', moveId);
+			error(400, 'Invalid data in form');
+		}
+		const levelMoves = await db
+			.select({
+				id: moves.id,
+				name: moves.name,
+				description: moves.description,
+				achievedAt: userMoves.achievedAt
+			})
+			.from(userMoves)
+			.rightJoin(moves, eq(userMoves.moveId, moves.id))
+			.where(and(eq(moves.level, parseInt(params.level)), isNull(moves.deletedAt)));
+		if (!levelMoves.map((v) => v.id).includes(parseInt(moveId))) {
+			console.log('moveId is not found for level');
+			error(400, 'Invalid data in form');
+		}
+		await db
+			.insert(userMoves)
+			.values({ achievedAt: String(new Date()), userId: 1, moveId: parseInt(moveId) });
+	}
+
 	// signoff: async ({ request, params }) => {
-	// 	const formData = await request.formData();
-	// 	const moveId = formData.get('id');
-	// 	if (typeof moveId !== 'string') {
-	// 		console.log('moveId is not valid type: ', moveId);
-	// 		error(400, 'Bad data in form');
-	// 	}
 	// 	const parsedMoveId = parseInt(moveId);
 	// 	if (isNaN(parsedMoveId)) {
 	// 		console.log('moveId is not an integer');

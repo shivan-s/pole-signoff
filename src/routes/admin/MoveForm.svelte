@@ -15,6 +15,7 @@
 	<Label for="name"><span>Name</span></Label>
 	<Input
 		name="name"
+		autocomplete="off"
 		required
 		type="text"
 		minLength="1"
@@ -35,7 +36,12 @@
 		value={level}
 	/>
 	<span />
-	<Button type="submit">Save</Button>
+	<span style="display: flex; gap:0.5rem; justify-content: end">
+		<form method="GET" data-sveltekit-noscroll>
+			<Button title="Cancel" directive="warning">Cancel</Button>
+		</form>
+		<Button title="Save move" type="submit" directive="success">Save</Button>
+	</span>
 </formset>
 
 <style>

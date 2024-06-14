@@ -30,8 +30,8 @@
 		border: none;
 		background: transparent;
 	}
-	button:hover {
-		outline: 1px inherit;
+	button:active {
+		filter: invert(1);
 	}
 	.wrapper {
 		position: fixed;
