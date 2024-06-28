@@ -1,5 +1,6 @@
 import { moves, userMoves } from '$lib/db/schema';
 import { asc, count, eq } from 'drizzle-orm';
+import { v4 as uuid } from 'uuid';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
@@ -16,6 +17,7 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		});
 	}
 	return {
+		formId: uuid(),
 		userLevels
 	};
 };

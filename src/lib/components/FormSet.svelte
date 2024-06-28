@@ -1,0 +1,11 @@
+<formset {...$$restProps}>
+	<slot />
+</formset>
+
+<style>
+	formset {
+		display: grid;
+		grid-template-columns: 1fr 3fr;
+		gap: 1rem;
+	}
+</style>

@@ -2,7 +2,6 @@ import type { Actions, PageServerLoad } from './$types';
 import { moves } from '$lib/db/schema';
 import { asc, eq, sql } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
-import { v4 as uuid } from 'uuid';
 import { detectDuplicate } from '$lib/utils';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
@@ -29,7 +28,6 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		deletedAt: m.deletedAts.split(';').map((d) => (Date.parse(d) ? new Date(Date.parse(d)) : null))
 	}));
 	return {
-		formId: uuid(),
 		updateMove: updateMove && parseInt(updateMove),
 		movesByLevel,
 		pageTitle: 'Admin'

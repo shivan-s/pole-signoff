@@ -3,6 +3,7 @@
 	import Label from '$lib/components/Label.svelte';
 	import TextArea from '$lib/components/TextArea.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import FormSet from '$lib/components/FormSet.svelte';
 
 	export let formId: string | null = null;
 	export let name: string | null = null;
@@ -10,7 +11,7 @@
 	export let level: number | null = null;
 </script>
 
-<formset>
+<FormSet>
 	<input name="formId" type="hidden" value={formId} />
 	<Label for="name"><span>Name</span></Label>
 	<Input
@@ -42,12 +43,4 @@
 		</form>
 		<Button title="Save move" type="submit" directive="success">Save</Button>
 	</span>
-</formset>
-
-<style>
-	formset {
-		display: grid;
-		grid-template-columns: 1fr 3fr;
-		gap: 1rem;
-	}
-</style>
+</FormSet>

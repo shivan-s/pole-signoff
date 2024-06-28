@@ -12,6 +12,7 @@ export const emails = sqliteTable('emails', {
 export const users = sqliteTable('users', {
 	id: integer('id').primaryKey(),
 	username: text('username').notNull().unique(),
+	password: text('password').notNull(),
 	name: text('name').default('').notNull(),
 	createdAt: text('created_at')
 		.default(sql`TIMESTAMP`)
