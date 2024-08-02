@@ -1,5 +1,5 @@
 import type { Actions, PageServerLoad } from './$types';
-import { moves } from '$lib/db/schema';
+import { movesTable } from '$lib/db/schema';
 import { asc, eq, sql } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
 import { detectDuplicate } from '$lib/utils';
@@ -10,15 +10,15 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	const updateMove = sp.get('updateMove');
 	const allMoves = await locals.db
 		.select({
-			ids: sql<string>`STRING_AGG(${moves.id}, ';')`,
-			names: sql<string>`STRING_AGG(${moves.name}, ';')`,
-			descriptions: sql<string>`STRING_AGG(COALESCE(${moves.description}, ''), '|')`,
-			deletedAts: sql<string>`STRING_AGG(COALESCE(${moves.deletedAt}, ''), ';')`,
-			level: moves.level
+			ids: sql<string>`STRING_AGG(${movesTable.id}, ';')`,
+			names: sql<string>`STRING_AGG(${movesTable.name}, ';')`,
+			descriptions: sql<string>`STRING_AGG(COALESCE(${movesTable.description}, ''), '|')`,
+			deletedAts: sql<string>`STRING_AGG(COALESCE(${movesTable.deletedAt}, ''), ';')`,
+			level: movesTable.level
 		})
-		.from(moves)
-		.orderBy(asc(moves.level))
-		.groupBy(moves.level);
+		.from(movesTable)
+		.orderBy(asc(movesTable.level))
+		.groupBy(movesTable.level);
 
 	const movesByLevel = allMoves.map((m) => ({
 		level: m.level,
@@ -59,7 +59,7 @@ export const actions: Actions = {
 			error(400, 'Invalid data in form');
 		}
 		await locals.db
-			.insert(moves)
+			.insert(movesTable)
 			.values({ name: name.trim(), level: parseInt(level), description: description?.trim() });
 		return {
 			name,
@@ -94,13 +94,13 @@ export const actions: Actions = {
 			error(400, 'Invalid data in form');
 		}
 		await locals.db
-			.update(moves)
+			.update(movesTable)
 			.set({
 				name: name.trim(),
 				level: parseInt(level),
 				description: description?.trim()
 			})
-			.where(eq(moves.id, parseInt(id)));
+			.where(eq(movesTable.id, parseInt(id)));
 		return {
 			name,
 			description,
@@ -115,11 +115,11 @@ export const actions: Actions = {
 			error(400, 'Invalid data in form');
 		}
 		await locals.db
-			.update(moves)
+			.update(movesTable)
 			.set({
 				deletedAt: new Date().toISOString()
 			})
-			.where(eq(moves.id, parseInt(id)));
+			.where(eq(movesTable.id, parseInt(id)));
 	},
 	activateMove: async ({ request, locals }) => {
 		const formData = await request.formData();
@@ -129,11 +129,11 @@ export const actions: Actions = {
 			error(400, 'Invalid data in form');
 		}
 		await locals.db
-			.update(moves)
+			.update(movesTable)
 			.set({
 				deletedAt: null
 			})
-			.where(eq(moves.id, parseInt(id)));
+			.where(eq(movesTable.id, parseInt(id)));
 	},
 	promoteMove: async ({ request, locals }) => {
 		const formData = await request.formData();
@@ -144,14 +144,14 @@ export const actions: Actions = {
 		}
 		const movesLevel = locals.db
 			.select()
-			.from(moves)
+			.from(movesTable)
 			.where((moves, { eq }) => eq(moves.level));
 		await locals.db
-			.update(moves)
+			.update(movesTable)
 			.set({
 				deletedAt: null
 			})
-			.where(eq(moves.id, parseInt(id)));
+			.where(eq(movesTable.id, parseInt(id)));
 	},
 	deleteMove: async ({ request, locals }) => {
 		const formData = await request.formData();
@@ -160,6 +160,6 @@ export const actions: Actions = {
 			console.log("Error 'id': ", id);
 			error(400, 'Invalid data in form');
 		}
-		await locals.db.delete(moves).where(eq(moves.id, parseInt(id)));
+		await locals.db.delete(movesTable).where(eq(movesTable.id, parseInt(id)));
 	}
 };

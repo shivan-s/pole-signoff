@@ -1,13 +1,10 @@
 <script lang="ts">
 	import { cubicInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
-	export let header = '';
 </script>
 
 <article in:fade={{ easing: cubicInOut }} {...$$restProps}>
-	{#if header}
-		<header>{header}</header>
-	{/if}
+	<header><slot name="header"><span>Missing Header</span></slot></header>
 	<div><slot /></div>
 </article>
 
@@ -22,6 +19,9 @@
 	}
 
 	header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		font-weight: 700;
 		text-align: center;
 		font-size: 2rem;

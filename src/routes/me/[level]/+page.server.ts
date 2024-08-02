@@ -1,5 +1,5 @@
 import type { Actions, PageServerLoad } from './$types';
-import { moves, userMoves } from '$lib/db/schema';
+import { movesTable, userMovesTable } from '$lib/db/schema';
 import { and, eq, isNull } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
 
@@ -7,14 +7,14 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const db = locals.db;
 	const levelMoves = await db
 		.select({
-			id: moves.id,
-			name: moves.name,
-			description: moves.description,
-			achievedAt: userMoves.achievedAt
+			id: movesTable.id,
+			name: movesTable.name,
+			description: movesTable.description,
+			achievedAt: userMovesTable.achievedAt
 		})
-		.from(userMoves)
-		.rightJoin(moves, eq(userMoves.moveId, moves.id))
-		.where(and(eq(moves.level, parseInt(params.level)), isNull(moves.deletedAt)));
+		.from(userMovesTable)
+		.rightJoin(movesTable, eq(userMovesTable.moveId, movesTable.id))
+		.where(and(eq(movesTable.level, parseInt(params.level)), isNull(movesTable.deletedAt)));
 	return {
 		moves: levelMoves,
 		level: params.level,
@@ -33,20 +33,20 @@ export const actions: Actions = {
 		}
 		const levelMoves = await db
 			.select({
-				id: moves.id,
-				name: moves.name,
-				description: moves.description,
-				achievedAt: userMoves.achievedAt
+				id: movesTable.id,
+				name: movesTable.name,
+				description: movesTable.description,
+				achievedAt: userMovesTable.achievedAt
 			})
-			.from(userMoves)
-			.rightJoin(moves, eq(userMoves.moveId, moves.id))
-			.where(and(eq(moves.level, parseInt(params.level)), isNull(moves.deletedAt)));
+			.from(userMovesTable)
+			.rightJoin(movesTable, eq(userMovesTable.moveId, movesTable.id))
+			.where(and(eq(movesTable.level, parseInt(params.level)), isNull(movesTable.deletedAt)));
 		if (!levelMoves.map((v) => v.id).includes(parseInt(moveId))) {
 			console.log('moveId is not found for level');
 			error(400, 'Invalid data in form');
 		}
 		await db
-			.insert(userMoves)
+			.insert(userMovesTable)
 			.values({ achievedAt: String(new Date()), userId: 1, moveId: parseInt(moveId) });
 	}
 

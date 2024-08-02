@@ -1,43 +1,57 @@
-import { sql } from 'drizzle-orm';
-import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core';
+import { text, integer, pgTable, boolean, serial, timestamp } from 'drizzle-orm/pg-core';
 
-export const emails = sqliteTable('emails', {
-	id: integer('id').primaryKey(),
-	email: text('email').notNull(),
+export const emailsTable = pgTable('emails', {
+	id: serial('id').primaryKey(),
+	email: text('email').unique().notNull(),
+	isValidated: boolean('is_validated').default(false),
 	userId: integer('user_id')
-		.references(() => users.id)
+		.references(() => usersTable.id)
 		.notNull()
 });
 
-export const users = sqliteTable('users', {
-	id: integer('id').primaryKey(),
+export const usersTable = pgTable('users', {
+	id: serial('id').primaryKey(),
 	username: text('username').notNull().unique(),
-	password: text('password').notNull(),
-	name: text('name').default('').notNull(),
-	createdAt: text('created_at')
-		.default(sql`TIMESTAMP`)
-		.notNull(),
-	admin: integer('admin', { mode: 'boolean' })
+	name: text('name'),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	lastLogin: timestamp('last_login', { withTimezone: true }),
+	deletedAt: timestamp('deleted_at', { withTimezone: true }),
+	isAdmin: boolean('admin').default(false).notNull(),
+	levelCanSignoff: integer('level_can_signoff'),
+	canCreateMoves: boolean('can_signoff').default(false).notNull()
 });
 
-export const moves = sqliteTable('moves', {
-	id: integer('id').primaryKey(),
+export const passwordsTable = pgTable('passwords', {
+	id: serial('id').primaryKey(),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	userId: integer('user_id')
+		.references(() => usersTable.id)
+		.notNull(),
+	hash: text('hash').notNull()
+});
+
+export const movesTable = pgTable('moves', {
+	id: serial('id').primaryKey(),
 	name: text('name').notNull(),
 	description: text('description'),
 	level: integer('level').notNull(),
 	rank: integer('rank'),
-	deletedAt: text('deleted_at')
+	deletedAt: timestamp('deleted_at', { withTimezone: true })
 });
 
-export const userMoves = sqliteTable('user_moves', {
-	id: integer('id').primaryKey(),
+export const userMovesTable = pgTable('user_moves', {
+	id: serial('id').primaryKey(),
 	moveId: integer('move_id')
-		.references(() => moves.id)
+		.references(() => movesTable.id)
 		.notNull(),
 	userId: integer('user_id')
-		.references(() => users.id)
+		.references(() => usersTable.id)
 		.notNull(),
-	achievedAt: text('achieved_at')
-		.default(sql`TIMESTAMP`)
-		.notNull()
+	awarderId: integer('awarder_id')
+		.references(() => usersTable.id)
+		.notNull(),
+	achievedAt: timestamp('achieved_at', { withTimezone: true }).defaultNow().notNull()
 });
+
+export type InsertUser = typeof usersTable.$inferInsert;
+export type SelectUser = typeof usersTable.$inferSelect;

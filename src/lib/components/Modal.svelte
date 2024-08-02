@@ -1,52 +1,32 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import Card from '$lib/components/Card.svelte';
+	import CloseIcon from '$lib/components/icons/CloseIcon.svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
-	import CloseIcon from './icons/CloseIcon.svelte';
-	export let header = '';
-	export let id: string | number;
-	if (typeof id === 'number') {
-		id = id.toString();
-	}
-	$: showModal = $page.url.searchParams.get(id);
+	import Card from './Card.svelte';
+	export let id: string;
 </script>
 
-{#if showModal}
-	<div transition:fade={{ easing: cubicInOut }} class="wrapper">
-		<div class="container">
-			<form method="GET">
-				<button type="submit"><CloseIcon /></button>
-			</form>
-			<Card {header}><slot /></Card>
-		</div>
-	</div>
-{/if}
+<dialog transition:fade={{ easing: cubicInOut }} popover="auto" {id} {...$$restProps}>
+	<Card>
+		<span slot="header"
+			><slot name="header" /><button popovertarget={id} popovertargetaction="hide"
+				><CloseIcon /></button
+			></span
+		>
+		<span>Body</span>
+	</Card>
+</dialog>
 
 <style>
+	dialog {
+		background: transparent;
+	}
+	dialog::backdrop {
+		backdrop-filter: blur(10px);
+	}
 	button {
-		max-width: min-content;
 		color: inherit;
 		border: none;
 		background: transparent;
-	}
-	button:active {
-		filter: invert(1);
-	}
-	.wrapper {
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: 98;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		height: 100dvh;
-		backdrop-filter: blur(10px);
-	}
-
-	.container {
-		z-index: 99;
 	}
 </style>

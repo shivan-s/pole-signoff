@@ -1,14 +1,18 @@
-import { drizzle } from 'drizzle-orm/d1';
+import { db } from '$lib/db';
+import { usersTable } from '$lib/db/schema';
 import { redirect, type Handle } from '@sveltejs/kit';
+import { eq } from 'drizzle-orm';
 
-const WHITELISTED_PATHS: readonly string[] = ['/login', '/signup', '/logout'];
+const WHITELISTED_PATHS: readonly string[] = ['/', '/login', '/signup'];
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const requestPath = event.url.pathname;
 	const authToken = event.cookies.get('auth-token');
-	if (!authToken && !WHITELISTED_PATHS.includes(requestPath)) {
-		redirect(302, '/login');
+	if (authToken === undefined && !WHITELISTED_PATHS.includes(requestPath)) {
+		redirect(302, '/');
+	} else if (authToken) {
+		const [user] = await db.select().from(usersTable).where(eq(usersTable.id, 1));
+		event.locals.user = user;
 	}
-	event.locals.db = drizzle(event.platform!.env.DB);
 	return await resolve(event);
 };

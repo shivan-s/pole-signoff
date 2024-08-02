@@ -6,10 +6,12 @@
 	import Container from '$lib/components/Container.svelte';
 	import H1 from '$lib/components/H1.svelte';
 	import Toasts from '$lib/components/Toasts.svelte';
-	import Modal from '$lib/components/Modal.svelte';
+	import SuperDebug, { superForm } from 'sveltekit-superforms';
+	import { dev } from '$app/environment';
 
 	export let data: LayoutData;
 	$: pageTitle = $page.data['pageTitle'];
+	const { form } = superForm($page.data['form']);
 </script>
 
 {#if pageTitle}
@@ -17,11 +19,15 @@
 {:else}
 	<title>Pole Signoff</title>
 {/if}
-
 <body class="wrapper">
-	<header><Navbar /></header>
+	<header><Navbar userLevels={data.userLevels} user={data.user} /></header>
 	{#key data.routeURL}
 		<Container>
+			{#if dev}
+				<span style="width: 100%">
+					<SuperDebug data={$form} />
+				</span>
+			{/if}
 			<header><H1>{pageTitle}</H1></header>
 			<slot />
 		</Container>

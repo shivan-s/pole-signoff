@@ -1,57 +1,46 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import FormSet from '$lib/components/FormSet.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
-	import type { PageData, Snapshot } from './$types';
+	import Link from '$lib/components/Link.svelte';
+	import type { PageData } from './$types';
+	import { superForm } from 'sveltekit-superforms';
 
-	let formData: { username: string | null; password: string | null; email: string | null } = {
-		email: null,
-		username: null,
-		password: null
-	};
 	export let data: PageData;
-	export const snapshot: Snapshot<typeof formData> = {
-		capture: () => formData,
-		restore: (value) => (formData = value)
+	const { form, capture, restore, constraints } = superForm(data.form);
+
+	export const snapshot = {
+		capture,
+		restore
 	};
 </script>
 
-<Card
-	><FormSet>
-		<input name="formId" type="hidden" value={data.formId} />
-		<Label for="username"><span>Username</span></Label>
-		<Input
-			name="username"
-			autocomplete="off"
-			required
-			type="text"
-			minLength="1"
-			maxLength="128"
-			placeholder="Username (required)"
-			bind:value={formData.username}
-		/>
-		<Label for="email"><span>Email</span></Label>
-		<Input
-			name="username"
-			autocomplete="off"
-			required
-			type="text"
-			minLength="1"
-			maxLength="128"
-			placeholder="Email (required)"
-			bind:value={formData.email}
-		/>
-		<Label for="name"><span>Password</span></Label>
-		<Input
-			name="password"
-			autocomplete="off"
-			required
-			type="password"
-			minLength="1"
-			maxLength="128"
-			placeholder="Password (required)"
-			bind:value={formData.password}
-		/>
-	</FormSet></Card
->
+<Card>
+	<span slot="header">Enter Details</span>
+	<form method="POST" action="?/signup" use:enhance>
+		<FormSet>
+			<input name="formId" type="hidden" value={data.formId} />
+			<Label for="email"><span>Username</span></Label>
+			<Input
+				name="username"
+				placeholder="Username (required)"
+				bind:value={$form.username}
+				{...$constraints.username}
+			/>
+			<Label for="name"><span>Password</span></Label>
+			<Input
+				name="password"
+				type="password"
+				placeholder="Password (required)"
+				bind:value={$form.password}
+				{...$constraints.password}
+			/>
+			<span />
+			<Button type="submit">Sign up</Button>
+		</FormSet>
+	</form>
+</Card>
+<Link href="/">Already have an account? Log in here</Link>
