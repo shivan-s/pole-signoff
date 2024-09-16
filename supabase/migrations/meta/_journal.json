@@ -15,6 +15,13 @@
       "when": 1720952719872,
       "tag": "0001_red_moondragon",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1725069363444,
+      "tag": "0002_first_invisible_woman",
+      "breakpoints": true
     }
   ]
 }

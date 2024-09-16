@@ -29,7 +29,6 @@
 		background-color: var(--primary);
 		padding: 2rem 3rem 2rem 3rem;
 	}
-
 	div {
 		width: 100%;
 		display: flex;

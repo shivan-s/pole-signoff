@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { cubicInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
-	export let directive: 'danger' | 'success' | 'warning' | 'primary' = 'primary';
+	import type { Directive } from './types';
+	import type { HTMLButtonAttributes } from 'svelte/elements';
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	interface $$Props extends HTMLButtonAttributes {
+		directive?: Directive;
+	}
+	export let directive: Directive = 'primary';
 </script>
 
 <button

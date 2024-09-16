@@ -1,4 +1,4 @@
-import { text, integer, pgTable, boolean, serial, timestamp } from 'drizzle-orm/pg-core';
+import { text, integer, pgTable, boolean, serial, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 export const emailsTable = pgTable('emails', {
 	id: serial('id').primaryKey(),
@@ -30,6 +30,14 @@ export const passwordsTable = pgTable('passwords', {
 	hash: text('hash').notNull()
 });
 
+export const filesTable = pgTable('files', {
+	id: serial('id').primaryKey(),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	uuid: uuid('uuid').unique(),
+	filename: text('filename').notNull(),
+	fileType: text('file_type').notNull()
+});
+
 export const movesTable = pgTable('moves', {
 	id: serial('id').primaryKey(),
 	name: text('name').notNull(),
@@ -37,6 +45,16 @@ export const movesTable = pgTable('moves', {
 	level: integer('level').notNull(),
 	rank: integer('rank'),
 	deletedAt: timestamp('deleted_at', { withTimezone: true })
+});
+
+export const filesMovesTable = pgTable('user_moves', {
+	id: serial('id').primaryKey(),
+	moveId: integer('move_id')
+		.references(() => movesTable.id)
+		.notNull(),
+	fileId: integer('file_id')
+		.references(() => filesTable.id, { onDelete: 'cascade', onUpdate: 'cascade' })
+		.notNull()
 });
 
 export const userMovesTable = pgTable('user_moves', {

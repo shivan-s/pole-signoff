@@ -38,6 +38,26 @@
 
 <style>
 	:root {
+		/* Font */
+		--text-large: 2rem;
+		--text-normal: 1rem;
+		--text-small: 0.875rem;
+		/* Width */
+		--width-largest: 1200px;
+		--width-large: 922px;
+		--width-medium: 768px;
+		--width-small: 600px;
+		--width-smallest: 480px;
+		--width-tiny: 320px;
+		/* Padding */
+		--padding-tight: 0.5rem;
+		--padding-normal: 1rem;
+		--padding-loose: 2rem;
+		/* Gap */
+		--gap-tight: 0.125rem;
+		--gap-normal: 0.25rem;
+		--gap-loose: 0.5rem;
+		/* Colors */
 		--primary: hsla(300, 100%, 50%, 1);
 		--grey: hsla(0, 0%, 50%, 1);
 		--gray: var(--grey);
