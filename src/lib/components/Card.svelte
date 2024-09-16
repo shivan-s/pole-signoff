@@ -12,7 +12,7 @@
 	article {
 		border: 2px var(--primary) solid;
 		width: 100%;
-		max-width: 640px;
+		max-width: 75ch;
 		display: flex;
 		flex-direction: column;
 		box-shadow: var(--text) 0.5rem 0.5rem;

@@ -45,6 +45,7 @@
 		max-width: var(--width-medium);
 		padding: var(--padding-normal);
 		box-shadow: var(--text) 0.5rem 0.5rem;
+		margin: 1rem;
 	}
 	div > header {
 		display: flex;

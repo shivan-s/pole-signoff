@@ -24,7 +24,7 @@
 	{#key data.routeURL}
 		<Container>
 			{#if dev}
-				<span style="width: 100%">
+				<span style="width: 100%; max-width: 75ch">
 					<SuperDebug data={$form} />
 				</span>
 			{/if}

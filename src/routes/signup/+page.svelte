@@ -16,7 +16,8 @@
 		data.form,
 		{
 			onSubmit: () => loading.set(true),
-			onResult: () => loading.set(false)
+			onResult: () => loading.set(false),
+			applyAction: false
 		}
 	);
 	export const snapshot = {
@@ -25,20 +26,20 @@
 	};
 </script>
 
-{#if $allErrors.length > 0}
-	<Alert directive="danger"
-		><span slot="header">Error</span>
-		<ul>
-			{#each $allErrors as e}
-				<li>
-					{e.messages.join('. ')}
-				</li>
-			{/each}
-		</ul>
-	</Alert>
-{/if}
 <Card>
 	<span slot="header">Enter Details</span>
+	{#if $allErrors.length > 0}
+		<Alert directive="danger"
+			><span slot="header">Error</span>
+			<ul>
+				{#each $allErrors as e}
+					<li>
+						{e.messages.join('. ')}
+					</li>
+				{/each}
+			</ul>
+		</Alert>
+	{/if}
 	<form method="POST" action="?/signup" use:enhance>
 		<FormSet>
 			<input name="formId" type="hidden" value={data.formId} />
