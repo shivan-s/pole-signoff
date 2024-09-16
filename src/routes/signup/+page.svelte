@@ -16,8 +16,7 @@
 		data.form,
 		{
 			onSubmit: () => loading.set(true),
-			onResult: () => loading.set(false),
-			onError: () => console.error('Error signing up')
+			onResult: () => loading.set(false)
 		}
 	);
 	export const snapshot = {
