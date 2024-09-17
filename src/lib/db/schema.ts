@@ -20,6 +20,7 @@ export const usersTable = pgTable('users', {
 	levelCanSignoff: integer('level_can_signoff'),
 	canCreateMoves: boolean('can_signoff').default(false).notNull()
 });
+export type User = typeof usersTable.$inferSelect;
 
 export const passwordsTable = pgTable('passwords', {
 	id: serial('id').primaryKey(),

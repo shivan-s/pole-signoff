@@ -1,17 +1,19 @@
-import { fail, superValidate } from 'sveltekit-superforms';
+import { fail, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
 import { z } from 'zod';
-import { passwordsTable, usersTable } from '$lib/db/schema';
+import { passwordsTable, usersTable, type User } from '$lib/db/schema';
 import bcrypt from 'bcryptjs';
 import { desc, eq } from 'drizzle-orm';
-import { error } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { db } from '$lib/db';
 
-const LoginSchema = z.object({
-	username: z.string().trim().min(6).max(32),
-	password: z.string().trim().min(8).max(128)
-});
+const LoginSchema = z
+	.object({
+		username: z.string().trim().min(6).max(32),
+		password: z.string().trim().min(8).max(128)
+	})
+	.strip();
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const form = await superValidate(zod(LoginSchema));
@@ -34,18 +36,17 @@ export const actions: Actions = {
 			.orderBy(desc(passwordsTable.userId), desc(passwordsTable.createdAt))
 			.where(eq(usersTable.username, form.data.username));
 		if (!user) {
-			console.log('username does not exist: ', form.data.username);
-			error(401, 'Incorrect email or password');
+			console.log('Username is invalid');
+			return setError(form, '', 'Incorrect username or password');
 		}
 		const validLogin = await bcrypt.compare(form.data.password, user.passwords.hash);
-		if (validLogin) {
-			locals.user = {
-				...user.users
-			};
-			cookies.set('auth-token', user.users.id.toString(), { httpOnly: true, path: '/' });
-		} else {
-			console.log('password is invalid');
-			error(401, 'Incorrect email or password');
+		if (!validLogin) {
+			console.log('Password is invalid');
+			return setError(form, '', 'Incorrect username or password');
 		}
+		console.log('Login Success for', user.users.username);
+		cookies.set('auth-token', user.users.id.toString(), { httpOnly: true, path: '/' });
+		locals.user = user.users;
+		return redirect(303, '/me');
 	}
 };

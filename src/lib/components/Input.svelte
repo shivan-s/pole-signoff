@@ -8,13 +8,18 @@
 </script>
 
 {#if $$props['type'] === 'checkbox'}
-	<input type="checkbox" bind:value {...$$restProps} />
+	<div>
+		<input type="checkbox" bind:value {...$$restProps} /><span />
+	</div>
 {:else}
-	<input bind:value {...$$restProps} />
+	<div>
+		<input bind:value {...$$restProps} /><span />
+	</div>
 {/if}
 
 <style>
 	input {
+		width: 100%;
 		border: 0px;
 		border-bottom: 0px solid var(--text);
 		padding: 0.25rem 0.5rem;
@@ -25,11 +30,29 @@
 		outline: 2px solid var(--danger);
 		box-shadow: 0rem 0rem 0.5rem 3px var(--danger);
 	}
+	input:user-invalid ~ span::after {
+		content: '✘';
+		color: var(--danger);
+	}
 	input:user-valid {
 		outline: 2px solid var(--success);
 		box-shadow: 0rem 0rem 0.5rem 3px var(--success);
 	}
+	input:user-valid ~ span::after {
+		content: '✔';
+		color: var(--success);
+	}
 	input:focus {
 		outline: 2px solid var(--text);
+	}
+	div {
+		width: 100%;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		gap: 0.75rem;
+	}
+	span {
+		width: 0;
 	}
 </style>

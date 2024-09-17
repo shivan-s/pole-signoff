@@ -8,15 +8,17 @@
 	import type { PageData } from './$types';
 	import { superForm } from 'sveltekit-superforms';
 	import { addToast, loading } from '$lib/stores';
+	import Alert from '$lib/components/Alert.svelte';
 
 	export let data: PageData;
-	const { form, capture, restore, constraints, enhance, message } = superForm(data.form, {
+	const { form, capture, restore, constraints, enhance, allErrors } = superForm(data.form, {
 		onSubmit: () => loading.set(true),
-		onUpdate: () => loading.set(false),
-		onError: ({ result }) => {
-			$message = result.error.message || 'Unknown Error';
+		onUpdate: ({ result }) => {
+			if (result.type === 'success')
+				addToast({ message: 'Login successful', directive: 'success' }), loading.set(false);
 		},
-		onUpdated: () => addToast({ message: 'Login successful', directive: 'success' })
+		onUpdated: () => loading.set(false),
+		applyAction: false
 	});
 
 	export const snapshot = {
@@ -28,8 +30,17 @@
 {#if data.user}Welcome {data.user.name ?? ''}{:else}
 	<Card>
 		<span slot="header">Login</span>
-		{#if $message}
-			<span style="text-align: center; color: var(--danger); padding: 1rem">{$message}</span>
+		{#if $allErrors.length > 0}
+			<Alert directive="danger"
+				><span slot="header">Error</span>
+				<ul>
+					{#each $allErrors as e}
+						<li>
+							{e.messages.join('. ')}
+						</li>
+					{/each}
+				</ul>
+			</Alert>
 		{/if}
 		<form method="POST" action="?/login" use:enhance>
 			<FormSet>
