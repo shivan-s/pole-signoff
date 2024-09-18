@@ -29,7 +29,7 @@
 	</span>
 	<span>
 		{#if user}
-			<a href="/admin">{user.username}</a>
+			<a href="/settings">{user.username}</a>
 		{/if}
 	</span>
 </nav>

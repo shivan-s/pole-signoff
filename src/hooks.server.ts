@@ -3,14 +3,14 @@ import { usersTable } from '$lib/db/schema';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
-const WHITELISTED_PATHS: readonly string[] = ['/', '/login', '/signup'];
+const WHITELISTED_PATHS: readonly string[] = ['/login', '/signup', '/healthz'];
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const requestPath = event.url.pathname;
 	console.log('Path:', requestPath);
 	const authToken = event.cookies.get('auth-token');
 	if (authToken === undefined && !WHITELISTED_PATHS.includes(requestPath)) {
-		redirect(302, '/');
+		redirect(302, '/login');
 	} else if (authToken) {
 		const [user] = await db
 			.select()

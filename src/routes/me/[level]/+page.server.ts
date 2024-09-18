@@ -2,9 +2,9 @@ import type { Actions, PageServerLoad } from './$types';
 import { movesTable, userMovesTable } from '$lib/db/schema';
 import { and, eq, isNull } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
+import { db } from '$lib/db';
 
-export const load: PageServerLoad = async ({ params, locals }) => {
-	const db = locals.db;
+export const load: PageServerLoad = async ({ params }) => {
 	const levelMoves = await db
 		.select({
 			id: movesTable.id,
@@ -23,8 +23,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 };
 
 export const actions: Actions = {
-	signoff: async ({ request, params, locals }) => {
-		const db = locals.db;
+	signoff: async ({ request, params }) => {
 		const formData = await request.formData();
 		const moveId = formData.get('id');
 		if (typeof moveId !== 'string') {

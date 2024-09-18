@@ -11,7 +11,6 @@
 
 	export let data: LayoutData;
 	$: pageTitle = $page.data['pageTitle'];
-	const { form } = superForm($page.data['form']);
 </script>
 
 {#if pageTitle}
@@ -23,12 +22,9 @@
 	<header><Navbar userLevels={data.userLevels} user={data.user} /></header>
 	{#key data.routeURL}
 		<Container>
-			{#if dev}
-				<span style="width: 100%; max-width: 75ch">
-					<SuperDebug data={$form} />
-				</span>
+			{#if pageTitle}
+				<header><H1>{pageTitle}</H1></header>
 			{/if}
-			<header><H1>{pageTitle}</H1></header>
 			<slot />
 		</Container>
 	{/key}
