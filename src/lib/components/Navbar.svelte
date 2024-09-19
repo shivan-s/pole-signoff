@@ -21,8 +21,10 @@
 {/if}
 <nav>
 	<span>
-		<a href=".">Pole Signoff</a>
-		<a href="/admin">Admin</a>
+		<a href="/">Pole Rocks</a>
+		{#if user.isAdmin}
+			<a href="/admin">Admin</a>
+		{/if}
 		{#each urls as { url, name }}
 			<a class:current={url === $page.url.pathname} href={url}>{name}</a>
 		{/each}

@@ -27,7 +27,7 @@
 	};
 </script>
 
-{#if data.user}Welcome {data.user.name ?? ''}{:else}
+{#if data.user}You're already logged in. Do you want to log out?{:else}
 	<Card>
 		<span slot="header">Login</span>
 		{#if $allErrors.length > 0}

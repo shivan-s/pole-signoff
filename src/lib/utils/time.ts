@@ -2,7 +2,7 @@ import { formatDistanceToNow, isToday } from 'date-fns';
 
 export function fromNow(date: Date): string {
 	const distance = isToday(date) ? 'today!' : formatDistanceToNow(date, { addSuffix: true });
-	return `Achieved ${distance}`;
+	return distance;
 }
 
 export function dateStamp(date: Date) {

@@ -9,13 +9,12 @@
 
 <style>
 	main {
-		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		margin-right: auto;
 		margin-left: auto;
-		margin-bottom: 50dvh;
+		margin-bottom: 25dvh;
 		gap: 3rem;
 		padding: 1rem 0rem;
 		flex-grow: 1;
@@ -23,45 +22,45 @@
 	}
 
 	/* Extra small devices (phones, 600px and down) */
-	@media only screen and (max-width: calc(var(--width-small))) {
+	@media only screen and (max-width: 600px) {
 		main {
-			min-width: (--width-tiny);
+			min-width: 320px;
 			padding-left: 0.5rem;
 			padding-right: 0.5rem;
 		}
 	}
 
 	/* Small devices (portrait tablets and large phones, 600px and up) */
-	@media only screen and (min-width: calc(var(--width-small))) {
+	@media only screen and (min-width: 600px) {
 		main {
-			min-width: var(--width-smallest);
+			min-width: 480px;
 			padding-left: 1rem;
 			padding-right: 1rem;
 		}
 	}
 
 	/* Medium devices (landscape tablets, 768px and up) */
-	@media only screen and (min-width: calc(var(--width-medium))) {
+	@media only screen and (min-width: 768px) {
 		main {
-			min-width: var(--width-small);
+			min-width: 600px;
 			padding-left: 2rem;
 			padding-right: 2rem;
 		}
 	}
 
 	/* Large devices (laptops/desktops, 992px and up) */
-	@media only screen and (min-width: calc(var(--width-large))) {
+	@media only screen and (min-width: 992px) {
 		main {
-			min-width: var(--width-medium);
+			min-width: 768px;
 			padding-left: 4rem;
 			padding-right: 4rem;
 		}
 	}
 
 	/* Extra large devices (large laptops and desktops, 1200px and up) */
-	@media only screen and (min-width: calc(var(--width-largest))) {
+	@media only screen and (min-width: 1200px) {
 		main {
-			min-width: var(--width-large);
+			min-width: 922px;
 			padding-left: 6rem;
 			padding-right: 6rem;
 		}
