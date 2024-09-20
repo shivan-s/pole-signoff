@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Link from '$lib/components/Link.svelte';
 	import Img from '$lib/components/Img.svelte';
 	import GitHub from '$lib/components/icons/GitHub.svelte';
 	import shivanLogo from '$lib/assets/img/Shivan-Logo-Black.png';

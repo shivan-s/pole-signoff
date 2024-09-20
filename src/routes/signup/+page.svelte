@@ -6,7 +6,7 @@
 	import FormSet from '$lib/components/FormSet.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
-	import Link from '$lib/components/Link.svelte';
+	import A from '$lib/components/A.svelte';
 	import type { PageData } from './$types';
 	import { superForm } from 'sveltekit-superforms';
 	import { loading } from '$lib/stores';
@@ -67,4 +67,4 @@
 		</FormSet>
 	</form>
 </Card>
-<Link href="/">Already have an account? Log in here</Link>
+<A href="/">Already have an account? Log in here</A>

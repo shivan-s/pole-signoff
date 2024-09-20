@@ -1,5 +1,12 @@
+<!--@component
+	HTML Anchor Tag
+-->
 <script lang="ts">
-	export let href = '';
+	import type { HTMLAnchorAttributes } from 'svelte/elements';
+	export let href: HTMLAnchorAttributes['href'];
+	interface $$Props extends HTMLAnchorAttributes {
+		href: HTMLAnchorAttributes['href'];
+	}
 </script>
 
 <a {href} {...$$restProps}><slot /></a>

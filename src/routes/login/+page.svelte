@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Link from '$lib/components/Link.svelte';
+	import A from '$lib/components/A.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import FormSet from '$lib/components/FormSet.svelte';
@@ -77,5 +77,5 @@
 			</FormSet>
 		</form>
 	</Card>
-	<Link href="/signup">No account? Sign up here</Link>
+	<A href="/signup">No account? Sign up here</A>
 {/if}
