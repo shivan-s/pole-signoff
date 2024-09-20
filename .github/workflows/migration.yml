@@ -1,0 +1,13 @@
+name: Migrate
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  migrate:
+    name: Migrate
+    uses: ./.github/workflows/ci-build.yml
+    with:
+      run: |
+        npx drizzle-kit push

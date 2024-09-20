@@ -8,53 +8,19 @@ on:
 jobs:
   format:
     name: Format
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: ESLint
-        run: |
-          pnpm install
-          npm run format
+    uses: ./.github/workflows/ci-build.yml
+    with:
+      run: |
+        npm run format
   lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: ESLint
-        run: |
-          pnpm install
-          npm run lint
-
-  svelte-check:
-    name: Svelte Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Check
-        run: |
-          pnpm install
-          npm run check
+    name: Format
+    uses: ./.github/workflows/ci-build.yml
+    with:
+      run: |
+        npm run lint
+  check:
+    name: Format
+    uses: ./.github/workflows/ci-build.yml
+    with:
+      run: |
+        npm run check
