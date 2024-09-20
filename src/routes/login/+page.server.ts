@@ -18,7 +18,7 @@ const LoginSchema = z
 export const load: PageServerLoad = async ({ locals }) => {
 	const form = await superValidate(zod(LoginSchema));
 	return {
-		pageTitle: locals.user ? 'Home' : 'Welcome to Pole Signoff',
+		pageTitle: 'Login',
 		form
 	};
 };
@@ -48,5 +48,11 @@ export const actions: Actions = {
 		cookies.set('auth-token', user.users.id.toString(), { httpOnly: true, path: '/' });
 		locals.user = user.users;
 		return redirect(303, '/me');
+	},
+	logout: async ({ locals, cookies }) => {
+		if (locals.user) {
+			cookies.delete('auth-token', { httpOnly: true, path: '/' });
+			return redirect(303, '/login');
+		}
 	}
 };

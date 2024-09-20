@@ -8,13 +8,9 @@
 </script>
 
 {#if $$props['type'] === 'checkbox'}
-	<div>
-		<input type="checkbox" bind:value {...$$restProps} /><span />
-	</div>
+	<span><input type="checkbox" bind:value {...$$restProps} /></span>
 {:else}
-	<div>
-		<input bind:value {...$$restProps} /><span />
-	</div>
+	<span><input bind:value {...$$restProps} /></span>
 {/if}
 
 <style>
@@ -30,7 +26,9 @@
 		outline: 2px solid var(--danger);
 		box-shadow: 0rem 0rem 0.5rem 3px var(--danger);
 	}
-	input:user-invalid ~ span::after {
+	span:has(input:user-invalid)::after {
+		position: absolute;
+		transform: translate(-150%, 25%);
 		content: '✘';
 		color: var(--danger);
 	}
@@ -38,21 +36,13 @@
 		outline: 2px solid var(--success);
 		box-shadow: 0rem 0rem 0.5rem 3px var(--success);
 	}
-	input:user-valid ~ span::after {
+	span:has(input:user-valid)::after {
+		position: absolute;
+		transform: translate(-150%, 25%);
 		content: '✔';
 		color: var(--success);
 	}
 	input:focus {
 		outline: 2px solid var(--text);
-	}
-	div {
-		width: 100%;
-		display: flex;
-		flex-wrap: nowrap;
-		align-items: center;
-		gap: 0.75rem;
-	}
-	span {
-		width: 0;
 	}
 </style>

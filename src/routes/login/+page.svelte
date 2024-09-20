@@ -27,7 +27,17 @@
 	};
 </script>
 
-{#if data.user}You're already logged in. Do you want to log out?{:else}
+{#if data.user}<p>You're already logged in as <strong>{data.user.username}</strong>.</p>
+	<p>Do you want to log out?</p>
+	<div class="flex-row">
+		<form method="GET" action="/">
+			<Button>No, thanks</Button>
+		</form>
+		<form method="POST" action="?/logout">
+			<Button directive="danger">Yes, please</Button>
+		</form>
+	</div>
+{:else}
 	<Card>
 		<span slot="header">Login</span>
 		{#if $allErrors.length > 0}

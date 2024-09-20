@@ -43,7 +43,7 @@ const SignupSchema = z
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
-		redirect(303, '/');
+		redirect(303, '/login');
 	}
 	const form = await superValidate(zod(SignupSchema));
 	return {
@@ -53,7 +53,10 @@ export const load: PageServerLoad = async ({ locals }) => {
 };
 
 export const actions: Actions = {
-	signup: async ({ request }) => {
+	signup: async ({ request, locals }) => {
+		if (locals.user) {
+			redirect(303, '/');
+		}
 		const form = await superValidate(request, zod(SignupSchema));
 		if (!form.valid) {
 			return fail(400, { form });

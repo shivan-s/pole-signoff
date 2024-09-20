@@ -6,8 +6,6 @@
 	import Container from '$lib/components/Container.svelte';
 	import H1 from '$lib/components/H1.svelte';
 	import Toasts from '$lib/components/Toasts.svelte';
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
-	import { dev } from '$app/environment';
 
 	export let data: LayoutData;
 	$: pageTitle = $page.data['pageTitle'];
@@ -63,6 +61,23 @@
 		--success: hsla(112, 90%, 60%, 1);
 		--danger: hsla(0, 90%, 60%, 1);
 		--warning: hsla(45, 90%, 60%, 1);
+	}
+
+	:global(.flex-row) {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--gap-normal);
+		flex-wrap: nowrap;
+	}
+
+	:global(.flex-col) {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		flex-direction: column;
+		gap: var(--gap-normal);
 	}
 
 	:global(*) {

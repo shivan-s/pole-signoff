@@ -16,6 +16,7 @@ export const usersTable = pgTable('users', {
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 	lastLogin: timestamp('last_login', { withTimezone: true }),
 	deletedAt: timestamp('deleted_at', { withTimezone: true }),
+	verfiedAt: timestamp('verfied_at', { withTimezone: true }),
 	isAdmin: boolean('admin').default(false).notNull(),
 	levelCanSignoff: integer('level_can_signoff'),
 	canCreateMoves: boolean('can_signoff').default(false).notNull()

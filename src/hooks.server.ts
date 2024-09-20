@@ -3,7 +3,7 @@ import { usersTable } from '$lib/db/schema';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
-const WHITELISTED_PATHS: readonly string[] = ['/login', '/signup', '/healthz'];
+const WHITELISTED_PATHS: readonly string[] = ['/', '/login', '/signup', '/healthz'];
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const requestPath = event.url.pathname;

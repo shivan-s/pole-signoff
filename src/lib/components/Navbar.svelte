@@ -4,7 +4,11 @@
 	import { navigating, page } from '$app/stores';
 	import type { SelectUser } from '$lib/db/schema';
 
-	export let user: SelectUser;
+	const ROCK = '🪨';
+	const POLE = '💈';
+	const ONE = '1️⃣';
+
+	export let user: SelectUser | undefined;
 	export let userLevels: {
 		level: number;
 		count: number;
@@ -21,8 +25,8 @@
 {/if}
 <nav>
 	<span>
-		<a href="/">Pole Rocks</a>
-		{#if user.isAdmin}
+		<a href="/" title="Pole Rocks">{POLE} {ROCK}{ROCK}</a>
+		{#if user?.isAdmin}
 			<a href="/admin">Admin</a>
 		{/if}
 		{#each urls as { url, name }}
