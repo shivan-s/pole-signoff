@@ -7,7 +7,16 @@ on:
 jobs:
   migrate:
     name: Migrate
-    uses: ./.github/workflows/ci-build.yml
-    with:
-      run: |
-        npx drizzle-kit push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - name: Clean Install
+        run: npm ci
+      - name: Migration
+        run: npx drizzle-kit push
