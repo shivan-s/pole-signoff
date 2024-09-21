@@ -49,6 +49,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@types/pg": "^8.11.10",
 		"date-fns": "^3.6.0",
 		"drizzle-orm": "^0.31.2"
 	}
