@@ -8,28 +8,19 @@ on:
 jobs:
   format:
     name: Format
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build
-        uses: ./.github/workflows/ci-build.yml
-      - name: Format
-        run: |
-          npm run format
+    uses: ./.github/workflows/ci-build.yml
+    with:
+      run: |
+        npm run format
   lint:
     name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build
-        uses: ./.github/workflows/ci-build.yml
-      - name: Lint
-        run: |
-          npm run lint
+    uses: ./.github/workflows/ci-build.yml
+    with:
+      run: |
+        npm run lint
   check:
     name: Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build
-        uses: ./.github/workflows/ci-build.yml
-      - name: Check
-        run: |
-          npm run check
+    uses: ./.github/workflows/ci-build.yml
+    with:
+      run: |
+        npm run check
