@@ -1,5 +1,5 @@
 import { DATABASE_URL } from '$env/static/private';
-import { drizzle } from 'drizzle-orm/postgres-js';
+import { drizzle } from 'drizzle-orm/node-postgres';
 import postgres from 'postgres';
 
 console.log('database', DATABASE_URL);
