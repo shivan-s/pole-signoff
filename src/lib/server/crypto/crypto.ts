@@ -1,6 +1,5 @@
 import { SECRET } from '$env/static/private';
 import type { Password, User } from '$lib/server/db/schema';
-import bcrypt from 'bcryptjs';
 import * as jose from 'jose';
 import { JWEInvalid } from 'jose/errors';
 
@@ -15,8 +14,9 @@ export async function checkPassword(
 	password: string,
 	user: { users: User; passwords: Password } | undefined
 ): Promise<boolean> {
-	const validLogin = await bcrypt.compare(password, user?.passwords?.hash ?? '');
-	return validLogin;
+	// const validLogin = await bcrypt.compare(password, user?.passwords?.hash ?? '');
+	// return validLogin;
+	return false;
 }
 
 /**
