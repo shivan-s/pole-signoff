@@ -8,25 +8,13 @@ on:
 jobs:
   ci-build:
     name: CI Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Clean Install
-        run: |
-          npm ci
+    uses: ./.github/workflows/ci-build.yml
   format:
     name: Format
     runs-on: ubuntu-latest
     needs: ci-build
     steps:
+      - uses: actions/checkout@v4
       - name: Format
         run: |
           npm run format
@@ -35,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: ci-build
     steps:
+      - uses: actions/checkout@v4
       - name: Lint
         run: |
           npm run lint
@@ -43,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: ci-build
     steps:
+      - uses: actions/checkout@v4
       - name: Check
         run: |
           npm run check
