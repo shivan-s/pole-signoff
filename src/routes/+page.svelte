@@ -3,11 +3,31 @@
 	import A from '$lib/components/A.svelte';
 	import type { PageData } from './$types';
 	import { fromNow } from '$lib/utils/time';
+	import Input from '$lib/components/Input.svelte';
+	import Label from '$lib/components/Label.svelte';
+	import SearchIcon from '$lib/components/icons/SearchIcon.svelte';
 
 	export let data: PageData;
 </script>
 
-<form data-sveltekit-noscroll data-sveltekit-keepfocus id="search-params" METHOD="GET"></form>
+<form data-sveltekit-noscroll data-sveltekit-keepfocus id="search-params" METHOD="GET">
+	<input type="hidden" value={data.cursor} name="cursor" />
+</form>
+<div class="flex-col" style="width: unset">
+	<Label for="q">Search By Username</Label>
+	<div class="flex-row">
+		<Input id="q" form="search-params" name="q" value={data.q} /><Button
+			style="padding: 0.25rem 0.5rem"
+			form="search-params"
+			type="submit"><SearchIcon width="1rem" /></Button
+		>
+	</div>
+	{#if data.q}
+		<A style="align-self: center; margin: 0.5rem" title="Clear Search" href=".">Clear Search</A>
+	{:else}
+		<span style="margin: 0.5rem">&nbsp;</span>
+	{/if}
+</div>
 {#each data.users as user}
 	<a href="/poler/{user.username}">
 		<A href="/poler/{user.name}">{user.username}</A> joined

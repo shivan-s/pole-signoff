@@ -17,7 +17,7 @@
 	<title>Pole Signoff</title>
 {/if}
 <body class="wrapper">
-	<header><Navbar userLevels={data.userLevels} user={data.user} /></header>
+	<header><Navbar user={data.user} /></header>
 	{#key data.routeURL}
 		<Container>
 			{#if pageTitle}

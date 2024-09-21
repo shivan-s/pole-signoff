@@ -1,10 +1,10 @@
-import type { SelectUser } from '$lib/db/schema';
+import type { User } from '$lib/server/db/schema';
 
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: Omit<SelectUser, 'hash' | 'salt'>;
+			user: User;
 		}
 		// interface PageData {}
 		interface Platform {

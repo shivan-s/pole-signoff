@@ -1,14 +1,14 @@
 import type { Actions, PageServerLoad } from './$types';
-import { movesTable } from '$lib/db/schema';
+import { db } from '$lib/server/db';
+import { movesTable } from '$lib/server/db/schema';
 import { asc, eq, sql } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
-import { detectDuplicate } from '$lib/utils';
 
-export const load: PageServerLoad = async ({ locals, url }) => {
+export const load: PageServerLoad = async ({ url }) => {
 	console.log('TODO: Admin permission check');
 	const sp = url.searchParams;
 	const updateMove = sp.get('updateMove');
-	const allMoves = await locals.db
+	const allMoves = await db
 		.select({
 			ids: sql<string>`STRING_AGG(${movesTable.id}, ';')`,
 			names: sql<string>`STRING_AGG(${movesTable.name}, ';')`,
@@ -38,7 +38,6 @@ export const actions: Actions = {
 	createMove: async ({ request, locals }) => {
 		console.log('TODO: Admin permission check');
 		const formData = await request.formData();
-		detectDuplicate({ fd: formData, action: 'createMove' });
 		const name = formData.get('name');
 		if (typeof name !== 'string') {
 			console.log("Error 'name': ", name);
@@ -93,7 +92,7 @@ export const actions: Actions = {
 			console.log("Error 'level': ", level);
 			error(400, 'Invalid data in form');
 		}
-		await locals.db
+		await db
 			.update(movesTable)
 			.set({
 				name: name.trim(),
@@ -107,17 +106,17 @@ export const actions: Actions = {
 			level
 		};
 	},
-	deactivateMove: async ({ request, locals }) => {
+	deactivateMove: async ({ request }) => {
 		const formData = await request.formData();
 		const id = formData.get('id');
 		if (typeof id !== 'string' || isNaN(parseInt(id))) {
 			console.log("Error 'id': ", id);
 			error(400, 'Invalid data in form');
 		}
-		await locals.db
+		await db
 			.update(movesTable)
 			.set({
-				deletedAt: new Date().toISOString()
+				deletedAt: new Date()
 			})
 			.where(eq(movesTable.id, parseInt(id)));
 	},
@@ -128,25 +127,25 @@ export const actions: Actions = {
 			console.log("Error 'id': ", id);
 			error(400, 'Invalid data in form');
 		}
-		await locals.db
+		await db
 			.update(movesTable)
 			.set({
 				deletedAt: null
 			})
 			.where(eq(movesTable.id, parseInt(id)));
 	},
-	promoteMove: async ({ request, locals }) => {
+	promoteMove: async ({ request }) => {
 		const formData = await request.formData();
 		const id = formData.get('id');
 		if (typeof id !== 'string' || isNaN(parseInt(id))) {
 			console.log("Error 'id': ", id);
 			error(400, 'Invalid data in form');
 		}
-		const movesLevel = locals.db
+		const movesLevel = db
 			.select()
 			.from(movesTable)
 			.where((moves, { eq }) => eq(moves.level));
-		await locals.db
+		await db
 			.update(movesTable)
 			.set({
 				deletedAt: null
@@ -160,6 +159,6 @@ export const actions: Actions = {
 			console.log("Error 'id': ", id);
 			error(400, 'Invalid data in form');
 		}
-		await locals.db.delete(movesTable).where(eq(movesTable.id, parseInt(id)));
+		await db.delete(movesTable).where(eq(movesTable.id, parseInt(id)));
 	}
 };

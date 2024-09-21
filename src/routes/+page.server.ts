@@ -1,22 +1,31 @@
 import type { PageServerLoad, Actions } from './$types';
-import { fetchManyUsers } from '$lib/db/users';
-import { PAGE_LIMIT } from '$lib/utils';
+import { fetchManyUsers } from '$lib/server/db/users';
+import { PAGE_LIMIT } from '$lib/constants';
 
 const WAVE = '👋';
 
-export const load: PageServerLoad = async ({ locals, url }) => {
+export const load: PageServerLoad = async ({ url }) => {
+	const q = url.searchParams.get('q');
 	const cursor = parseInt(url.searchParams.get('cursor') || '0');
 	const users = await fetchManyUsers({
+		username: q,
 		limit: PAGE_LIMIT,
 		offset: cursor * PAGE_LIMIT
 	});
 	const isNextPage =
-		(await fetchManyUsers({ limit: 1, offset: PAGE_LIMIT * (cursor + 1) })).length > 0;
+		(
+			await fetchManyUsers({
+				username: q,
+				limit: 1,
+				offset: PAGE_LIMIT * (cursor + 1)
+			})
+		).length > 0;
 	return {
-		pageTitle: `${WAVE} Pole Rocks`,
+		pageTitle: `${WAVE}`,
 		isNextPage,
 		users,
-		cursor
+		cursor,
+		q
 	};
 };
 

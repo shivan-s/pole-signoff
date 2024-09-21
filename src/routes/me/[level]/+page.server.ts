@@ -1,8 +1,8 @@
 import type { Actions, PageServerLoad } from './$types';
-import { movesTable, userMovesTable } from '$lib/db/schema';
+import { movesTable, userMovesTable } from '$lib/server/db/schema';
 import { and, eq, isNull } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
-import { db } from '$lib/db';
+import { db } from '$lib/server/db';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const levelMoves = await db

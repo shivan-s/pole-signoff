@@ -29,10 +29,7 @@
 		background: var(--bg);
 		color: var(--primary);
 		border: 2px solid var(--primary);
-		padding: 0.5rem 1rem 0.5rem 1rem;
-		text-transform: uppercase;
-		font-size: 0.75rem;
-		transition: all 0.2s ease-in-out;
+		padding: 0.5rem 1rem;
 	}
 
 	button:not(:disabled):hover {

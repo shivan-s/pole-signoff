@@ -2,11 +2,11 @@ import { superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
 import { z } from 'zod';
-import { passwordsTable, usersTable } from '$lib/db/schema';
+import { passwordsTable, usersTable } from '$lib/server/db/schema';
 import bcrypt from 'bcryptjs';
-import { db } from '$lib/db';
+import { db } from '$lib/server/db';
 import { redirect } from '@sveltejs/kit';
-import { DBErrorUniqueViolationCode } from '$lib/db/error';
+import { DBErrorUniqueViolationCode } from '$lib/server/db/errors';
 import postgres from 'postgres';
 
 const SignupSchema = z

@@ -1,7 +1,6 @@
-import { db } from '$lib/db';
-import { usersTable } from '$lib/db/schema';
+import { fetchUserById } from '$lib/server/db/users';
+import { decodeJWT } from '$lib/server/crypto';
 import { redirect, type Handle } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
 
 const WHITELISTED_PATHS: readonly string[] = ['/', '/login', '/signup', '/healthz'];
 
@@ -12,10 +11,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (authToken === undefined && !WHITELISTED_PATHS.includes(requestPath)) {
 		redirect(302, '/login');
 	} else if (authToken) {
-		const [user] = await db
-			.select()
-			.from(usersTable)
-			.where(eq(usersTable.id, parseInt(authToken)));
+		const payload = await decodeJWT(authToken);
+		if (!payload) {
+			event.cookies.delete('auth-token', { httpOnly: true, path: '/' });
+			redirect(302, '/login');
+		}
+		const user = await fetchUserById(payload.user?.id);
+		if (!user) {
+			event.cookies.delete('auth-token', { httpOnly: true, path: '/' });
+			redirect(302, '/login');
+		}
 		event.locals.user = user;
 	}
 	return await resolve(event);
