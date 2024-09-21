@@ -12,7 +12,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		redirect(302, '/login');
 	} else if (authToken) {
 		const payload = await decodeJWT(authToken);
-		if (!payload) {
+		if (!payload || !payload.user) {
 			event.cookies.delete('auth-token', { httpOnly: true, path: '/' });
 			redirect(302, '/login');
 		}

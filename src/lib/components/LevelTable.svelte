@@ -8,7 +8,7 @@
 		id: number;
 		name: string;
 		description: string | null;
-		achievedAt: string | null;
+		achievedAt: Date | null;
 	}[];
 </script>
 

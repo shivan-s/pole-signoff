@@ -3,10 +3,11 @@
 -->
 <script lang="ts">
 	import type { HTMLAnchorAttributes } from 'svelte/elements';
-	export let href: HTMLAnchorAttributes['href'];
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props extends HTMLAnchorAttributes {
 		href: HTMLAnchorAttributes['href'];
 	}
+	export let href: HTMLAnchorAttributes['href'];
 </script>
 
 <a {href} {...$$restProps}><slot /></a>

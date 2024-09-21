@@ -1,5 +1,5 @@
 import { SECRET } from '$env/static/private';
-import type { Password, User } from '$lib/db/schema';
+import type { Password, User } from '$lib/server/db/schema';
 import bcrypt from 'bcryptjs';
 import * as jose from 'jose';
 import { JWEInvalid } from 'jose/errors';

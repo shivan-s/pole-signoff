@@ -9,6 +9,7 @@ declare global {
 		// interface PageData {}
 		interface Platform {
 			context: {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				waitUntil(promise: Promise<any>): void;
 			};
 			caches: CacheStorage & { default: Cache };
