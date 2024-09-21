@@ -2,6 +2,7 @@ import { and, desc, eq, ilike, isNotNull, isNull } from 'drizzle-orm';
 import { db } from '.';
 import { passwordsTable, usersTable, type Password, type User } from './schema';
 import { PAGE_LIMIT } from '$lib/constants';
+import type { Hash } from '$lib/server/crypto';
 
 /**
  * Obtain list of users with cursor pagination
@@ -73,4 +74,21 @@ export async function fetchUserById(
 			and(eq(usersTable.id, id), opts?.includeDeleted ? undefined : isNull(usersTable.deletedAt))
 		);
 	return user;
+}
+
+/**
+ * Creates a user onto the database with password
+ *
+ * @param user `username` and `hash`
+ * @see `hashPassword` in order to create a hash
+ */
+export async function createUser(user: { username: string; hash: Hash }) {
+	await db.transaction(async (tx) => {
+		const [newUser] = await tx
+			.insert(usersTable)
+			.values({ username: user.username })
+			.returning({ id: usersTable.id });
+		await tx.insert(passwordsTable).values({ userId: newUser.id, hash: user.hash.hash });
+		return newUser;
+	});
 }

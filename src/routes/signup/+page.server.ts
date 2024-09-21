@@ -8,6 +8,8 @@ import { db } from '$lib/server/db';
 import { redirect } from '@sveltejs/kit';
 import { DBErrorUniqueViolationCode } from '$lib/server/db/errors';
 import postgres from 'postgres';
+import { hashPassword } from '$lib/server/crypto';
+import { createUser } from '$lib/server/db/users';
 
 const SignupSchema = z
 	.object({
@@ -16,17 +18,9 @@ const SignupSchema = z
 	})
 	.strip()
 	.transform(async (data, ctx) => {
-		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(data.password, salt);
+		const hash = await hashPassword(data.password);
 		try {
-			await db.transaction(async (tx) => {
-				const [newUser] = await tx
-					.insert(usersTable)
-					.values({ username: data.username })
-					.returning({ id: usersTable.id });
-				await tx.insert(passwordsTable).values({ userId: newUser.id, hash });
-				return newUser;
-			});
+			await createUser({ username: data.username, hash });
 			return data;
 		} catch (err) {
 			if (err instanceof postgres.PostgresError && err.code === DBErrorUniqueViolationCode) {

@@ -2,6 +2,7 @@ import { SECRET } from '$env/static/private';
 import type { Password, User } from '$lib/server/db/schema';
 import * as jose from 'jose';
 import { JWEInvalid } from 'jose/errors';
+import Hash from './hash';
 
 /**
  * Check password for a given user
@@ -17,6 +18,18 @@ export async function checkPassword(
 	// const validLogin = await bcrypt.compare(password, user?.passwords?.hash ?? '');
 	// return validLogin;
 	return false;
+}
+
+/**
+ * Hashes password so it can be saved onto the database
+ *
+ * @param password - Password from user
+ * @returns Hash (class that contains hashed string of password)
+ * @see Hash
+ */
+export async function hashPassword(password: string): Promise<Hash> {
+	const hash = new Hash(password);
+	return hash;
 }
 
 /**

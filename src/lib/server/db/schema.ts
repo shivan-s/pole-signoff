@@ -22,6 +22,7 @@ export const usersTable = pgTable('users', {
 	canCreateMoves: boolean('can_signoff').default(false).notNull()
 });
 export type User = typeof usersTable.$inferSelect;
+export type InsertUser = typeof usersTable.$inferInsert;
 
 export const passwordsTable = pgTable('passwords', {
 	id: serial('id').primaryKey(),
@@ -32,6 +33,7 @@ export const passwordsTable = pgTable('passwords', {
 	hash: text('hash').notNull()
 });
 export type Password = typeof passwordsTable.$inferSelect;
+export type InsertPassword = typeof passwordsTable.$inferInsert;
 
 export const filesTable = pgTable('files', {
 	id: serial('id').primaryKey(),
@@ -73,6 +75,3 @@ export const userMovesTable = pgTable('user_moves', {
 		.notNull(),
 	achievedAt: timestamp('achieved_at', { withTimezone: true }).defaultNow().notNull()
 });
-
-export type InsertUser = typeof usersTable.$inferInsert;
-export type SelectUser = typeof usersTable.$inferSelect;
