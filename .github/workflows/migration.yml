@@ -19,6 +19,8 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+      - name: Clean Install
+        run: npm ci
       - name: Migration
         run: npx drizzle-kit push
   staging-migrate:
@@ -36,5 +38,7 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+      - name: Clean Install
+        run: npm ci
       - name: Migration
         run: npx drizzle-kit push
