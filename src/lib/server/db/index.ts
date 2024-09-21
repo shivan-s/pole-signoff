@@ -1,8 +1,7 @@
 import { DATABASE_URL } from '$env/static/private';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import pg from 'pg';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 
 console.log('database', DATABASE_URL);
-const client = new pg.Client({ connectionString: DATABASE_URL });
-client.connect();
+const client = postgres(DATABASE_URL);
 export const db = drizzle(client);
