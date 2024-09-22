@@ -11,11 +11,7 @@ const SignupSchema = z
 		username: z.string().trim().min(6).max(32),
 		password: z.string().trim().min(8).max(128)
 	})
-	.strip()
-	.transform(async (data) => {
-		const hash = await hashPassword(data.password);
-		return { ...data, hash };
-	});
+	.strip();
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -37,8 +33,9 @@ export const actions: Actions = {
 		if (!form.valid) {
 			return fail(400, { form });
 		}
+		const hash = await hashPassword(form.data.password);
 		try {
-			await createUser({ username: form.data.username, hash: form.data.hash });
+			await createUser({ username: form.data.username, hash });
 		} catch (err) {
 			console.log(err);
 			// if (err instanceof postgres.PostgresError && err.code === DBErrorUniqueViolationCode) {

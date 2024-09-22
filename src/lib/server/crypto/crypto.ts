@@ -23,7 +23,7 @@ export async function checkPassword(
 /**
  * Hashes password so it can be saved onto the database
  *
- * @param password - Password from user
+ * @param password Password from user
  * @returns Hash (class that contains hashed string of password)
  * @see Hash
  */
