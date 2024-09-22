@@ -14,7 +14,7 @@
 		"test:e2e": "playwright test",
 		"test:unit": "vitest",
 		"makemigrations": "npx drizzle-kit generate",
-		"apply": "npx drizzle-kit push"
+		"migrate": "npx drizzle-kit push"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
