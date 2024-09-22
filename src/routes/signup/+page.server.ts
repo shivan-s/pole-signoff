@@ -2,13 +2,8 @@ import { superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
 import { z } from 'zod';
-import { passwordsTable, usersTable } from '$lib/server/db/schema';
-import { db } from '$lib/server/db';
 import { redirect } from '@sveltejs/kit';
-import { DBErrorUniqueViolationCode } from '$lib/server/db/errors';
-import postgres from 'postgres';
 import { hashPassword } from '$lib/server/crypto';
-import { createUser } from '$lib/server/db/users';
 
 const SignupSchema = z
 	.object({
@@ -16,22 +11,9 @@ const SignupSchema = z
 		password: z.string().trim().min(8).max(128)
 	})
 	.strip()
-	.transform(async (data, ctx) => {
+	.transform(async (data) => {
 		const hash = await hashPassword(data.password);
-		try {
-			await createUser({ username: data.username, hash });
-			return data;
-		} catch (err) {
-			if (err instanceof postgres.PostgresError && err.code === DBErrorUniqueViolationCode) {
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					path: ['username'],
-					message: `'${data.username}' already exists. Please choose another username`
-				});
-				return data;
-			}
-			throw err;
-		}
+		return { ...data, hash };
 	});
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -53,6 +35,20 @@ export const actions: Actions = {
 		const form = await superValidate(request, zod(SignupSchema));
 		if (!form.valid) {
 			return fail(400, { form });
+		}
+		try {
+			await locals.db.user.create({ username: form.data.username, hash: form.data.hash });
+		} catch (err) {
+			console.log(err);
+			// if (err instanceof postgres.PostgresError && err.code === DBErrorUniqueViolationCode) {
+			// 	ctx.addIssue({
+			// 		code: z.ZodIssueCode.custom,
+			// 		path: ['username'],
+			// 		message: `'${data.username}' already exists. Please choose another username`
+			// 	});
+			// 	return data;
+			// }
+			throw err;
 		}
 		redirect(303, '/');
 	}

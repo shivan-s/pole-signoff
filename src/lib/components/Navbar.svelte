@@ -2,12 +2,12 @@
 	import Progress from './Progress.svelte';
 	import { loading } from '$lib/stores';
 	import { navigating, page } from '$app/stores';
-	import type { User } from '$lib/server/db/schema';
+	import type { SelectUser } from '$lib/server/db/schema';
 
 	const ROCK = '🪨';
 	const POLE = '💈';
 
-	export let user: Pick<User, 'username' | 'isAdmin'>;
+	export let user: Pick<SelectUser, 'username' | 'isAdmin'>;
 </script>
 
 {#if $loading || $navigating}

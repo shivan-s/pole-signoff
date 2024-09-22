@@ -1,0 +1,9 @@
+name = "pole-rocks"
+compatibility_date = "2024-09-02"
+node_compat = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pole-rocks"
+database_id = "5c232b69-8d83-4f23-abdc-4c199ff8dc66"
+preview_database_id = 'DB'

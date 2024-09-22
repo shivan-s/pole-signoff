@@ -1,7 +1,16 @@
-import { DATABASE_URL } from '$env/static/private';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { type DrizzleD1Database } from 'drizzle-orm/d1';
+import User from './users';
 
-console.log('database', DATABASE_URL);
-const client = postgres(DATABASE_URL, { prepare: false });
-export const db = drizzle(client);
+/**
+ * Database wrapper
+ */
+class Database implements Database {
+	raw: DrizzleD1Database;
+	user: User;
+	constructor(db: DrizzleD1Database) {
+		this.raw = db;
+		this.user = new User(this.raw);
+	}
+}
+
+export default Database;

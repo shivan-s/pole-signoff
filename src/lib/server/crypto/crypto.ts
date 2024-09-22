@@ -1,5 +1,5 @@
 import { SECRET } from '$env/static/private';
-import type { Password, User } from '$lib/server/db/schema';
+import type { SelectPassword, SelectUser } from '$lib/server/db/schema';
 import * as jose from 'jose';
 import { JWEInvalid } from 'jose/errors';
 import Hash from './hash';
@@ -13,11 +13,11 @@ import Hash from './hash';
  */
 export async function checkPassword(
 	password: string,
-	user: { users: User; passwords: Password } | undefined
+	user: { users: SelectUser; passwords: SelectPassword } | undefined
 ): Promise<boolean> {
-	// const validLogin = await bcrypt.compare(password, user?.passwords?.hash ?? '');
-	// return validLogin;
-	return false;
+	const hash = new Hash(user?.passwords?.hash);
+	const validLogin = await hash.check(password);
+	return validLogin;
 }
 
 /**
@@ -28,7 +28,7 @@ export async function checkPassword(
  * @see Hash
  */
 export async function hashPassword(password: string): Promise<Hash> {
-	const hash = new Hash(password);
+	const hash = await Hash.from(password);
 	return hash;
 }
 
@@ -38,7 +38,7 @@ export async function hashPassword(password: string): Promise<Hash> {
  * @param payload Typically user details
  * @returns Signed JWT
  */
-export async function issueJWT(user: Pick<User, 'id' | 'username'>): Promise<string> {
+export async function issueJWT(user: Pick<SelectUser, 'id' | 'username'>): Promise<string> {
 	const secret = new TextEncoder().encode(SECRET);
 	const alg = 'HS256';
 	const JWT_EXPIRE_TIME = '1 week';
@@ -52,11 +52,11 @@ export async function issueJWT(user: Pick<User, 'id' | 'username'>): Promise<str
 
 export async function decodeJWT(
 	jwt: string
-): Promise<({ user?: Pick<User, 'id' | 'username'> } & jose.JWTPayload) | null> {
+): Promise<({ user?: Pick<SelectUser, 'id' | 'username'> } & jose.JWTPayload) | null> {
 	const secret = new TextEncoder().encode(SECRET);
 	try {
 		const { payload } = (await jose.jwtVerify(jwt, secret)) as {
-			payload: { user?: User } & jose.JWTPayload;
+			payload: { user?: SelectUser } & jose.JWTPayload;
 		};
 		return payload;
 	} catch (err) {

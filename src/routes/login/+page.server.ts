@@ -3,7 +3,6 @@ import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
 import { z } from 'zod';
 import { redirect } from '@sveltejs/kit';
-import { fetchUserWithPasswordByUsername } from '$lib/server/db/users';
 import { issueJWT, checkPassword } from '$lib/server/crypto';
 
 const LoginSchema = z
@@ -29,7 +28,7 @@ export const actions: Actions = {
 			return fail(400, { form });
 		}
 		// NOTE: Ensure no time-based attacks, hence set errors at end
-		const user = await fetchUserWithPasswordByUsername(form.data.username);
+		const user = await locals.db.user.fetchOneWithPasswordByUsername(form.data.username);
 		const validLogin = await checkPassword(form.data.password, user);
 		if (!validLogin || !user) {
 			if (!user) {

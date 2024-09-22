@@ -1,13 +1,13 @@
-import { config } from 'dotenv';
 import { defineConfig } from 'drizzle-kit';
-
-config({ path: '.env' });
 
 export default defineConfig({
 	schema: './src/lib/server/db/schema.ts',
-	out: './supabase/migrations',
-	dialect: 'postgresql',
+	out: './drizzle',
+	dialect: 'sqlite',
+	driver: 'd1-http',
 	dbCredentials: {
-		url: process.env.DATABASE_URL!
+		accountId: process.env.CLOUDFLARE_ACCOUNT_ID!,
+		databaseId: process.env.CLOUDFLARE_DATABASE_ID!,
+		token: process.env.CLOUDFLARE_D1_TOKEN!
 	}
 });
