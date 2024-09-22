@@ -42,7 +42,6 @@
 	{/if}
 	<form method="POST" action="?/signup" use:enhance>
 		<FormSet>
-			<input name="formId" type="hidden" value={data.formId} />
 			<Label for="email"><span>Username</span></Label>
 			<Input
 				name="username"

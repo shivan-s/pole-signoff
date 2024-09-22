@@ -15,7 +15,7 @@
 		margin-right: auto;
 		margin-left: auto;
 		margin-bottom: 25dvh;
-		gap: 3rem;
+		gap: 0.5rem;
 		padding: 1rem 0rem;
 		flex-grow: 1;
 		z-index: 0;

@@ -8,11 +8,16 @@
 <nav>
 	<span>
 		<span>Made with <abbr title="LOVE">{LOVE}</abbr> by</span>
-		<a rel="external" href="https://shivan.xyz"
+		<a rel="external" target="_blank" href="https://shivan.xyz"
 			><Img alt="Shivan" title="Shivan" src={shivanLogo} style="width: 2rem; height: 2rem" /></a
 		>
 	</span>
-	<a rel="external" title="Source code on GitHub" href="https://github.com/shivan-s/pole-signoff">
+	<a
+		rel="external"
+		target="_blank"
+		title="Source code on GitHub"
+		href="https://github.com/shivan-s/pole-signoff"
+	>
 		<GitHub width="2rem" height="2rem" />
 		<span>Code</span>
 	</a>

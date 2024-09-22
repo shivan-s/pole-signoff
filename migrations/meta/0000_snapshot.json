@@ -1,40 +1,48 @@
 {
-	"id": "7d00bd5d-2fc9-43dc-b447-5bada1a6eaaa",
-	"prevId": "a9e6e638-e289-42ac-a488-a09de21b35db",
-	"version": "7",
-	"dialect": "postgresql",
+	"version": "6",
+	"dialect": "sqlite",
+	"id": "f9c7d120-41a8-45d0-a8f1-4e849620c8c5",
+	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
-		"public.emails": {
+		"emails": {
 			"name": "emails",
-			"schema": "",
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "integer",
 					"primaryKey": true,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"email": {
 					"name": "email",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
-				"is_validated": {
-					"name": "is_validated",
-					"type": "boolean",
+				"validated_at": {
+					"name": "validated_at",
+					"type": "text",
 					"primaryKey": false,
 					"notNull": false,
-					"default": false
+					"autoincrement": false
 				},
 				"user_id": {
 					"name": "user_id",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				}
 			},
-			"indexes": {},
+			"indexes": {
+				"emails_email_unique": {
+					"name": "emails_email_unique",
+					"columns": ["email"],
+					"isUnique": true
+				}
+			},
 			"foreignKeys": {
 				"emails_user_id_users_id_fk": {
 					"name": "emails_user_id_users_id_fk",
@@ -47,48 +55,46 @@
 				}
 			},
 			"compositePrimaryKeys": {},
-			"uniqueConstraints": {
-				"emails_email_unique": {
-					"name": "emails_email_unique",
-					"nullsNotDistinct": false,
-					"columns": ["email"]
-				}
-			}
+			"uniqueConstraints": {}
 		},
-		"public.user_moves": {
+		"user_moves": {
 			"name": "user_moves",
-			"schema": "",
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "integer",
 					"primaryKey": true,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"move_id": {
 					"name": "move_id",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"user_id": {
 					"name": "user_id",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"awarder_id": {
 					"name": "awarder_id",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"achieved_at": {
 					"name": "achieved_at",
-					"type": "timestamp with time zone",
+					"type": "text",
 					"primaryKey": false,
 					"notNull": true,
-					"default": "now()"
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
 				}
 			},
 			"indexes": {},
@@ -124,92 +130,101 @@
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
 		},
-		"public.files": {
+		"files": {
 			"name": "files",
-			"schema": "",
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "integer",
 					"primaryKey": true,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"created_at": {
 					"name": "created_at",
-					"type": "timestamp with time zone",
+					"type": "text",
 					"primaryKey": false,
 					"notNull": true,
-					"default": "now()"
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
 				},
 				"uuid": {
 					"name": "uuid",
-					"type": "uuid",
+					"type": "text",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": false,
+					"autoincrement": false
 				},
 				"filename": {
 					"name": "filename",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"file_type": {
 					"name": "file_type",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				}
 			},
-			"indexes": {},
-			"foreignKeys": {},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {
+			"indexes": {
 				"files_uuid_unique": {
 					"name": "files_uuid_unique",
-					"nullsNotDistinct": false,
-					"columns": ["uuid"]
+					"columns": ["uuid"],
+					"isUnique": true
 				}
-			}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
 		},
-		"public.moves": {
+		"moves": {
 			"name": "moves",
-			"schema": "",
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "integer",
 					"primaryKey": true,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"name": {
 					"name": "name",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"description": {
 					"name": "description",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": false,
+					"autoincrement": false
 				},
 				"level": {
 					"name": "level",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"rank": {
 					"name": "rank",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": false,
+					"autoincrement": false
 				},
 				"deleted_at": {
 					"name": "deleted_at",
-					"type": "timestamp with time zone",
+					"type": "text",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": false,
+					"autoincrement": false
 				}
 			},
 			"indexes": {},
@@ -217,34 +232,37 @@
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
 		},
-		"public.passwords": {
+		"passwords": {
 			"name": "passwords",
-			"schema": "",
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "integer",
 					"primaryKey": true,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"created_at": {
 					"name": "created_at",
-					"type": "timestamp with time zone",
+					"type": "text",
 					"primaryKey": false,
 					"notNull": true,
-					"default": "now()"
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
 				},
 				"user_id": {
 					"name": "user_id",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"hash": {
 					"name": "hash",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				}
 			},
 			"indexes": {},
@@ -262,85 +280,95 @@
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
 		},
-		"public.users": {
+		"users": {
 			"name": "users",
-			"schema": "",
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "integer",
 					"primaryKey": true,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"username": {
 					"name": "username",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": true
+					"notNull": true,
+					"autoincrement": false
 				},
 				"name": {
 					"name": "name",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": false,
+					"autoincrement": false
 				},
 				"created_at": {
 					"name": "created_at",
-					"type": "timestamp with time zone",
+					"type": "text",
 					"primaryKey": false,
 					"notNull": true,
-					"default": "now()"
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
 				},
 				"last_login": {
 					"name": "last_login",
-					"type": "timestamp with time zone",
+					"type": "text",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": false,
+					"autoincrement": false
 				},
 				"deleted_at": {
 					"name": "deleted_at",
-					"type": "timestamp with time zone",
+					"type": "text",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": false,
+					"autoincrement": false
 				},
 				"admin": {
 					"name": "admin",
-					"type": "boolean",
+					"type": "integer",
 					"primaryKey": false,
 					"notNull": true,
+					"autoincrement": false,
 					"default": false
 				},
 				"level_can_signoff": {
 					"name": "level_can_signoff",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": false,
+					"autoincrement": false
 				},
 				"can_signoff": {
 					"name": "can_signoff",
-					"type": "boolean",
+					"type": "integer",
 					"primaryKey": false,
 					"notNull": true,
+					"autoincrement": false,
 					"default": false
 				}
 			},
-			"indexes": {},
-			"foreignKeys": {},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {
+			"indexes": {
 				"users_username_unique": {
 					"name": "users_username_unique",
-					"nullsNotDistinct": false,
-					"columns": ["username"]
+					"columns": ["username"],
+					"isUnique": true
 				}
-			}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
 		}
 	},
 	"enums": {},
-	"schemas": {},
 	"_meta": {
-		"columns": {},
 		"schemas": {},
-		"tables": {}
+		"tables": {},
+		"columns": {}
+	},
+	"internal": {
+		"indexes": {}
 	}
 }

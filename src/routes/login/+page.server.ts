@@ -2,11 +2,9 @@ import { fail, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
 import { z } from 'zod';
-import { passwordsTable, usersTable } from '$lib/db/schema';
-import bcrypt from 'bcryptjs';
-import { desc, eq } from 'drizzle-orm';
 import { redirect } from '@sveltejs/kit';
-import { db } from '$lib/db';
+import { issueJWT, checkPassword } from '$lib/server/crypto';
+import { fetchUserWithPasswordByUsername } from '$lib/server/db/users';
 
 const LoginSchema = z
 	.object({
@@ -15,7 +13,7 @@ const LoginSchema = z
 	})
 	.strip();
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async () => {
 	const form = await superValidate(zod(LoginSchema));
 	return {
 		pageTitle: 'Login',
@@ -25,28 +23,28 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
 	login: async ({ request, locals, cookies }) => {
+		console.time('login');
 		const form = await superValidate(request, zod(LoginSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
-		const [user] = await db
-			.selectDistinctOn([passwordsTable.userId])
-			.from(usersTable)
-			.innerJoin(passwordsTable, eq(usersTable.id, passwordsTable.userId))
-			.orderBy(desc(passwordsTable.userId), desc(passwordsTable.createdAt))
-			.where(eq(usersTable.username, form.data.username));
-		if (!user) {
-			console.log('Username is invalid');
+		// NOTE: Ensure no time-based attacks, hence set errors at end
+		const user = await fetchUserWithPasswordByUsername(form.data.username);
+		const validLogin = await checkPassword(form.data.password, user);
+		if (!validLogin || !user) {
+			if (!user) {
+				console.timeLog('login', 'Username is invalid');
+			}
+			if (!validLogin) {
+				console.timeLog('login', 'Password is invalid');
+			}
 			return setError(form, '', 'Incorrect username or password');
 		}
-		const validLogin = await bcrypt.compare(form.data.password, user.passwords.hash);
-		if (!validLogin) {
-			console.log('Password is invalid');
-			return setError(form, '', 'Incorrect username or password');
-		}
-		console.log('Login Success for', user.users.username);
-		cookies.set('auth-token', user.users.id.toString(), { httpOnly: true, path: '/' });
+		console.timeLog('login', 'Login Success for: ', user.users.username);
+		const jwt = await issueJWT(user.users);
+		cookies.set('auth-token', jwt, { httpOnly: true, path: '/' });
 		locals.user = user.users;
+		console.timeEnd('login');
 		return redirect(303, '/me');
 	},
 	logout: async ({ locals, cookies }) => {

@@ -2,12 +2,16 @@ name: Migrate
 
 on:
   push:
-    branches: [main]
 
 jobs:
-  migrate:
-    name: Migrate
+  prod-migrate:
+    name: Production Migrate
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: Production
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,4 +23,28 @@ jobs:
       - name: Clean Install
         run: npm ci
       - name: Migration
-        run: npx drizzle-kit push
+        run: |
+          npm run makemigrations
+          npm run migrate
+  staging-migrate:
+    name: Staging Migrate
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+    environment: Staging
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - name: Clean Install
+        run: npm ci
+      - name: Migration
+        run: |
+          npm run makemigrations
+          npm run migrate

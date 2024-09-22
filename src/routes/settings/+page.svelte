@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { dateStamp, fromNow } from '$lib/utils';
 	import type { PageData } from './$types';
-	export let data: PageData;
-</script>
 
-{JSON.stringify(data.user)}
+	export let data: PageData;
+	console.log('data', data);
+</script>
 
 <div class="wrapper">
 	<span class="header">Username</span>

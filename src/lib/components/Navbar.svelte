@@ -2,22 +2,12 @@
 	import Progress from './Progress.svelte';
 	import { loading } from '$lib/stores';
 	import { navigating, page } from '$app/stores';
-	import type { SelectUser } from '$lib/db/schema';
+	import type { SelectUser } from '$lib/server/db/schema';
 
 	const ROCK = '🪨';
 	const POLE = '💈';
-	const ONE = '1️⃣';
 
-	export let user: SelectUser | undefined;
-	export let userLevels: {
-		level: number;
-		count: number;
-	}[];
-
-	const urls: { url: string; name: string }[] = userLevels.map((u) => ({
-		url: `/me/${u.level}`,
-		name: `Level ${u.level}`
-	}));
+	export let user: Pick<SelectUser, 'username' | 'isAdmin'>;
 </script>
 
 {#if $loading || $navigating}
@@ -25,17 +15,16 @@
 {/if}
 <nav>
 	<span>
-		<a href="/" title="Pole Rocks">{POLE} {ROCK}{ROCK}</a>
+		<a href="/" title="Pole Rocks">{POLE} {ROCK}{ROCK} Pole Rocks</a>
 		{#if user?.isAdmin}
-			<a href="/admin">Admin</a>
+			<a class:current={$page.url.pathname.startsWith('/admin')} href="/admin">Admin</a>
 		{/if}
-		{#each urls as { url, name }}
-			<a class:current={url === $page.url.pathname} href={url}>{name}</a>
-		{/each}
 	</span>
 	<span>
 		{#if user}
-			<a href="/settings">{user.username}</a>
+			<a class:current={$page.url.pathname.startsWith('/settings')} href="/settings"
+				>{user.username}</a
+			>
 		{/if}
 	</span>
 </nav>

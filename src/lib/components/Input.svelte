@@ -2,9 +2,9 @@
 	import type { HTMLInputAttributes } from 'svelte/elements';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props extends HTMLInputAttributes {
-		value: HTMLInputAttributes['value'];
+		value?: HTMLInputAttributes['value'];
 	}
-	export let value: HTMLInputAttributes['value'];
+	export let value: HTMLInputAttributes['value'] = null;
 </script>
 
 {#if $$props['type'] === 'checkbox'}
@@ -18,7 +18,7 @@
 		width: 100%;
 		border: 0px;
 		border-bottom: 0px solid var(--text);
-		padding: 0.25rem 0.5rem;
+		padding: 0.5rem;
 		outline: 2px solid var(--primary);
 		background-color: var(--bg);
 	}
@@ -38,7 +38,7 @@
 	}
 	span:has(input:user-valid)::after {
 		position: absolute;
-		transform: translate(-150%, 25%);
+		transform: translate(-150%, 50%);
 		content: '✔';
 		color: var(--success);
 	}
