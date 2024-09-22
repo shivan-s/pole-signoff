@@ -13,7 +13,13 @@
 		"format": "prettier --write .",
 		"test:e2e": "playwright test",
 		"test:unit": "vitest",
-		"makemigration": "npx drizzle-kit generate"
+		"makemigration": "npx drizzle-kit generate",
+		"list": "wrangler d1 migrations list D1 --local",
+		"list:preview": "wrangler d1 migrations list D1 --env preview",
+		"list:production": "wrangler d1 migrations list D1 --env production",
+		"apply": "wrangler d1 migrations apply D1 --local",
+		"apply:preview": "wrangler d1 migrations apply D1 --env preview",
+		"apply:production": "wrangler d1 migrations apply D1 --env production"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
