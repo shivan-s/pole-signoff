@@ -4,6 +4,7 @@ import type { PageServerLoad, Actions } from './$types';
 import { z } from 'zod';
 import { redirect } from '@sveltejs/kit';
 import { issueJWT, checkPassword } from '$lib/server/crypto';
+import { fetchUserWithPasswordByUsername } from '$lib/server/db/users';
 
 const LoginSchema = z
 	.object({
@@ -28,7 +29,7 @@ export const actions: Actions = {
 			return fail(400, { form });
 		}
 		// NOTE: Ensure no time-based attacks, hence set errors at end
-		const user = await locals.db.user.fetchOneWithPasswordByUsername(form.data.username);
+		const user = await fetchUserWithPasswordByUsername(form.data.username);
 		const validLogin = await checkPassword(form.data.password, user);
 		if (!validLogin || !user) {
 			if (!user) {

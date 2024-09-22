@@ -1,7 +1,6 @@
 import { decodeJWT } from '$lib/server/crypto';
+import { fetchUserById } from '$lib/server/db/users';
 import { redirect, type Handle } from '@sveltejs/kit';
-import { drizzle } from 'drizzle-orm/d1';
-import Database from '$lib/server/db';
 
 const WHITELISTED_PATHS: readonly string[] = ['/', '/login', '/signup', '/healthz'];
 
@@ -9,9 +8,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// Debugging
 	const requestPath = event.url.pathname;
 	console.log('Path:', requestPath);
-	// Connect Database
-	const db = new Database(drizzle(event.platform!.env.DB));
-	event.locals.db = db;
 	// Verify User
 	const authToken = event.cookies.get('auth-token');
 	if (authToken === undefined && !WHITELISTED_PATHS.includes(requestPath)) {
@@ -22,7 +18,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			event.cookies.delete('auth-token', { httpOnly: true, path: '/' });
 			redirect(302, '/login');
 		}
-		const user = await db.user.fetchById(payload.user?.id);
+		const user = await fetchUserById(payload.user?.id);
 		if (!user) {
 			event.cookies.delete('auth-token', { httpOnly: true, path: '/' });
 			redirect(302, '/login');

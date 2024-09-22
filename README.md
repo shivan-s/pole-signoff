@@ -3,6 +3,7 @@
 ## Development
 
 Run:
+
 ```
 npm run dev
 ```
@@ -10,10 +11,13 @@ npm run dev
 ## Running migrations
 
 1. Creating migrations based on database changes:
+
 ```sh
 npx run makemigrations
 ```
-2. Apply the migrations, locally:
+
+2. Apply the migrations:
+
 ```sh
-npx run apply // migration is done locally for local dev
+npx run migrate
 ```

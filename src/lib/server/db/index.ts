@@ -1,16 +1,7 @@
-import { type DrizzleD1Database } from 'drizzle-orm/d1';
-import User from './users';
+import { createClient } from '@libsql/client/web';
+import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '$env/static/private';
+import { drizzle } from 'drizzle-orm/libsql';
 
-/**
- * Database wrapper
- */
-class Database implements Database {
-	raw: DrizzleD1Database;
-	user: User;
-	constructor(db: DrizzleD1Database) {
-		this.raw = db;
-		this.user = new User(this.raw);
-	}
-}
+const client = createClient({ url: DATABASE_URL, authToken: DATABASE_AUTH_TOKEN });
 
-export default Database;
+export const db = drizzle(client);

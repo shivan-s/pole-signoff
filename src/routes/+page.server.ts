@@ -1,19 +1,20 @@
 import type { PageServerLoad, Actions } from './$types';
 import { PAGE_LIMIT } from '$lib/constants';
+import { fetchManyUsers } from '$lib/server/db/users';
 
 const WAVE = '👋';
 
-export const load: PageServerLoad = async ({ url, locals }) => {
+export const load: PageServerLoad = async ({ url }) => {
 	const q = url.searchParams.get('q');
 	const cursor = parseInt(url.searchParams.get('cursor') || '0');
-	const users = await locals.db.user.fetchMany({
+	const users = await fetchManyUsers({
 		username: q,
 		limit: PAGE_LIMIT,
 		offset: cursor * PAGE_LIMIT
 	});
 	const isNextPage =
 		(
-			await locals.db.user.fetchMany({
+			await fetchManyUsers({
 				username: q,
 				limit: 1,
 				offset: PAGE_LIMIT * (cursor + 1)

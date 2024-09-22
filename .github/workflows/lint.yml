@@ -12,6 +12,7 @@ jobs:
     environment: Staging
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
       SECRET: ${{ secrets.SECRET }}
     steps:
       - name: Checkout
@@ -31,6 +32,7 @@ jobs:
     environment: Staging
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
       SECRET: ${{ secrets.SECRET }}
     steps:
       - name: Checkout
@@ -50,6 +52,7 @@ jobs:
     environment: Staging
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
       SECRET: ${{ secrets.SECRET }}
     steps:
       - name: Checkout

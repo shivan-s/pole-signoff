@@ -2,12 +2,11 @@ import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
 	schema: './src/lib/server/db/schema.ts',
-	out: './src/lib/server/db/migrations',
+	out: './migrations',
 	dialect: 'sqlite',
-	driver: 'd1-http',
+	driver: 'turso',
 	dbCredentials: {
-		accountId: process.env.CLOUDFLARE_ACCOUNT_ID!,
-		databaseId: process.env.CLOUDFLARE_DATABASE_ID!,
-		token: process.env.CLOUDFLARE_D1_TOKEN!
+		url: process.env.DATABASE_URL!,
+		authToken: process.env.DATABASE_AUTH_TOKEN!
 	}
 });

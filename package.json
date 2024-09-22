@@ -14,12 +14,7 @@
 		"test:e2e": "playwright test",
 		"test:unit": "vitest",
 		"makemigrations": "npx drizzle-kit generate",
-		"list": "wrangler d1 migrations list D1 --local",
-		"list:preview": "wrangler d1 migrations list D1 --env preview",
-		"list:production": "wrangler d1 migrations list D1 --env production",
-		"apply": "wrangler d1 migrations apply D1 --local",
-		"apply:preview": "wrangler d1 migrations apply D1 --env preview",
-		"apply:production": "wrangler d1 migrations apply D1 --env production"
+		"apply": "npx drizzle-kit push"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
@@ -52,6 +47,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@libsql/client": "^0.14.0",
 		"date-fns": "^3.6.0"
 	}
 }
