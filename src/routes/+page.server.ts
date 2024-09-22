@@ -2,7 +2,7 @@ import type { PageServerLoad, Actions } from './$types';
 import { PAGE_LIMIT } from '$lib/constants';
 import { fetchManyUsers } from '$lib/server/db/users';
 
-const WAVE = '👋';
+const WAVE = '👋 Welcome';
 
 export const load: PageServerLoad = async ({ url }) => {
 	const q = url.searchParams.get('q');

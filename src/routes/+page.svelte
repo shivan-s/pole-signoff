@@ -14,13 +14,15 @@
 	<input type="hidden" value={data.cursor} name="cursor" />
 </form>
 <div class="flex-col" style="width: unset">
-	<Label for="q">Search By Username</Label>
-	<div class="flex-row">
-		<Input id="q" form="search-params" name="q" value={data.q} /><Button
-			style="padding: 0.25rem 0.5rem"
+	<Label for="q">Search</Label>
+	<div class="flex-row" style="gap: 0">
+		<Input
+			id="q"
 			form="search-params"
-			type="submit"><SearchIcon width="1rem" /></Button
-		>
+			name="q"
+			value={data.q}
+			placeholder="Polers By Username"
+		/><Button title="Search" form="search-params" type="submit"><SearchIcon width="1rem" /></Button>
 	</div>
 	{#if data.q}
 		<A style="align-self: center; margin: 0.5rem" title="Clear Search" href=".">Clear Search</A>
@@ -28,12 +30,14 @@
 		<span style="margin: 0.5rem">&nbsp;</span>
 	{/if}
 </div>
+<p style="color: var(--gray)">Recently joined:</p>
 {#each data.users as user}
 	<a href="/poler/{user.username}">
 		<A href="/poler/{user.name}">{user.username}</A> joined
 		<time datetime={user.createdAt.toString()}>{fromNow(user.createdAt)}</time></a
 	>
 {/each}
+<A href="/signup">Want to join?</A>
 <div class="flex-row" style="justify-content: space-between">
 	<Button
 		title="Back"
