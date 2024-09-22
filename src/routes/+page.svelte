@@ -10,35 +10,41 @@
 	export let data: PageData;
 </script>
 
+{#if !data.user}
+	<p>Want to join?</p>
+	<div class="flex-row">
+		<form action="/login" method="GET">
+			<Button type="submit">Log in</Button>
+		</form>
+		<form action="/signup" method="GET">
+			<Button type="submit">Sign up</Button>
+		</form>
+	</div>
+{:else}
+	<div class="flex-col" style="width: unset">
+		<Label for="q">Search</Label>
+		<div class="flex-row">
+			<Input
+				id="q"
+				form="search-params"
+				name="q"
+				value={data.q}
+				placeholder="Polers By Username"
+			/><Button title="Search" form="search-params" type="submit" style="padding 0rem;"
+				><SearchIcon width="1 rem" /></Button
+			>
+		</div>
+		{#if data.q}
+			<A style="align-self: center; margin: 0.5rem" title="Clear Search" href=".">Clear Search</A>
+		{:else}
+			<span style="margin: 0.5rem">&nbsp;</span>
+		{/if}
+	</div>
+{/if}
 <form data-sveltekit-noscroll data-sveltekit-keepfocus id="search-params" METHOD="GET">
 	<input type="hidden" value={data.cursor} name="cursor" />
 </form>
-<div class="flex-col" style="width: unset">
-	<Label for="q">Search</Label>
-	<div class="flex-row" style="gap: 0">
-		<Input
-			id="q"
-			form="search-params"
-			name="q"
-			value={data.q}
-			placeholder="Polers By Username"
-		/><Button title="Search" form="search-params" type="submit"><SearchIcon width="1rem" /></Button>
-	</div>
-	{#if data.q}
-		<A style="align-self: center; margin: 0.5rem" title="Clear Search" href=".">Clear Search</A>
-	{:else}
-		<span style="margin: 0.5rem">&nbsp;</span>
-	{/if}
-</div>
-<p style="color: var(--gray)">Recently joined:</p>
-{#each data.users as user}
-	<a href="/poler/{user.username}">
-		<A href="/poler/{user.name}">{user.username}</A> joined
-		<time datetime={user.createdAt.toString()}>{fromNow(user.createdAt)}</time></a
-	>
-{/each}
-<A href="/signup">Want to join?</A>
-<div class="flex-row" style="justify-content: space-between">
+<div class="flex-row" style="justify-content: space-between; align-items: center">
 	<Button
 		title="Back"
 		form="search-params"
@@ -46,6 +52,7 @@
 		value={data.cursor - 1}
 		disabled={data.cursor < 1}>◄ Back</Button
 	>
+	<p style="color: var(--gray)">Recently joined:</p>
 	<Button
 		title="Next"
 		form="search-params"
@@ -54,3 +61,9 @@
 		disabled={!data.isNextPage}>Next ►</Button
 	>
 </div>
+{#each data.users as user}
+	<a href="/poler/{user.username}">
+		<A href="/poler/{user.name}">{user.username}</A> joined
+		<time datetime={user.createdAt.toString()}>{fromNow(user.createdAt)}</time></a
+	>
+{/each}
