@@ -21,7 +21,7 @@
 	{#key data.routeURL}
 		<Container>
 			{#if pageTitle}
-				<header><H1>{pageTitle}</H1></header>
+				<header><H1 style="text-align: center">{pageTitle}</H1></header>
 			{/if}
 			<slot />
 		</Container>
@@ -53,11 +53,12 @@
 		--gap-loose: 0.5rem;
 		/* Colors */
 		--primary: hsla(300, 100%, 50%, 1);
+		--secondary: hsla(300, 100%, 50%, 1);
 		--grey: hsla(0, 0%, 50%, 1);
 		--gray: var(--grey);
 		--bg: hsla(300, 100%, 95%, 1);
 		--text: hsla(300, 10%, 20%, 1);
-		--accent: hsla(35, 100%, 50, 1);
+		--accent: hsla(35, 100%, 50%, 1);
 		--success: hsla(112, 90%, 60%, 1);
 		--danger: hsla(0, 90%, 60%, 1);
 		--warning: hsla(45, 90%, 60%, 1);
@@ -92,6 +93,10 @@
 	:global(p, a, h1, h2, h3, h4, h5, h6) {
 		color: var(--text);
 		text-decoration: none;
+	}
+
+	:global(strong) {
+		color: var(--secondary);
 	}
 
 	:global(html) {

@@ -1,1 +1,1 @@
-export type Directive = 'danger' | 'success' | 'warning' | 'primary';
+export type Directive = 'danger' | 'success' | 'warning' | 'primary' | 'secondary';

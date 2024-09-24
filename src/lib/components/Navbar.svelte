@@ -3,9 +3,8 @@
 	import { loading } from '$lib/stores';
 	import { navigating, page } from '$app/stores';
 	import type { SelectUser } from '$lib/server/db/schema';
-
-	const ROCK = '🪨';
-	const POLE = '💈';
+	import { ROCK, POLE } from '$lib/characters';
+	import Button from '$lib/components/Button.svelte';
 
 	export let user: Pick<SelectUser, 'username' | 'isAdmin'>;
 </script>
@@ -22,6 +21,9 @@
 	</span>
 	<span>
 		{#if user}
+			<form class="logout" method="POST" action="?/logout">
+				<button>Logout</button>
+			</form>
 			<a class:current={$page.url.pathname.startsWith('/settings')} href="/settings"
 				>{user.username}</a
 			>
@@ -43,13 +45,15 @@
 		display: flex;
 	}
 
-	nav > span > a {
+	nav > span > a,
+	nav > span > form {
 		display: flex;
 		align-items: center;
 		padding: 0 2rem 0 2rem;
 	}
 
-	a {
+	a,
+	button {
 		font-weight: 400;
 		color: var(--primary);
 		text-decoration: none;
@@ -57,9 +61,22 @@
 	}
 
 	a:hover,
-	.current {
+	.current,
+	form:hover {
 		background: var(--primary);
 		color: var(--bg);
+	}
+
+	form.logout:hover {
+		background: var(--danger);
+		color: var(--bg);
+	}
+	form.logout > button {
+		width: 100%;
+		height: 100%;
+		background: none;
+		border: none;
+		color: inherit;
 	}
 
 	a:active {

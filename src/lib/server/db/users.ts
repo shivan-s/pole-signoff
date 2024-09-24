@@ -10,7 +10,7 @@ import { db } from '$lib/server/db';
  * @param params `username` to search; `offset`, `limit` is for pagination
  * @returns Array of users ordered by descending created
  */
-export async function fetchManyUsers(params: {
+export async function fetchManyUsers(params?: {
 	username?: string | null;
 	offset?: number;
 	limit?: number;
@@ -19,12 +19,12 @@ export async function fetchManyUsers(params: {
 	const users = await db
 		.select()
 		.from(usersTable)
-		.limit(params.limit ?? PAGE_LIMIT)
-		.offset(params.offset ?? 0)
+		.limit(params?.limit ?? PAGE_LIMIT)
+		.offset(params?.offset ?? 0)
 		.where(
 			and(
-				params.includeDeleted ? undefined : isNull(usersTable.deletedAt),
-				params.username ? like(usersTable.username, '%' + params.username + '%') : undefined
+				params?.includeDeleted ? undefined : isNull(usersTable.deletedAt),
+				params?.username ? like(usersTable.username, '%' + params.username + '%') : undefined
 			)
 		)
 		.orderBy(desc(usersTable.createdAt));

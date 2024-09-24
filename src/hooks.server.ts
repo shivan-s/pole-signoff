@@ -10,9 +10,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	console.log('Path:', requestPath);
 	// Verify User
 	const authToken = event.cookies.get('auth-token');
-	if (authToken === undefined && !WHITELISTED_PATHS.includes(requestPath)) {
-		redirect(302, '/login');
-	} else if (authToken) {
+	if (authToken) {
 		const payload = await decodeJWT(authToken);
 		if (!payload || !payload.user) {
 			event.cookies.delete('auth-token', { httpOnly: true, path: '/' });
