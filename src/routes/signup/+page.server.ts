@@ -8,7 +8,16 @@ import { createUser } from '$lib/server/db/users';
 
 const SignupSchema = z
 	.object({
-		username: z.string().trim().min(6).max(32),
+		stagehandle: z
+			.string()
+			.trim()
+			.min(6)
+			.max(16)
+			.toLowerCase()
+			.refine(
+				(data) => /^[a-z\._0-9]*$/.test(data),
+				"Stage handle can only contain lower case letters (a-z), '.' and/or '_'"
+			),
 		password: z.string().trim().min(8).max(128)
 	})
 	.strip();
@@ -35,7 +44,7 @@ export const actions: Actions = {
 		}
 		const hash = await hashPassword(form.data.password);
 		try {
-			await createUser({ username: form.data.username, hash });
+			await createUser({ username: form.data.stagehandle, hash });
 		} catch (err) {
 			console.log(err);
 			// if (err instanceof postgres.PostgresError && err.code === DBErrorUniqueViolationCode) {

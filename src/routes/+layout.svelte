@@ -50,7 +50,8 @@
 		/* Gap */
 		--gap-tight: 0.125rem;
 		--gap-normal: 0.25rem;
-		--gap-loose: 0.5rem;
+		--gap-loose: 1rem;
+		--gap-xloose: 2rem;
 		/* Colors */
 		--primary: hsla(300, 100%, 50%, 1);
 		--secondary: hsla(300, 100%, 50%, 1);
@@ -84,7 +85,7 @@
 	:global(*) {
 		padding: 0;
 		margin: 0;
-		line-height: 1;
+		line-height: 1.5;
 		box-sizing: border-box;
 		transition: all 0.2s ease-in-out 0s;
 		font-family: 'Nunito', sans-serif;

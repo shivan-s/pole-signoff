@@ -4,9 +4,8 @@
 	import { navigating, page } from '$app/stores';
 	import type { SelectUser } from '$lib/server/db/schema';
 	import { ROCK, POLE } from '$lib/characters';
-	import Button from '$lib/components/Button.svelte';
 
-	export let user: Pick<SelectUser, 'username' | 'isAdmin'>;
+	export let user: Pick<SelectUser, 'stagehandle' | 'isAdmin'>;
 </script>
 
 {#if $loading || $navigating}
@@ -25,7 +24,7 @@
 				<button>Logout</button>
 			</form>
 			<a class:current={$page.url.pathname.startsWith('/settings')} href="/settings"
-				>{user.username}</a
+				>{user.stagehandle}</a
 			>
 		{/if}
 	</span>
