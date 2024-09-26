@@ -12,7 +12,7 @@ export const emailsTable = sqliteTable('emails', {
 
 export const usersTable = sqliteTable('users', {
 	id: integer('id').primaryKey(),
-	username: text('username').notNull().unique(),
+	stagehandle: text('stagehandle').notNull().unique(),
 	name: text('name'),
 	createdAt: text('created_at')
 		.default(sql`(CURRENT_TIMESTAMP)`)
@@ -20,6 +20,7 @@ export const usersTable = sqliteTable('users', {
 	lastLogin: text('last_login'),
 	deletedAt: text('deleted_at'),
 	isAdmin: integer('admin', { mode: 'boolean' }).default(false).notNull(),
+	isPrivate: integer('private', { mode: 'boolean' }).default(true).notNull(),
 	levelCanSignoff: integer('level_can_signoff'),
 	canCreateMoves: integer('can_signoff', { mode: 'boolean' }).default(false).notNull()
 });

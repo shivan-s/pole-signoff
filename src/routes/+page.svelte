@@ -10,20 +10,18 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import A from '$lib/components/A.svelte';
 	import { fromNow } from '$lib/utils';
-	import { PROGRESS, JOINED, CHECKED, SIGNUP } from '$lib/characters';
+	import { PROGRESS, JOINED, CHECKED } from '$lib/characters';
 	import H2 from '$lib/components/H2.svelte';
 	import Spinner from '$lib/components/Spinner.svelte';
 
 	export let data: PageData;
-	const { form, capture, restore, constraints, enhance, allErrors, errors, delayed } = superForm(
+	const { form, capture, restore, constraints, enhance, allErrors, delayed } = superForm(
 		data.form,
 		{
-			onSubmit: () => loading.set(true),
 			onUpdate: ({ result }) => {
 				if (result.type === 'success')
 					addToast({ message: 'Login successful', directive: 'success' }), loading.set(false);
 			},
-			onUpdated: () => loading.set(false),
 			applyAction: false
 		}
 	);
@@ -34,11 +32,56 @@
 	};
 </script>
 
-<p>Sign off your <strong>pole</strong> progress {PROGRESS}!</p>
+<H2>Sign off your <strong>pole</strong> progress {PROGRESS}!</H2>
 <hr />
 {#if !data.user}
 	<div class="grid">
-		<Card style="order: 1">
+		<Card style="height: fit-content;">
+			<H2 style="font-size: 1.25rem;">Login {CHECKED}</H2>
+			<form method="POST" action="?/login" use:enhance>
+				<div class="flex-col">
+					<FormSet>
+						<Label for="username"><span>Username</span></Label>
+						<Input
+							id="username"
+							name="username"
+							type="text"
+							placeholder="Username (required)"
+							bind:value={$form.username}
+							{...$constraints.username}
+						/>
+						<Label for="name"><span>Password</span></Label>
+						<Input
+							id="password"
+							name="password"
+							type="password"
+							placeholder="Password (required)"
+							bind:value={$form.password}
+							{...$constraints.password}
+						/>
+						<span />
+						<Button type="submit"
+							>{#if delayed}<Spinner />{:else}Log in{/if}</Button
+						>
+						<span />
+						<A href="/signup">No account? Sign up here</A>
+					</FormSet>
+				</div>
+			</form>
+			{#if $allErrors.length > 0}
+				<Alert directive="danger"
+					><span slot="header">Error</span>
+					<ul>
+						{#each $allErrors as e}
+							<li>
+								{e.messages.join('. ')}
+							</li>
+						{/each}
+					</ul>
+				</Alert>
+			{/if}
+		</Card>
+		<Card>
 			<H2 style="font-size: 1.25rem;">Recently Joined {JOINED}</H2>
 			{#each data.users as user}
 				<a href="/poler/{user.username}">
@@ -47,94 +90,6 @@
 				>
 			{/each}
 		</Card>
-		{#if data.isSignup}
-			<Card style="height: fit-content; order: -1">
-				<H2 style="font-size: 1.25rem;">Signup {SIGNUP}</H2>
-				{#if $allErrors.length > 0}
-					<Alert directive="danger"
-						><span slot="header">Error</span>
-						<ul>
-							{#each $allErrors as e}
-								<li>
-									{e.messages.join('. ')}
-								</li>
-							{/each}
-						</ul>
-					</Alert>
-				{/if}
-				<form method="POST" action="?/signup" use:enhance>
-					<FormSet>
-						<Label for="email"><span>Username</span></Label>
-						<Input
-							name="username"
-							placeholder="Username (required)"
-							bind:value={$form.username}
-							aria-invalid={$errors.username ? 'true' : undefined}
-							{...$constraints.username}
-						/>
-						<Label for="name"><span>Password</span></Label>
-						<Input
-							name="password"
-							type="password"
-							placeholder="Password (required)"
-							bind:value={$form.password}
-							aria-invalid={$errors.username ? 'true' : undefined}
-							{...$constraints.password}
-						/>
-						<span />
-						<Button type="submit"
-							>{#if $delayed}<Spinner />{:else}Sign up{/if}</Button
-						>
-						<span />
-						<A href="." style="width: fit-content">Got account? Log in instead</A>
-					</FormSet>
-				</form>
-			</Card>
-		{:else}
-			<Card style="height: fit-content; order: -1">
-				<H2 style="font-size: 1.25rem;">Login {CHECKED}</H2>
-				<form method="POST" action="?/login" use:enhance>
-					<div class="flex-col">
-						<FormSet>
-							<Label for="username"><span>Username</span></Label>
-							<Input
-								id="username"
-								name="username"
-								type="text"
-								placeholder="Username (required)"
-								bind:value={$form.username}
-								{...$constraints.username}
-							/>
-							<Label for="name"><span>Password</span></Label>
-							<Input
-								id="password"
-								name="password"
-								type="password"
-								placeholder="Password (required)"
-								bind:value={$form.password}
-								{...$constraints.password}
-							/>
-							<span />
-							<Button type="submit">Log in</Button>
-							<span />
-							<A href="?signup=1">No account? Sign up instead</A>
-						</FormSet>
-					</div>
-				</form>
-				{#if $allErrors.length > 0}
-					<Alert directive="danger"
-						><span slot="header">Error</span>
-						<ul>
-							{#each $allErrors as e}
-								<li>
-									{e.messages.join('. ')}
-								</li>
-							{/each}
-						</ul>
-					</Alert>
-				{/if}
-			</Card>
-		{/if}
 	</div>
 {:else}
 	Logged in

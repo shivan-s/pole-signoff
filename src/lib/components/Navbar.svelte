@@ -21,7 +21,7 @@
 	</span>
 	<span>
 		{#if user}
-			<form class="logout" method="POST" action="?/logout">
+			<form class="logout" method="POST" action="/?logout">
 				<button>Logout</button>
 			</form>
 			<a class:current={$page.url.pathname.startsWith('/settings')} href="/settings"
