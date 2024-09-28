@@ -44,7 +44,7 @@ export const actions: Actions = {
 		}
 		const hash = await hashPassword(form.data.password);
 		try {
-			await createUser({ username: form.data.stagehandle, hash });
+			await createUser({ stageHandle: form.data.stagehandle, hash });
 		} catch (err) {
 			console.log(err);
 			// if (err instanceof postgres.PostgresError && err.code === DBErrorUniqueViolationCode) {

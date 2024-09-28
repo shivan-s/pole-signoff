@@ -25,7 +25,7 @@
 	};
 </script>
 
-<div class="flex-col" style="gap: var(--gap-loose)">
+<div class="flex-col" style="gap: var(--gap-xloose)">
 	<p>Got any Questions? <A href="#faq">Make sure to check this out</A></p>
 	<Card>
 		<H2 style="font-size: 1.25rem;">Signup {CHECKED}</H2>
@@ -34,7 +34,7 @@
 				<FormSet>
 					<Label for="stagehandle"><abbr title="This is like a username">Stage Handle</abbr></Label>
 					<span class="wrapper">
-						<span class="handle" />
+						<span class="handle" title="Your stage handle" />
 						<Input
 							title="Can only be lower case letters, '.' and/or '_'; no spaces or numbers, with 16 maximum character length"
 							style="padding-left: 4ch"
@@ -90,12 +90,15 @@
 			<H2 style="font-size: 1.25rem">Why the domain, <strong>pole.rocks</strong>?</H2>
 			<p>
 				Sadly, <A href="https://pole.dance">pole.dance</A> would have been my first choice. Alas, being
-				such a wicked domain name, it was taken and wasn't so cheap either. A cool
-				<em>$50,000</em> the last time I had a look. So... <strong>pole.rocks</strong> will do just fine
-				:)
+				such a wicked domain name, it was taken and wasn't so cheap either. So...
+				<strong>pole.rocks</strong> will do just fine :)
 			</p>
 			<H2 style="font-size: 1.25rem">Why did you make this?</H2>
-			<p>Refer to <A href="#what-is-this">'what is this?'</A></p>
+			<p>
+				To answer why <strong>pole.rocks</strong> exists, we need to understand <A
+					href="#what-is-this">what this is</A
+				>.
+			</p>
 		</span>
 	</Card>
 </div>
@@ -107,6 +110,6 @@
 	span.handle::before {
 		position: absolute;
 		content: '@';
-		transform: translate(1ch, 50%);
+		transform: translate(1ch, 25%);
 	}
 </style>

@@ -27,7 +27,6 @@
 		box-shadow: 0rem 0rem 0.5rem 3px var(--danger);
 	}
 	span:has(input:user-invalid)::after {
-		width: 100%;
 		position: absolute;
 		transform: translate(-150%, 25%);
 		content: '✘';
@@ -38,7 +37,6 @@
 		box-shadow: 0rem 0rem 0.5rem 3px var(--success);
 	}
 	span:has(input:user-valid)::after {
-		width: 100%;
 		position: absolute;
 		transform: translate(-150%, 50%);
 		content: '✔';
