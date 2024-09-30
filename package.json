@@ -17,6 +17,9 @@
 		"migrate": "npx drizzle-kit push",
 		"prepare": "husky"
 	},
+	"lint-staged": {
+		"**/*": "prettier --write --ignore-unknown"
+	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-cloudflare": "^4.7.2",
@@ -33,7 +36,9 @@
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-svelte": "^2.30.0",
 		"git-format-staged": "^3.1.1",
+		"husky": "^9.1.6",
 		"jose": "^5.9.2",
+		"lint-staged": "^15.2.10",
 		"prettier": "^3.0.0",
 		"prettier-plugin-svelte": "^3.0.0",
 		"svelte": "^4.2.7",
