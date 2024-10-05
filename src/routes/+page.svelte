@@ -84,8 +84,8 @@
 		<Card>
 			<H2 style="font-size: 1.25rem;">Recently Joined {JOINED}</H2>
 			{#each data.users as user}
-				<a href="/poler/{user.username}">
-					<A href="/poler/{user.name}">{user.username}</A> joined
+				<a href="/@{user.stagehandle}">
+					@<A href="/@{user.stagehandle}">{user.stagehandle}</A> joined
 					<time datetime={user.createdAt.toString()}>{fromNow(user.createdAt)}</time></a
 				>
 			{/each}
