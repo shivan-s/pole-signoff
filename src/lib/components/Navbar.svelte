@@ -4,6 +4,7 @@
 	import { navigating, page } from '$app/stores';
 	import type { SelectUser } from '$lib/server/db/schema';
 	import { ROCK, POLE } from '$lib/characters';
+	import Modal from './Modal.svelte';
 
 	export let user: Pick<SelectUser, 'stagehandle' | 'isAdmin'>;
 </script>
@@ -18,17 +19,24 @@
 			<a class:current={$page.url.pathname.startsWith('/admin')} href="/admin">Admin</a>
 		{/if}
 	</span>
-	<span>
+	<span class="handle">
 		{#if user}
-			<form class="logout" method="POST" action="/?logout">
-				<button>Logout</button>
-			</form>
-			<a class:current={$page.url.pathname.startsWith('/settings')} href="/settings"
-				>{user.stagehandle}</a
-			>
+			<button popovertarget="user" popovertargetaction="show">@{user.stagehandle}</button>
 		{/if}
 	</span>
 </nav>
+<Modal id="user">
+	<span slot="header">@{user.stagehandle}</span>
+	<span slot="body">
+		<ul>
+			<li>
+				<form class="logout" method="POST" action="?/logout">
+					<button>Logout</button>
+				</form>
+			</li>
+		</ul>
+	</span>
+</Modal>
 
 <style>
 	nav {
@@ -44,40 +52,27 @@
 		display: flex;
 	}
 
-	nav > span > a,
-	nav > span > form {
-		display: flex;
-		align-items: center;
-		padding: 0 2rem 0 2rem;
-	}
-
 	a,
 	button {
+		display: flex;
+		align-items: center;
+		border: 0;
+		background: transparent;
 		font-weight: 400;
+		padding: 0rem 2rem;
 		color: var(--primary);
 		text-decoration: none;
 		text-align: center;
 	}
 
 	a:hover,
-	.current,
-	form:hover {
+	a.current,
+	button:hover {
 		background: var(--primary);
 		color: var(--bg);
 	}
 
-	form.logout:hover {
-		background: var(--danger);
-		color: var(--bg);
-	}
-	form.logout > button {
-		width: 100%;
-		height: 100%;
-		background: none;
-		border: none;
-		color: inherit;
-	}
-
+	button:active,
 	a:active {
 		text-decoration: underline;
 	}

@@ -3,12 +3,11 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	console.log('data', data);
 </script>
 
 <div class="wrapper">
-	<span class="header">Username</span>
-	<span class="data">{data.user.username}</span>
+	<span class="header">Stage Handle</span>
+	<span class="data">{data.user.stagehandle}</span>
 	<span class="header">Name</span>
 	{#if data.user.name}
 		<span class="data">{data.user.name}</span>

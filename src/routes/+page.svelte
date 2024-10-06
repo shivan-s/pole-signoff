@@ -6,23 +6,30 @@
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
 	import { superForm } from 'sveltekit-superforms';
-	import { addToast, loading } from '$lib/stores';
+	import { addToast } from '$lib/stores';
 	import Alert from '$lib/components/Alert.svelte';
 	import A from '$lib/components/A.svelte';
 	import { fromNow } from '$lib/utils';
 	import { PROGRESS, JOINED, CHECKED } from '$lib/characters';
 	import H2 from '$lib/components/H2.svelte';
+	import UL from '$lib/components/UL.svelte';
 	import Spinner from '$lib/components/Spinner.svelte';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 	const { form, capture, restore, constraints, enhance, allErrors, delayed } = superForm(
 		data.form,
 		{
-			onUpdate: ({ result }) => {
-				if (result.type === 'success')
-					addToast({ message: 'Login successful', directive: 'success' }), loading.set(false);
+			onResult: ({ result }) => {
+				if (result.type === 'redirect') {
+					goto(result.location);
+				}
 			},
-			applyAction: false
+			onUpdated: ({ form }) => {
+				if (form.valid) {
+					addToast({ message: 'Login successful', directive: 'success' });
+				}
+			}
 		}
 	);
 
@@ -41,14 +48,14 @@
 			<form method="POST" action="?/login" use:enhance>
 				<div class="flex-col">
 					<FormSet>
-						<Label for="username"><span>Username</span></Label>
+						<Label for="stagehandle"><span>Stage Handle</span></Label>
 						<Input
-							id="username"
-							name="username"
+							id="stagehandle"
+							name="stagehandle"
 							type="text"
-							placeholder="Username (required)"
-							bind:value={$form.username}
-							{...$constraints.username}
+							placeholder="Stage Handle (required)"
+							bind:value={$form.stagehandle}
+							{...$constraints.stagehandle}
 						/>
 						<Label for="name"><span>Password</span></Label>
 						<Input
@@ -61,7 +68,7 @@
 						/>
 						<span />
 						<Button type="submit"
-							>{#if delayed}<Spinner />{:else}Log in{/if}</Button
+							>{#if $delayed}<Spinner />{:else}Log in{/if}</Button
 						>
 						<span />
 						<A href="/signup">No account? Sign up here</A>
@@ -71,13 +78,13 @@
 			{#if $allErrors.length > 0}
 				<Alert directive="danger"
 					><span slot="header">Error</span>
-					<ul>
+					<UL>
 						{#each $allErrors as e}
 							<li>
 								{e.messages.join('. ')}
 							</li>
 						{/each}
-					</ul>
+					</UL>
 				</Alert>
 			{/if}
 		</Card>

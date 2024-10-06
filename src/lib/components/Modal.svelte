@@ -13,13 +13,18 @@
 				><CloseIcon /></button
 			></span
 		>
-		<span>Body</span>
+		<span><slot /></span>
 	</Card>
 </dialog>
 
 <style>
 	dialog {
+		position: fixed;
 		background: transparent;
+		width: fit-content;
+		height: fit-content;
+		margin: auto;
+		overflow: auto;
 	}
 	dialog::backdrop {
 		backdrop-filter: blur(10px);

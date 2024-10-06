@@ -1,12 +1,12 @@
 import type { PageServerLoad, Actions } from './$types';
-import { fetchManyUsers } from '$lib/server/db/users';
+import { fetchManyUsers, updateUserLastLoginById } from '$lib/server/db/users';
 import { WAVE } from '$lib/characters';
 import { fail, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { z } from 'zod';
 import { redirect } from '@sveltejs/kit';
 import { issueJWT, checkPassword } from '$lib/server/crypto';
 import { fetchUserWithPasswordByStageHandle } from '$lib/server/db/users';
+import { LoginSchema } from '$lib/utils';
 
 export const load: PageServerLoad = async ({ url }) => {
 	const users = await fetchManyUsers();
@@ -20,13 +20,6 @@ export const load: PageServerLoad = async ({ url }) => {
 	};
 };
 
-const LoginSchema = z
-	.object({
-		username: z.string().trim().min(6).max(32),
-		password: z.string().trim().min(8).max(128)
-	})
-	.strip();
-
 export const actions: Actions = {
 	login: async ({ request, locals, cookies }) => {
 		console.time('login');
@@ -35,28 +28,31 @@ export const actions: Actions = {
 			return fail(400, { form });
 		}
 		// NOTE: Ensure no time-based attacks, hence set errors at end
-		const user = await fetchUserWithPasswordByStageHandle(form.data.username);
+		const user = await fetchUserWithPasswordByStageHandle(form.data.stagehandle);
 		const validLogin = await checkPassword(form.data.password, user);
 		if (!validLogin || !user) {
 			if (!user) {
-				console.timeLog('login', 'Username is invalid');
+				console.timeLog('login', 'StageHandle is invalid');
+				console.timeEnd('login');
 			}
 			if (!validLogin) {
 				console.timeLog('login', 'Password is invalid');
+				console.timeEnd('login');
 			}
 			return setError(form, '', 'Incorrect username or password');
 		}
-		console.timeLog('login', 'Login Success for: ', user.users.username);
+		console.timeLog('login', 'Login Success for: ', user.users.stagehandle);
 		const jwt = await issueJWT(user.users);
 		cookies.set('auth-token', jwt, { httpOnly: true, path: '/' });
+		updateUserLastLoginById(user.users.id);
 		locals.user = user.users;
 		console.timeEnd('login');
-		return redirect(303, '/me');
+		redirect(303, '/');
 	},
 	logout: async ({ locals, cookies }) => {
 		if (locals.user) {
 			cookies.delete('auth-token', { httpOnly: true, path: '/' });
-			return redirect(303, '/login');
+			return redirect(303, '/');
 		}
 	}
 };

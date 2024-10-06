@@ -1,26 +1,10 @@
 import { superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
-import { z } from 'zod';
 import { redirect } from '@sveltejs/kit';
 import { hashPassword } from '$lib/server/crypto';
 import { createUser } from '$lib/server/db/users';
-
-const SignupSchema = z
-	.object({
-		stagehandle: z
-			.string()
-			.trim()
-			.min(6)
-			.max(16)
-			.toLowerCase()
-			.refine(
-				(data) => /^[a-z\._0-9]*$/.test(data),
-				"Stage handle can only contain lower case letters (a-z), '.' and/or '_'"
-			),
-		password: z.string().trim().min(8).max(128)
-	})
-	.strip();
+import { SignupSchema } from '$lib/utils';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {

@@ -29,7 +29,7 @@
 		font-size: 2rem;
 		color: var(--bg);
 		background-color: var(--primary);
-		padding: 1rem 1.5rem;
+		padding: 0.5rem 1rem;
 	}
 	div {
 		width: 100%;

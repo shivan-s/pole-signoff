@@ -1,4 +1,4 @@
-import { and, desc, eq, isNull, like } from 'drizzle-orm';
+import { and, desc, eq, isNull, like, sql } from 'drizzle-orm';
 import { passwordsTable, usersTable, type SelectPassword, type SelectUser } from './schema';
 import { PAGE_LIMIT } from '$lib/constants';
 import type { Hash } from '$lib/server/crypto';
@@ -115,4 +115,16 @@ export async function createUser(user: { stageHandle: string; hash: Hash }): Pro
 		},
 		{ behavior: 'deferred' }
 	);
+}
+
+/**
+ * Update user last login
+ *
+ * @param id User id
+ */
+export async function updateUserLastLoginById(id: number): Promise<void> {
+	await db
+		.update(usersTable)
+		.set({ lastLogin: sql`CURRENT_TIMESTAMP` })
+		.where(eq(usersTable.id, id));
 }

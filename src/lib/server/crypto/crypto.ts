@@ -38,11 +38,11 @@ export async function hashPassword(password: string): Promise<Hash> {
  * @param payload Typically user details
  * @returns Signed JWT
  */
-export async function issueJWT(user: Pick<SelectUser, 'id' | 'username'>): Promise<string> {
+export async function issueJWT(user: Pick<SelectUser, 'id' | 'stagehandle'>): Promise<string> {
 	const secret = new TextEncoder().encode(SECRET);
 	const alg = 'HS256';
 	const JWT_EXPIRE_TIME = '1 week';
-	const jwt = await new jose.SignJWT({ user: { id: user.id, username: user.username } })
+	const jwt = await new jose.SignJWT({ user: { id: user.id, username: user.stagehandle } })
 		.setProtectedHeader({ alg })
 		.setIssuedAt()
 		.setExpirationTime(JWT_EXPIRE_TIME)
@@ -52,7 +52,7 @@ export async function issueJWT(user: Pick<SelectUser, 'id' | 'username'>): Promi
 
 export async function decodeJWT(
 	jwt: string
-): Promise<({ user?: Pick<SelectUser, 'id' | 'username'> } & jose.JWTPayload) | null> {
+): Promise<({ user?: Pick<SelectUser, 'id' | 'stagehandle'> } & jose.JWTPayload) | null> {
 	const secret = new TextEncoder().encode(SECRET);
 	try {
 		const { payload } = (await jose.jwtVerify(jwt, secret)) as {

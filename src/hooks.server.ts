@@ -1,13 +1,14 @@
+import { dev } from '$app/environment';
 import { decodeJWT } from '$lib/server/crypto';
 import { fetchUserById } from '$lib/server/db/users';
 import { redirect, type Handle } from '@sveltejs/kit';
 
-const WHITELISTED_PATHS: readonly string[] = ['/', '/login', '/signup', '/healthz'];
-
 export const handle: Handle = async ({ event, resolve }) => {
 	// Debugging
-	const requestPath = event.url.pathname;
-	console.log('Path:', requestPath);
+	if (dev) {
+		const requestPath = event.url.pathname;
+		console.log('Path:', requestPath);
+	}
 	// Verify User
 	const authToken = event.cookies.get('auth-token');
 	if (authToken) {
