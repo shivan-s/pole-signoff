@@ -16,6 +16,7 @@
 	class:danger={directive === 'danger'}
 	class:success={directive === 'success'}
 	class:warning={directive === 'warning'}
+	class:secondary={directive === 'secondary'}
 	class:primary={directive === 'primary'}
 	{...$$restProps}><slot /></button
 >
@@ -33,6 +34,14 @@
 	}
 
 	button:not(:disabled):hover {
+		box-shadow: var(--primary) 0.5rem 0.5rem;
+	}
+
+	button.secondary {
+		color: var(--bg);
+		border-color: var(--primary);
+	}
+	button.secondary:not(:disabled):hover {
 		box-shadow: var(--primary) 0.5rem 0.5rem;
 	}
 
@@ -65,7 +74,7 @@
 		text-decoration: underline;
 	}
 
-	:global(form[inert] > button),
+	:global(form[inert] button),
 	button:disabled {
 		opacity: 0.3;
 		cursor: not-allowed;

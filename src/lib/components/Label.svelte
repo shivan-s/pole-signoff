@@ -6,8 +6,8 @@
 	label {
 		display: grid;
 		color: var(--grey);
+		align-items: center;
 		grid-template-rows: 1fr;
-		grid-template-rows: auto;
 		gap: 0.5rem;
 	}
 </style>

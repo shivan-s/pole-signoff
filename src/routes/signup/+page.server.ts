@@ -1,17 +1,10 @@
 import { superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
-import { z } from 'zod';
 import { redirect } from '@sveltejs/kit';
 import { hashPassword } from '$lib/server/crypto';
 import { createUser } from '$lib/server/db/users';
-
-const SignupSchema = z
-	.object({
-		username: z.string().trim().min(6).max(32),
-		password: z.string().trim().min(8).max(128)
-	})
-	.strip();
+import { SignupSchema } from '$lib/utils';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -35,7 +28,7 @@ export const actions: Actions = {
 		}
 		const hash = await hashPassword(form.data.password);
 		try {
-			await createUser({ username: form.data.username, hash });
+			await createUser({ stageHandle: form.data.stagehandle, hash });
 		} catch (err) {
 			console.log(err);
 			// if (err instanceof postgres.PostgresError && err.code === DBErrorUniqueViolationCode) {

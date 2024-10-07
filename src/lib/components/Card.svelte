@@ -4,7 +4,9 @@
 </script>
 
 <article in:fade={{ easing: cubicInOut }} {...$$restProps}>
-	<header><slot name="header"><span>Missing Header</span></slot></header>
+	{#if $$slots['header']}
+		<header><slot name="header"></slot></header>
+	{/if}
 	<div><slot /></div>
 </article>
 
@@ -21,13 +23,12 @@
 	header {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
 		font-weight: 700;
 		text-align: center;
-		font-size: 2rem;
+		font-size: 1.5rem;
 		color: var(--bg);
 		background-color: var(--primary);
-		padding: 2rem 3rem 2rem 3rem;
+		padding: 0.5rem 1rem;
 	}
 	div {
 		width: 100%;
@@ -36,6 +37,6 @@
 		justify-content: center;
 		flex-direction: column;
 		gap: 1rem;
-		padding: 2rem 3rem 2rem 3rem;
+		padding: 1rem 1.5rem;
 	}
 </style>

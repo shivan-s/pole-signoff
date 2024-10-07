@@ -12,9 +12,15 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:e2e": "playwright test",
+		"test:e2e:ui": "playwright test --ui",
+		"test:e2e:codegen": "playwright codegen pole.rocks",
 		"test:unit": "vitest",
 		"makemigrations": "npx drizzle-kit generate",
-		"migrate": "npx drizzle-kit push"
+		"migrate": "npx drizzle-kit push",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"**/*": "prettier --write --ignore-unknown"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
@@ -31,7 +37,10 @@
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-svelte": "^2.30.0",
+		"git-format-staged": "^3.1.1",
+		"husky": "^9.1.6",
 		"jose": "^5.9.2",
+		"lint-staged": "^15.2.10",
 		"prettier": "^3.0.0",
 		"prettier-plugin-svelte": "^3.0.0",
 		"svelte": "^4.2.7",

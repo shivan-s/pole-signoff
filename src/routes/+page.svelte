@@ -1,56 +1,118 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
-	import A from '$lib/components/A.svelte';
 	import type { PageData } from './$types';
-	import { fromNow } from '$lib/utils/time';
+	import Card from '$lib/components/Card.svelte';
+	import FormSet from '$lib/components/FormSet.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
-	import SearchIcon from '$lib/components/icons/SearchIcon.svelte';
+	import { superForm } from 'sveltekit-superforms';
+	import { addToast } from '$lib/stores';
+	import Alert from '$lib/components/Alert.svelte';
+	import A from '$lib/components/A.svelte';
+	import { fromNow } from '$lib/utils';
+	import { PROGRESS, JOINED, CHECKED } from '$lib/characters';
+	import H2 from '$lib/components/H2.svelte';
+	import UL from '$lib/components/UL.svelte';
+	import Spinner from '$lib/components/Spinner.svelte';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
+	const { form, capture, restore, constraints, enhance, allErrors, delayed } = superForm(
+		data.form,
+		{
+			onResult: ({ result }) => {
+				if (result.type === 'redirect') {
+					goto(result.location);
+				}
+			},
+			onUpdated: ({ form }) => {
+				if (form.valid) {
+					addToast({ message: 'Login successful', directive: 'success' });
+				}
+			}
+		}
+	);
+
+	export const snapshot = {
+		capture,
+		restore
+	};
 </script>
 
-<form data-sveltekit-noscroll data-sveltekit-keepfocus id="search-params" METHOD="GET">
-	<input type="hidden" value={data.cursor} name="cursor" />
-</form>
-<div class="flex-col" style="width: unset">
-	<Label for="q">Search</Label>
-	<div class="flex-row" style="gap: 0">
-		<Input
-			id="q"
-			form="search-params"
-			name="q"
-			value={data.q}
-			placeholder="Polers By Username"
-		/><Button title="Search" form="search-params" type="submit"><SearchIcon width="1rem" /></Button>
+<H2>Sign off your <strong>pole</strong> progress {PROGRESS}!</H2>
+{#if !data.user}
+	<div class="grid">
+		<Card style="height: fit-content;">
+			<H2 style="font-size: 1.25rem;">Login {CHECKED}</H2>
+			<form method="POST" action="?/login" use:enhance>
+				<div class="flex-col">
+					<FormSet>
+						<Label for="stagehandle"><span>Stage Handle</span></Label>
+						<Input
+							id="stagehandle"
+							name="stagehandle"
+							type="text"
+							placeholder="Stage Handle (required)"
+							bind:value={$form.stagehandle}
+							{...$constraints.stagehandle}
+						/>
+						<Label for="name"><span>Password</span></Label>
+						<Input
+							id="password"
+							name="password"
+							type="password"
+							placeholder="Password (required)"
+							bind:value={$form.password}
+							{...$constraints.password}
+						/>
+						<span />
+						<Button type="submit"
+							>{#if $delayed}<Spinner />{:else}Log in{/if}</Button
+						>
+						<span />
+						<A href="/signup">No account? Sign up here</A>
+					</FormSet>
+				</div>
+			</form>
+			{#if $allErrors.length > 0}
+				<Alert directive="danger"
+					><span slot="header">Error</span>
+					<UL>
+						{#each $allErrors as e}
+							<li>
+								{e.messages.join('. ')}
+							</li>
+						{/each}
+					</UL>
+				</Alert>
+			{/if}
+		</Card>
+		<Card>
+			<H2 style="font-size: 1.25rem;">Recently Joined {JOINED}</H2>
+			{#each data.users as user}
+				<a href="/@{user.stagehandle}">
+					@<A href="/@{user.stagehandle}">{user.stagehandle}</A> joined
+					<time datetime={user.createdAt.toString()}>{fromNow(user.createdAt)}</time></a
+				>
+			{/each}
+		</Card>
 	</div>
-	{#if data.q}
-		<A style="align-self: center; margin: 0.5rem" title="Clear Search" href=".">Clear Search</A>
-	{:else}
-		<span style="margin: 0.5rem">&nbsp;</span>
-	{/if}
-</div>
-<p style="color: var(--gray)">Recently joined:</p>
-{#each data.users as user}
-	<a href="/poler/{user.username}">
-		<A href="/poler/{user.name}">{user.username}</A> joined
-		<time datetime={user.createdAt.toString()}>{fromNow(user.createdAt)}</time></a
-	>
-{/each}
-<A href="/signup">Want to join?</A>
-<div class="flex-row" style="justify-content: space-between">
-	<Button
-		title="Back"
-		form="search-params"
-		name="cursor"
-		value={data.cursor - 1}
-		disabled={data.cursor < 1}>◄ Back</Button
-	>
-	<Button
-		title="Next"
-		form="search-params"
-		name="cursor"
-		value={data.cursor + 1}
-		disabled={!data.isNextPage}>Next ►</Button
-	>
-</div>
+{:else}
+	Logged in
+{/if}
+
+<style>
+	div.grid {
+		display: grid;
+		width: 100%;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: auto;
+		gap: 1rem;
+	}
+
+	@media only screen and (max-width: 600px) {
+		div.grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
