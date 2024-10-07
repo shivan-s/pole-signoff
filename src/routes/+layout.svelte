@@ -12,7 +12,7 @@
 </script>
 
 {#if pageTitle}
-	<title>{pageTitle} - Pole Signoff</title>
+	<title>{pageTitle} | Pole Signoff</title>
 {:else}
 	<title>Pole Signoff</title>
 {/if}

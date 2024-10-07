@@ -12,6 +12,8 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:e2e": "playwright test",
+		"test:e2e:ui": "playwright test --ui",
+		"test:e2e:codegen": "playwright codegen pole.rocks",
 		"test:unit": "vitest",
 		"makemigrations": "npx drizzle-kit generate",
 		"migrate": "npx drizzle-kit push",
