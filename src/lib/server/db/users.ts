@@ -15,6 +15,7 @@ export async function fetchManyUsers(params?: {
 	offset?: number;
 	limit?: number;
 	includeDeleted?: boolean;
+	includePrivate?: boolean;
 }): Promise<SelectUser[]> {
 	const users = await db
 		.select()
@@ -24,6 +25,7 @@ export async function fetchManyUsers(params?: {
 		.where(
 			and(
 				params?.includeDeleted ? undefined : isNull(usersTable.deletedAt),
+				params?.includePrivate ? undefined : eq(usersTable.isPrivate, false),
 				like(usersTable.stagehandle, '%' + (params?.stageHandle ?? '') + '%')
 			)
 		)

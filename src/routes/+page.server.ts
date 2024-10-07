@@ -9,7 +9,21 @@ import { fetchUserWithPasswordByStageHandle } from '$lib/server/db/users';
 import { LoginSchema } from '$lib/utils';
 
 export const load: PageServerLoad = async ({ url }) => {
-	const users = await fetchManyUsers();
+	const rawUsers = await fetchManyUsers({ includePrivate: true, limit: 10 });
+	const users = rawUsers.map((u) => {
+		if (u.isPrivate) {
+			return {
+				isPrivate: true,
+				stagehandle: '???',
+				createdAt: u.createdAt
+			};
+		}
+		return {
+			isPrivate: false,
+			stagehandle: u.stagehandle,
+			createdAt: u.createdAt
+		};
+	});
 	const form = await superValidate(zod(LoginSchema));
 	const isSignup = url.searchParams.get('signup') === '1';
 	return {
