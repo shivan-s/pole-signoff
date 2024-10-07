@@ -7,6 +7,7 @@ import { redirect } from '@sveltejs/kit';
 import { issueJWT, checkPassword } from '$lib/server/crypto';
 import { fetchUserWithPasswordByStageHandle } from '$lib/server/db/users';
 import { LoginSchema } from '$lib/utils';
+import { generateFakeStagehandle } from '$lib/utils/faker';
 
 export const load: PageServerLoad = async ({ url }) => {
 	const rawUsers = await fetchManyUsers({ includePrivate: true, limit: 10 });
@@ -14,7 +15,7 @@ export const load: PageServerLoad = async ({ url }) => {
 		if (u.isPrivate) {
 			return {
 				isPrivate: true,
-				stagehandle: '???',
+				stagehandle: `?${generateFakeStagehandle(u.id)}?`,
 				createdAt: u.createdAt
 			};
 		}
