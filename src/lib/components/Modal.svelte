@@ -8,7 +8,7 @@
 
 <dialog transition:fade={{ easing: cubicInOut }} popover="auto" {id} {...$$restProps}>
 	<Card>
-		<span slot="header"
+		<span class="header" slot="header"
 			><slot name="header" /><button popovertarget={id} popovertargetaction="hide"
 				><CloseIcon /></button
 			></span
@@ -18,10 +18,16 @@
 </dialog>
 
 <style>
+	span.header {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
 	dialog {
 		position: fixed;
 		background: transparent;
-		width: fit-content;
+		width: 400px;
 		height: fit-content;
 		margin: auto;
 		overflow: auto;
@@ -30,8 +36,17 @@
 		backdrop-filter: blur(10px);
 	}
 	button {
+		display: flex;
+		align-items: center;
 		color: inherit;
-		border: none;
+		border: 1px var(--primary) solid;
 		background: transparent;
+	}
+	button:hover {
+		border: 1px var(--bg) solid;
+		box-shadow: var(--bg) 0.5rem 0.5rem;
+	}
+	button:active {
+		box-shadow: none;
 	}
 </style>

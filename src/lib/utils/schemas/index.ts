@@ -7,6 +7,7 @@ const StageHandle = z
 	.max(16)
 	.toLowerCase()
 	.refine(
+		// eslint-disable-next-line no-useless-escape
 		(data) => /^[a-z\._0-9]*$/.test(data),
 		"Stage handle can only contain lower case letters (a-z), '.' and/or '_'"
 	);

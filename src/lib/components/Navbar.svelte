@@ -4,9 +4,9 @@
 	import { navigating, page } from '$app/stores';
 	import type { SelectUser } from '$lib/server/db/schema';
 	import { ROCK, POLE } from '$lib/characters';
-	import Modal from './Modal.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
-	export let user: Pick<SelectUser, 'stagehandle' | 'isAdmin'>;
+	export let user: Pick<SelectUser, 'stagehandle' | 'isAdmin'> | null = null;
 </script>
 
 {#if $loading || $navigating}
@@ -26,16 +26,17 @@
 	</span>
 </nav>
 <Modal id="user">
-	<span slot="header">@{user.stagehandle}</span>
-	<span slot="body">
-		<ul>
-			<li>
-				<form class="logout" method="POST" action="?/logout">
-					<button>Logout</button>
-				</form>
-			</li>
-		</ul>
-	</span>
+	<span slot="header">@{user?.stagehandle}</span>
+	<ul>
+		<li>
+			<a href="/settings">Settings</a>
+		</li>
+		<li>
+			<form method="POST" action="?/logout">
+				<button class="logout">Logout</button>
+			</form>
+		</li>
+	</ul>
 </Modal>
 
 <style>
@@ -54,13 +55,15 @@
 
 	a,
 	button {
+		cursor: pointer;
+		width: 100%;
 		display: flex;
 		align-items: center;
 		border: 0;
 		background: transparent;
-		font-weight: 400;
 		padding: 0rem 2rem;
 		color: var(--primary);
+		font-size: var(--text-normal);
 		text-decoration: none;
 		text-align: center;
 	}
@@ -75,5 +78,37 @@
 	button:active,
 	a:active {
 		text-decoration: underline;
+	}
+
+	ul {
+		display: flex;
+		flex-direction: column;
+	}
+
+	ul li {
+		list-style-type: none;
+	}
+
+	ul li:not(:first-child) {
+		border-top: 1px var(--primary) dotted;
+	}
+
+	ul li:not(:first-child):hover {
+		border-top-style: solid;
+	}
+
+	ul li a,
+	ul li button {
+		display: flex;
+		align-items: center;
+		padding: 1rem 1rem;
+	}
+	button.logout {
+		color: var(--danger);
+	}
+
+	button.logout:hover {
+		color: var(--bg);
+		background-color: var(--danger);
 	}
 </style>

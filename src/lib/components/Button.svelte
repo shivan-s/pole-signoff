@@ -16,7 +16,7 @@
 	class:danger={directive === 'danger'}
 	class:success={directive === 'success'}
 	class:warning={directive === 'warning'}
-	class:secondary={directive === 'secodary'}
+	class:secondary={directive === 'secondary'}
 	class:primary={directive === 'primary'}
 	{...$$restProps}><slot /></button
 >
@@ -74,7 +74,7 @@
 		text-decoration: underline;
 	}
 
-	:global(form[inert] > button),
+	:global(form[inert] button),
 	button:disabled {
 		opacity: 0.3;
 		cursor: not-allowed;

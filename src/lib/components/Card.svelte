@@ -23,10 +23,9 @@
 	header {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
 		font-weight: 700;
 		text-align: center;
-		font-size: 2rem;
+		font-size: 1.5rem;
 		color: var(--bg);
 		background-color: var(--primary);
 		padding: 0.5rem 1rem;
@@ -39,12 +38,5 @@
 		flex-direction: column;
 		gap: 1rem;
 		padding: 1rem 1.5rem;
-	}
-
-	@media only screen and (min-width: 600px) {
-		header,
-		div {
-			padding: 2rem 3rem;
-		}
 	}
 </style>

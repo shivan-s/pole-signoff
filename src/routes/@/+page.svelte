@@ -37,7 +37,7 @@
 		<span style="margin: 0.5rem">&nbsp;</span>
 	{/if}
 </div>
-{#if data.q && data.q !== '' && data.users > 0}
+{#if data.q && data.q !== '' && data.users.length > 0}
 	<div class="flex-row" style="justify-content: space-between; align-items: center">
 		<Button
 			title="Back"
@@ -55,11 +55,11 @@
 		>
 	</div>
 	{#each data.users as user}
-		<a href="/poler/{user.username}">
-			<A href="/poler/{user.name}">{user.stagename}</A> joined
+		<a href="/@{user.stagehandle}">
+			<A href="/@{user.stagehandle}">{user.stagehandle}</A> joined
 			<time datetime={user.createdAt.toString()}>{fromNow(user.createdAt)}</time></a
 		>
 	{/each}
-{:else if data.users === 0}
+{:else if data.users.length === 0}
 	<p>No one found!</p>
 {/if}

@@ -40,7 +40,6 @@
 </script>
 
 <H2>Sign off your <strong>pole</strong> progress {PROGRESS}!</H2>
-<hr />
 {#if !data.user}
 	<div class="grid">
 		<Card style="height: fit-content;">
