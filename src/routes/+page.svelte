@@ -89,12 +89,23 @@
 		</Card>
 		<Card>
 			<H2 style="font-size: 1.25rem;">Recently Joined {JOINED}</H2>
-			{#each data.users as user}
-				<a href="/@{user.stagehandle}">
-					@<A href="/@{user.stagehandle}">{user.stagehandle}</A> joined
-					<time datetime={user.createdAt.toString()}>{fromNow(user.createdAt)}</time></a
-				>
-			{/each}
+			{#if data.users.length > 0}
+				{#each data.users as user}
+					{#if !user.isPrivate}
+						<a title="@{user.stagehandle}" href="/@{user.stagehandle}">
+							@<A href="/@{user.stagehandle}">{user.stagehandle}</A> joined
+							<time datetime={user.createdAt.toString()}>{fromNow(user.createdAt)}</time></a
+						>
+					{:else}
+						<span title="@{user.stagehandle} is Private"
+							>@{user.stagehandle} joined
+							<time datetime={user.createdAt.toString()}>{fromNow(user.createdAt)}</time>
+						</span>
+					{/if}
+				{/each}
+			{:else}
+				<em>Please be the <A href="/signup">first?</A></em>
+			{/if}
 		</Card>
 	</div>
 {:else}

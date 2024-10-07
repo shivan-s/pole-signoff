@@ -23,6 +23,7 @@
 		"**/*": "prettier --write --ignore-unknown"
 	},
 	"devDependencies": {
+		"@faker-js/faker": "^9.0.3",
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-cloudflare": "^4.7.2",
 		"@sveltejs/kit": "^2.0.0",

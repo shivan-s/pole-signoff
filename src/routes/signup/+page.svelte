@@ -11,6 +11,7 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { CHECKED } from '$lib/characters';
 	import H2 from '$lib/components/H2.svelte';
+	import { generateFakeStagehandle } from '$lib/utils/faker';
 
 	export let data: PageData;
 	const { form, allErrors, capture, restore, constraints, delayed, enhance } = superForm(
@@ -41,7 +42,7 @@
 							id="stagehandle"
 							name="stagehandle"
 							type="text"
-							placeholder="Name generator coming soon..."
+							placeholder={generateFakeStagehandle()}
 							bind:value={$form.stagehandle}
 							{...$constraints.stagehandle}
 						/>
