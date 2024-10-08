@@ -15,8 +15,8 @@
 		"test:e2e:ui": "playwright test --ui",
 		"test:e2e:codegen": "playwright codegen pole.rocks",
 		"test:unit": "vitest",
-		"makemigrations": "npx drizzle-kit generate",
-		"migrate": "npx drizzle-kit push",
+		"makemigrations": "npx drizzle-kit generate --config=drizzle-dev.config.ts",
+		"migrate": "npx drizzle-kit push --config=drizzle-dev.config.ts",
 		"prepare": "husky"
 	},
 	"lint-staged": {
