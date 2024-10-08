@@ -1,14 +1,15 @@
-import { superValidate, fail } from 'sveltekit-superforms';
+import { superValidate, fail, setError } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { hashPassword } from '$lib/server/crypto';
 import { createUser } from '$lib/server/db/users';
 import { SignupSchema } from '$lib/utils';
+import { LibsqlError } from '@libsql/client';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
-		redirect(303, '/login');
+		redirect(303, '/');
 	}
 	const form = await superValidate(zod(SignupSchema));
 	return {
@@ -30,15 +31,14 @@ export const actions: Actions = {
 		try {
 			await createUser({ stageHandle: form.data.stagehandle, hash });
 		} catch (err) {
-			console.log(err);
-			// if (err instanceof postgres.PostgresError && err.code === DBErrorUniqueViolationCode) {
-			// 	ctx.addIssue({
-			// 		code: z.ZodIssueCode.custom,
-			// 		path: ['username'],
-			// 		message: `'${data.username}' already exists. Please choose another username`
-			// 	});
-			// 	return data;
-			// }
+			const DB_ERROR = 'SQLite error: UNIQUE constraint failed: users.stagehandle';
+			if (err instanceof LibsqlError && err.message.includes(DB_ERROR)) {
+				setError(
+					form,
+					`@${form.data.stagehandle} already exists. Please choose another stage handle`
+				);
+				return fail(400, { form });
+			}
 			throw err;
 		}
 		redirect(303, '/');
