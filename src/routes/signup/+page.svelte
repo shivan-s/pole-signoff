@@ -12,8 +12,10 @@
 	import { CHECKED } from '$lib/characters';
 	import H2 from '$lib/components/H2.svelte';
 	import { generateFakeStagehandle } from '$lib/utils/faker';
+	import UL from '$lib/components/UL.svelte';
 
 	export let data: PageData;
+
 	const { form, allErrors, capture, restore, constraints, delayed, enhance } = superForm(
 		data.form,
 		{
@@ -30,7 +32,7 @@
 	<p>Got any Questions? <A href="#faq">Make sure to check this out</A></p>
 	<Card>
 		<H2 style="font-size: 1.25rem;">Signup {CHECKED}</H2>
-		<form method="POST" action="?/login" use:enhance>
+		<form method="POST" action="?/signup" use:enhance>
 			<div class="flex-col">
 				<FormSet>
 					<Label for="stagehandle"><abbr title="This is like a username">Stage Handle</abbr></Label>
@@ -59,7 +61,7 @@
 					/>
 					<span />
 					<Button type="submit"
-						>{#if delayed}<Spinner />{:else}Sign up{/if}</Button
+						>{#if $delayed}<Spinner />{:else}Sign up{/if}</Button
 					>
 					<span />
 					<A href="/">Already have an account? Log in here</A>
@@ -69,13 +71,13 @@
 		{#if $allErrors.length > 0}
 			<Alert directive="danger"
 				><span slot="header">Error</span>
-				<ul>
+				<UL>
 					{#each $allErrors as e}
 						<li>
 							{e.messages.join('. ')}
 						</li>
 					{/each}
-				</ul>
+				</UL>
 			</Alert>
 		{/if}
 	</Card>
