@@ -16,7 +16,11 @@
 	import Spinner from '$lib/components/Spinner.svelte';
 	import { goto } from '$app/navigation';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 	const { form, capture, restore, constraints, enhance, allErrors, delayed } = superForm(
 		data.form,
 		{
@@ -65,18 +69,20 @@
 							bind:value={$form.password}
 							{...$constraints.password}
 						/>
-						<span />
+						<span></span>
 						<Button type="submit"
 							>{#if $delayed}<Spinner />{:else}Log in{/if}</Button
 						>
-						<span />
+						<span></span>
 						<A href="/signup">No account? Sign up here</A>
 					</FormSet>
 				</div>
 			</form>
 			{#if $allErrors.length > 0}
 				<Alert directive="danger"
-					><span slot="header">Error</span>
+					>{#snippet header()}
+						<span>Error</span>
+					{/snippet}
 					<UL>
 						{#each $allErrors as e}
 							<li>

@@ -7,8 +7,13 @@
 	import H1 from '$lib/components/H1.svelte';
 	import Toasts from '$lib/components/Toasts.svelte';
 
-	export let data: LayoutData;
-	$: pageTitle = $page.data['pageTitle'];
+	interface Props {
+		data: LayoutData;
+		children?: import('svelte').Snippet;
+	}
+
+	let { data, children }: Props = $props();
+	let pageTitle = $derived($page.data['pageTitle']);
 </script>
 
 {#if pageTitle}
@@ -23,7 +28,7 @@
 			{#if pageTitle}
 				<header><H1 style="text-align: center">{pageTitle}</H1></header>
 			{/if}
-			<slot />
+			{@render children?.()}
 		</Container>
 	{/key}
 	<footer><Footer /></footer>

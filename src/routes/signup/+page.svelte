@@ -14,7 +14,11 @@
 	import { generateFakeStagehandle } from '$lib/utils/faker';
 	import UL from '$lib/components/UL.svelte';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 
 	const { form, allErrors, capture, restore, constraints, delayed, enhance } = superForm(
 		data.form,
@@ -37,7 +41,7 @@
 				<FormSet>
 					<Label for="stagehandle"><abbr title="This is like a username">Stage Handle</abbr></Label>
 					<span class="wrapper">
-						<span class="handle" title="Your stage handle" />
+						<span class="handle" title="Your stage handle"></span>
 						<Input
 							title="Can only be lower case letters, '.' and/or '_'; no spaces or numbers, with 16 maximum character length"
 							style="padding-left: 4ch"
@@ -59,18 +63,20 @@
 						bind:value={$form.password}
 						{...$constraints.password}
 					/>
-					<span />
+					<span></span>
 					<Button type="submit"
 						>{#if $delayed}<Spinner />{:else}Sign up{/if}</Button
 					>
-					<span />
+					<span></span>
 					<A href="/">Already have an account? Log in here</A>
 				</FormSet>
 			</div>
 		</form>
 		{#if $allErrors.length > 0}
 			<Alert directive="danger"
-				><span slot="header">Error</span>
+				>{#snippet header()}
+					<span>Error</span>
+				{/snippet}
 				<UL>
 					{#each $allErrors as e}
 						<li>
@@ -82,7 +88,9 @@
 		{/if}
 	</Card>
 	<Card id="faq">
-		<span slot="header">FAQs</span>
+		{#snippet header()}
+			<span>FAQs</span>
+		{/snippet}
 		<span>
 			<H2 id="what-is-this" style="font-size: 1.25rem">What is this?</H2>
 			<p>

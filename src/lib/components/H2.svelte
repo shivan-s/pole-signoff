@@ -1,4 +1,14 @@
-<h2 {...$$restProps}><slot /></h2>
+<script>
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props & { [key: string]: any }} */
+	let { children, ...rest } = $props();
+</script>
+
+<h2 {...rest}>{@render children?.()}</h2>
 
 <style>
 	h2 {

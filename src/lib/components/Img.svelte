@@ -2,11 +2,13 @@
 	import type { HTMLImgAttributes } from 'svelte/elements';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props extends HTMLImgAttributes {
+
+	interface Props {
 		alt: HTMLImgAttributes['alt'];
+		[key: string]: any;
 	}
 
-	export let alt: HTMLImgAttributes['alt'];
+	let { alt, ...rest }: Props = $props();
 </script>
 
-<img {...$$restProps} {alt} />
+<img {...rest} {alt} />

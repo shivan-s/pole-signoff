@@ -3,17 +3,26 @@
 	import { cubicInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
 	import Card from './Card.svelte';
-	export let id: string;
+	interface Props {
+		id: string;
+		header?: import('svelte').Snippet;
+		children?: import('svelte').Snippet;
+		[key: string]: any;
+	}
+
+	let { id, header, children, ...rest }: Props = $props();
 </script>
 
-<dialog transition:fade={{ easing: cubicInOut }} popover="auto" {id} {...$$restProps}>
+<dialog transition:fade={{ easing: cubicInOut }} popover="auto" {id} {...rest}>
 	<Card>
-		<span class="header" slot="header"
-			><slot name="header" /><button popovertarget={id} popovertargetaction="hide"
-				><CloseIcon /></button
-			></span
-		>
-		<span><slot /></span>
+		{#snippet header()}
+			<span class="header"
+				>{@render header?.()}<button popovertarget={id} popovertargetaction="hide"
+					><CloseIcon /></button
+				></span
+			>
+		{/snippet}
+		<span>{@render children?.()}</span>
 	</Card>
 </dialog>
 

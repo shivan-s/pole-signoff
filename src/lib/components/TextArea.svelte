@@ -1,9 +1,14 @@
 <script lang="ts">
-	let content: string | null = null;
+	interface Props {
+		[key: string]: any;
+	}
+
+	let { ...rest }: Props = $props();
+	let content: string | null = $state(null);
 </script>
 
-<div contenteditable bind:innerHTML={content} {...$$restProps}></div>
-<input type="hidden" {...$$restProps} value={content} />
+<div contenteditable bind:innerHTML={content} {...rest}></div>
+<input type="hidden" {...rest} value={content} />
 
 <style>
 	div {

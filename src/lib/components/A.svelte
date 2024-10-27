@@ -3,14 +3,15 @@
 -->
 <script lang="ts">
 	import type { HTMLAnchorAttributes } from 'svelte/elements';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props extends HTMLAnchorAttributes {
+	interface Props extends HTMLAnchorAttributes {
 		href: HTMLAnchorAttributes['href'];
+		children?: import('svelte').Snippet;
 	}
-	export let href: HTMLAnchorAttributes['href'];
+
+	let { href, children, ...rest }: Props = $props();
 </script>
 
-<a {href} {...$$restProps}><slot /></a>
+<a {href} {...rest}>{@render children?.()}</a>
 
 <style>
 	a {

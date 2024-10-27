@@ -1,7 +1,7 @@
 <script lang="ts">
 </script>
 
-<span class="loader" />
+<span class="loader"></span>
 
 <style>
 	.loader {

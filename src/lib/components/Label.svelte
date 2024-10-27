@@ -1,5 +1,15 @@
-<label {...$$restProps}>
-	<slot />
+<script>
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props & { [key: string]: any }} */
+	let { children, ...rest } = $props();
+</script>
+
+<label {...rest}>
+	{@render children?.()}
 </label>
 
 <style>

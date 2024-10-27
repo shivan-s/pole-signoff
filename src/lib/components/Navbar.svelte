@@ -6,7 +6,11 @@
 	import { ROCK, POLE } from '$lib/characters';
 	import Modal from '$lib/components/Modal.svelte';
 
-	export let user: Pick<SelectUser, 'stagehandle' | 'isAdmin'> | null = null;
+	interface Props {
+		user?: Pick<SelectUser, 'stagehandle' | 'isAdmin'> | null;
+	}
+
+	let { user = null }: Props = $props();
 </script>
 
 {#if $loading || $navigating}
@@ -26,7 +30,9 @@
 	</span>
 </nav>
 <Modal id="user">
-	<span slot="header">@{user?.stagehandle}</span>
+	{#snippet header()}
+		<span>@{user?.stagehandle}</span>
+	{/snippet}
 	<ul>
 		<li>
 			<a href="/settings">Settings</a>

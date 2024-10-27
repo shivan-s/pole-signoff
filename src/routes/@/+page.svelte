@@ -7,7 +7,11 @@
 	import Label from '$lib/components/Label.svelte';
 	import SearchIcon from '$lib/components/icons/SearchIcon.svelte';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <svelte:head>
