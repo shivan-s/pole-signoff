@@ -8,20 +8,22 @@
 
 	interface Props extends HTMLDialogAttributes {
 		header?: Snippet;
+		children?: Snippet;
 		id: string;
 	}
-	let { id, children, ...rest }: Props = $props();
+	let { id, children, ...props }: Props = $props();
 </script>
 
-<dialog transition:fade={{ easing: cubicInOut }} popover="auto" {id} {...rest}>
+<dialog transition:fade={{ easing: cubicInOut }} popover="auto" {id} {...props}>
 	<Card>
 		{#snippet header()}
 			<span class="header"
-				>{@render header?.()}<button popovertarget={id} popovertargetaction="hide"
+				>{@render props.header?.()}<button popovertarget={id} popovertargetaction="hide"
 					><CloseIcon /></button
 				></span
 			>
 		{/snippet}
+
 		<span>{@render children?.()}</span>
 	</Card>
 </dialog>
