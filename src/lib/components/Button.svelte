@@ -3,11 +3,9 @@
 	import { fade } from 'svelte/transition';
 	import type { Directive } from './types';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
-	import type { Snippet } from 'svelte';
 
 	interface Props extends HTMLButtonAttributes {
 		directive?: Directive;
-		children?: Snippet;
 	}
 
 	let { directive = 'primary', children, ...rest }: Props = $props();

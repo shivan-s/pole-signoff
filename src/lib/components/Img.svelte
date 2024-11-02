@@ -1,13 +1,7 @@
 <script lang="ts">
 	import type { HTMLImgAttributes } from 'svelte/elements';
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-	interface Props {
-		alt: HTMLImgAttributes['alt'];
-		[key: string]: any;
-	}
-
+	interface Props extends HTMLImgAttributes {}
 	let { alt, ...rest }: Props = $props();
 </script>
 

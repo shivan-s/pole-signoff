@@ -1,11 +1,7 @@
-<script>
-	/**
-	 * @typedef {Object} Props
-	 * @property {import('svelte').Snippet} [children]
-	 */
-
-	/** @type {Props & { [key: string]: any }} */
-	let { children, ...rest } = $props();
+<script lang="ts">
+	import type { HTMLLabelAttributes } from 'svelte/elements';
+	interface Props extends HTMLLabelAttributes {}
+	let { children, ...rest }: Props = $props();
 </script>
 
 <label {...rest}>

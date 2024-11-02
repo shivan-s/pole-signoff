@@ -1,12 +1,7 @@
 <script lang="ts">
 	import type { SVGAttributes } from 'svelte/elements';
-	interface Props {
-		[key: string]: any;
-	}
-
+	interface Props extends SVGAttributes<SVGElement> {}
 	let { ...props }: Props = $props();
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props extends SVGAttributes<SVGElement> {}
 </script>
 
 <svg {...props} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"

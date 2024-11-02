@@ -2,15 +2,15 @@
 	import CloseIcon from '$lib/components/icons/CloseIcon.svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
+	import type { Snippet } from 'svelte';
+	import type { HTMLDialogAttributes } from 'svelte/elements';
 	import Card from './Card.svelte';
-	interface Props {
-		id: string;
-		header?: import('svelte').Snippet;
-		children?: import('svelte').Snippet;
-		[key: string]: any;
-	}
 
-	let { id, header, children, ...rest }: Props = $props();
+	interface Props extends HTMLDialogAttributes {
+		header?: Snippet;
+		id: string;
+	}
+	let { id, children, ...rest }: Props = $props();
 </script>
 
 <dialog transition:fade={{ easing: cubicInOut }} popover="auto" {id} {...rest}>

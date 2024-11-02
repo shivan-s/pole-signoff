@@ -1,16 +1,11 @@
 <script lang="ts">
-	import type { HTMLOlAttributes } from 'svelte/elements';
-	interface Props {
-		children?: import('svelte').Snippet;
-		[key: string]: any;
-	}
+	import type { HTMLAttributes } from 'svelte/elements';
+	interface Props extends HTMLAttributes<HTMLUListElement> {}
 
-	let { ...props }: Props = $props();
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props extends HTMLOlAttributes {}
+	let { children, ...rest }: Props = $props();
 </script>
 
-<ul {...props}>{@render props.children?.()}</ul>
+<ul {...rest}>{@render children?.()}</ul>
 
 <style>
 	ul {

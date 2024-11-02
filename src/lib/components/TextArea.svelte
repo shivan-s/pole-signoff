@@ -1,14 +1,15 @@
 <script lang="ts">
-	interface Props {
-		[key: string]: any;
-	}
-
-	let { ...rest }: Props = $props();
+	import { browser } from '$app/environment';
+	let { ...rest } = $props();
 	let content: string | null = $state(null);
 </script>
 
-<div contenteditable bind:innerHTML={content} {...rest}></div>
-<input type="hidden" {...rest} value={content} />
+{#if browser}
+	<div contenteditable bind:innerHTML={content} {...rest}></div>
+	<input type="hidden" {...rest} value={content} />
+{:else}
+	<textarea bind:value={content}></textarea>
+{/if}
 
 <style>
 	div {

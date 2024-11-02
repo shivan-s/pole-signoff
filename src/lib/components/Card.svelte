@@ -2,9 +2,9 @@
 	import { cubicInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
 	import type { Snippet } from 'svelte';
-	interface Props {
+	import type { HTMLAttributes } from 'svelte/elements';
+	interface Props extends HTMLAttributes<HTMLElement> {
 		header?: Snippet;
-		children?: Snippet;
 	}
 
 	let { header, children, ...rest }: Props = $props();
