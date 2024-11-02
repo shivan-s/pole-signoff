@@ -94,19 +94,13 @@
 		<span>
 			<H2 id="what-is-this" style="font-size: 1.25rem">What is this?</H2>
 			<p>
-				To answer what <strong>pole.rocks</strong> is, we need to understand why I made this. At my studio,
-				I noticed how sign off for pole dance moves are done on a manual paper sheet. Why not turn this
-				into an online app?
-			</p>
-			<H2 style="font-size: 1.25rem">Why the domain, <strong>pole.rocks</strong>?</H2>
-			<p>
-				Sadly, <A href="https://pole.dance">pole.dance</A> would have been my first choice. Alas, being
-				such a wicked domain name, it was taken and wasn't so cheap either. So...
-				<strong>pole.rocks</strong> will do just fine :)
+				To answer what <strong>pole.academy</strong> is, we need to understand why I made this. At my
+				studio, I noticed how sign off for pole dance moves are done on a manual paper sheet. Why not
+				turn this into an online app?
 			</p>
 			<H2 style="font-size: 1.25rem">Why did you make this?</H2>
 			<p>
-				To answer why <strong>pole.rocks</strong> exists, we need to understand <A
+				To answer why <strong>pole.academy</strong> exists, we need to understand <A
 					href="#what-is-this">what this is</A
 				>.
 			</p>

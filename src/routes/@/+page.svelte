@@ -16,9 +16,9 @@
 
 <svelte:head>
 	{#if data.q && data.q !== ''}
-		<title>Search: {data.q} - Pole Rocks</title>
+		<title>Search: {data.q} - Pole Academy</title>
 	{:else}
-		<title>Search - Pole Rocks</title>
+		<title>Search - Pole Academy</title>
 	{/if}
 </svelte:head>
 

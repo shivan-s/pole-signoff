@@ -1,8 +1,8 @@
-# Pole Rocks
+# Pole Academy (WIP)
 
 ## Development
 
-Run:
+Running development:
 
 ```
 npm run dev

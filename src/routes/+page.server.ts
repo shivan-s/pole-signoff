@@ -28,7 +28,7 @@ export const load: PageServerLoad = async ({ url }) => {
 	const form = await superValidate(zod(LoginSchema));
 	const isSignup = url.searchParams.get('signup') === '1';
 	return {
-		pageTitle: `${WAVE} Welcome to Pole Rocks`,
+		pageTitle: `${WAVE} Welcome to Pole Academy`,
 		users,
 		form,
 		isSignup
