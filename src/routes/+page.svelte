@@ -2,7 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import type { PageData } from './$types';
 	import Card from '$lib/components/Card.svelte';
-	import FormSet from '$lib/components/FormSet.svelte';
+	import FieldSet from '$lib/components/FieldSet.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
 	import { superForm } from 'sveltekit-superforms';
@@ -16,7 +16,11 @@
 	import Spinner from '$lib/components/Spinner.svelte';
 	import { goto } from '$app/navigation';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 	const { form, capture, restore, constraints, enhance, allErrors, delayed } = superForm(
 		data.form,
 		{
@@ -46,7 +50,7 @@
 			<H2 style="font-size: 1.25rem;">Login {CHECKED}</H2>
 			<form method="POST" action="?/login" use:enhance>
 				<div class="flex-col">
-					<FormSet>
+					<FieldSet>
 						<Label for="stagehandle"><span>Stage Handle</span></Label>
 						<Input
 							id="stagehandle"
@@ -65,18 +69,20 @@
 							bind:value={$form.password}
 							{...$constraints.password}
 						/>
-						<span />
+						<span></span>
 						<Button type="submit"
 							>{#if $delayed}<Spinner />{:else}Log in{/if}</Button
 						>
-						<span />
+						<span></span>
 						<A href="/signup">No account? Sign up here</A>
-					</FormSet>
+					</FieldSet>
 				</div>
 			</form>
 			{#if $allErrors.length > 0}
 				<Alert directive="danger"
-					><span slot="header">Error</span>
+					>{#snippet header()}
+						<span>Error</span>
+					{/snippet}
 					<UL>
 						{#each $allErrors as e}
 							<li>

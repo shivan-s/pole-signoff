@@ -7,27 +7,32 @@
 	import H1 from '$lib/components/H1.svelte';
 	import Toasts from '$lib/components/Toasts.svelte';
 
-	export let data: LayoutData;
-	$: pageTitle = $page.data['pageTitle'];
+	interface Props {
+		data: LayoutData;
+		children?: import('svelte').Snippet;
+	}
+
+	let { data, children }: Props = $props();
+	let pageTitle = $derived($page.data['pageTitle']);
 </script>
 
 {#if pageTitle}
-	<title>{pageTitle} | Pole Signoff</title>
+	<title>{pageTitle} | Pole Academy</title>
 {:else}
-	<title>Pole Signoff</title>
+	<title>Pole Academy</title>
 {/if}
-<body class="wrapper">
+<div class="wrapper">
 	<header><Navbar user={data.user} /></header>
 	{#key data.routeURL}
 		<Container>
 			{#if pageTitle}
 				<header><H1 style="text-align: center">{pageTitle}</H1></header>
 			{/if}
-			<slot />
+			{@render children?.()}
 		</Container>
 	{/key}
 	<footer><Footer /></footer>
-</body>
+</div>
 <Toasts />
 
 <style>
@@ -104,10 +109,10 @@
 		scroll-behavior: smooth;
 	}
 
-	.wrapper {
+	div.wrapper {
 		position: relative;
 		display: grid;
-		min-height: 100dvh;
+		min-height: 100vh;
 		background: var(--bg);
 		grid-template-areas:
 			'header'
@@ -116,16 +121,11 @@
 		grid-template-rows: 4rem 1fr 4rem;
 		grid-template-columns: 100%;
 		gap: 0;
-	}
-
-	body > header {
-		grid-area: header;
-		position: sticky;
-		top: 0px;
-		z-index: 1;
-	}
-
-	footer {
-		grid-area: footer;
+		& > header {
+			grid-area: header;
+			position: sticky;
+			top: 0px;
+			z-index: 1;
+		}
 	}
 </style>

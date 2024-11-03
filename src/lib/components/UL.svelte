@@ -1,10 +1,11 @@
 <script lang="ts">
-	import type { HTMLOlAttributes } from 'svelte/elements';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props extends HTMLOlAttributes {}
+	import type { HTMLAttributes } from 'svelte/elements';
+	interface Props extends HTMLAttributes<HTMLUListElement> {}
+
+	let { children, ...rest }: Props = $props();
 </script>
 
-<ul {...$$props}><slot /></ul>
+<ul {...rest}>{@render children?.()}</ul>
 
 <style>
 	ul {

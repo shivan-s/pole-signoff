@@ -4,12 +4,16 @@
 	import { dateStamp, fromNow } from '$lib/utils';
 	import Button from '$lib/components/Button.svelte';
 
-	export let moves: {
-		id: number;
-		name: string;
-		description: string | null;
-		achievedAt: Date | null;
-	}[];
+	interface Props {
+		moves: {
+			id: number;
+			name: string;
+			description: string | null;
+			achievedAt: Date | null;
+		}[];
+	}
+
+	let { moves }: Props = $props();
 </script>
 
 <div class="wrapper">

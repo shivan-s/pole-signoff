@@ -25,7 +25,7 @@
 				<FailIcon width="2rem" />
 			{/if}
 			{toast.message}
-			<button on:click={() => dismissToast(toast.id ?? '')}><CloseIcon /></button>
+			<button onclick={() => dismissToast(toast.id ?? '')}><CloseIcon /></button>
 		</div>
 	{/each}
 </div>

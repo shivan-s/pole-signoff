@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import H1 from '$lib/components/H1.svelte';
 	import { page } from '$app/stores';
 	import H2 from '$lib/components/H2.svelte';

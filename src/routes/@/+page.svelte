@@ -7,14 +7,18 @@
 	import Label from '$lib/components/Label.svelte';
 	import SearchIcon from '$lib/components/icons/SearchIcon.svelte';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <svelte:head>
 	{#if data.q && data.q !== ''}
-		<title>Search: {data.q} - Pole Rocks</title>
+		<title>Search: {data.q} - Pole Academy</title>
 	{:else}
-		<title>Search - Pole Rocks</title>
+		<title>Search - Pole Academy</title>
 	{/if}
 </svelte:head>
 

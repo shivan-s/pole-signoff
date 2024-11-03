@@ -1,13 +1,20 @@
 <script lang="ts">
 	import { cubicInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
+	import type { Snippet } from 'svelte';
+	import type { HTMLAttributes } from 'svelte/elements';
+	interface Props extends HTMLAttributes<HTMLElement> {
+		header?: Snippet;
+	}
+
+	let { header, children, ...rest }: Props = $props();
 </script>
 
-<article in:fade={{ easing: cubicInOut }} {...$$restProps}>
-	{#if $$slots['header']}
-		<header><slot name="header"></slot></header>
+<article in:fade={{ easing: cubicInOut }} {...rest}>
+	{#if header}
+		<header>{@render header?.()}</header>
 	{/if}
-	<div><slot /></div>
+	<div>{@render children?.()}</div>
 </article>
 
 <style>

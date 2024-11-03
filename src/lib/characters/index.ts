@@ -1,5 +1,5 @@
 export const WAVE = '👋';
-export const ROCK = '🪨';
+export const ACADEMY = '🎓';
 export const POLE = '💈';
 export const PROGRESS = '📈';
 export const JOINED = '🫶';

@@ -1,4 +1,10 @@
-<h2 {...$$restProps}><slot /></h2>
+<script lang="ts">
+	import type { HTMLAttributes } from 'svelte/elements';
+	interface Props extends HTMLAttributes<HTMLHeadingElement> {}
+	let { children, ...rest }: Props = $props();
+</script>
+
+<h2 {...rest}>{@render children?.()}</h2>
 
 <style>
 	h2 {

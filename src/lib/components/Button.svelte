@@ -4,11 +4,11 @@
 	import type { Directive } from './types';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props extends HTMLButtonAttributes {
+	interface Props extends HTMLButtonAttributes {
 		directive?: Directive;
 	}
-	export let directive: Directive = 'primary';
+
+	let { directive = 'primary', children, ...rest }: Props = $props();
 </script>
 
 <button
@@ -18,7 +18,7 @@
 	class:warning={directive === 'warning'}
 	class:secondary={directive === 'secondary'}
 	class:primary={directive === 'primary'}
-	{...$$restProps}><slot /></button
+	{...rest}>{@render children?.()}</button
 >
 
 <style>

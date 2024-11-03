@@ -2,18 +2,29 @@
 	import CloseIcon from '$lib/components/icons/CloseIcon.svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
+	import type { Snippet } from 'svelte';
+	import type { HTMLDialogAttributes } from 'svelte/elements';
 	import Card from './Card.svelte';
-	export let id: string;
+
+	interface Props extends HTMLDialogAttributes {
+		header?: Snippet;
+		children?: Snippet;
+		id: string;
+	}
+	let { id, children, ...props }: Props = $props();
 </script>
 
-<dialog transition:fade={{ easing: cubicInOut }} popover="auto" {id} {...$$restProps}>
+<dialog transition:fade={{ easing: cubicInOut }} popover="auto" {id} {...props}>
 	<Card>
-		<span class="header" slot="header"
-			><slot name="header" /><button popovertarget={id} popovertargetaction="hide"
-				><CloseIcon /></button
-			></span
-		>
-		<span><slot /></span>
+		{#snippet header()}
+			<span class="header"
+				>{@render props.header?.()}<button popovertarget={id} popovertargetaction="hide"
+					><CloseIcon /></button
+				></span
+			>
+		{/snippet}
+
+		<span>{@render children?.()}</span>
 	</Card>
 </dialog>
 

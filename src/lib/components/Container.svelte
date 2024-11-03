@@ -1,10 +1,16 @@
 <script lang="ts">
 	import { cubicInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
+	import type { Snippet } from 'svelte';
+	interface Props {
+		children?: Snippet;
+	}
+
+	let { children }: Props = $props();
 </script>
 
 <main in:fade={{ easing: cubicInOut }}>
-	<slot />
+	{@render children?.()}
 </main>
 
 <style>

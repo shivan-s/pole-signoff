@@ -1,15 +1,19 @@
 <script lang="ts">
 	import { cubicInOut } from 'svelte/easing';
-	import type { HTMLBaseAttributes } from 'svelte/elements';
+	import type { HTMLAttributes } from 'svelte/elements';
 	import { fade } from 'svelte/transition';
 	import type { Directive } from './types';
 	import FailIcon from '$lib/components/icons/FailIcon.svelte';
 	import SuccessIcon from '$lib/components/icons/SuccessIcon.svelte';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props extends HTMLBaseAttributes {
+
+	interface Props extends HTMLAttributes<HTMLDivElement> {
 		directive: Directive;
+		header?: import('svelte').Snippet;
+		children?: import('svelte').Snippet;
+		footer?: import('svelte').Snippet;
 	}
-	export let directive: Directive = 'primary';
+
+	let { directive = 'primary', header, children, footer, ...rest }: Props = $props();
 </script>
 
 <div
@@ -20,21 +24,21 @@
 	class:success={directive === 'success'}
 	class:warning={directive === 'warning'}
 	class:primary={directive === 'primary'}
-	{...$$restProps}
+	{...rest}
 >
-	{#if $$slots['header']}
+	{#if header}
 		<header>
 			{#if directive === 'danger'}<FailIcon />{/if}
 			{#if directive === 'warning'}<FailIcon />{/if}
 			{#if directive === 'success'}<SuccessIcon />{/if}
-			<slot name="header" />
+			{@render header?.()}
 		</header>
 	{/if}
-	{#if $$slots['default']}
-		<div><slot /></div>
+	{#if children}
+		<div>{@render children?.()}</div>
 	{/if}
-	{#if $$slots['footer']}
-		<footer><slot name="footer" /></footer>
+	{#if footer}
+		<footer>{@render footer?.()}</footer>
 	{/if}
 </div>
 

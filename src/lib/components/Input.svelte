@@ -1,16 +1,13 @@
 <script lang="ts">
 	import type { HTMLInputAttributes } from 'svelte/elements';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props extends HTMLInputAttributes {
-		value?: HTMLInputAttributes['value'];
-	}
-	export let value: HTMLInputAttributes['value'] = null;
+	interface Props extends HTMLInputAttributes {}
+	let { value = $bindable(), type, ...rest }: Props = $props();
 </script>
 
-{#if $$props['type'] === 'checkbox'}
-	<span><input type="checkbox" bind:value {...$$restProps} /></span>
+{#if type === 'checkbox'}
+	<span><input type="checkbox" bind:value {...rest} /></span>
 {:else}
-	<span><input bind:value {...$$restProps} /></span>
+	<span><input bind:value {...rest} /></span>
 {/if}
 
 <style>
