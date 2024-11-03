@@ -10,6 +10,7 @@
 
 <style>
 	fieldset {
+		border: none;
 		display: grid;
 		grid-template-columns: 1fr 3fr;
 		gap: 1rem;
