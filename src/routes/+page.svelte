@@ -2,7 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import type { PageData } from './$types';
 	import Card from '$lib/components/Card.svelte';
-	import FormSet from '$lib/components/FormSet.svelte';
+	import FieldSet from '$lib/components/FieldSet.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
 	import { superForm } from 'sveltekit-superforms';
@@ -50,7 +50,7 @@
 			<H2 style="font-size: 1.25rem;">Login {CHECKED}</H2>
 			<form method="POST" action="?/login" use:enhance>
 				<div class="flex-col">
-					<FormSet>
+					<FieldSet>
 						<Label for="stagehandle"><span>Stage Handle</span></Label>
 						<Input
 							id="stagehandle"
@@ -75,7 +75,7 @@
 						>
 						<span></span>
 						<A href="/signup">No account? Sign up here</A>
-					</FormSet>
+					</FieldSet>
 				</div>
 			</form>
 			{#if $allErrors.length > 0}

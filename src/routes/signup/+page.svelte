@@ -3,7 +3,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import Spinner from '$lib/components/Spinner.svelte';
-	import FormSet from '$lib/components/FormSet.svelte';
+	import FieldSet from '$lib/components/FieldSet.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
 	import A from '$lib/components/A.svelte';
@@ -38,7 +38,7 @@
 		<H2 style="font-size: 1.25rem;">Signup {CHECKED}</H2>
 		<form method="POST" action="?/signup" use:enhance>
 			<div class="flex-col">
-				<FormSet>
+				<FieldSet>
 					<Label for="stagehandle"><abbr title="This is like a username">Stage Handle</abbr></Label>
 					<span class="wrapper">
 						<span class="handle" title="Your stage handle"></span>
@@ -69,7 +69,7 @@
 					>
 					<span></span>
 					<A href="/">Already have an account? Log in here</A>
-				</FormSet>
+				</FieldSet>
 			</div>
 		</form>
 		{#if $allErrors.length > 0}
