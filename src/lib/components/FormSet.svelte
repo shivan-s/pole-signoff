@@ -1,19 +1,15 @@
-<script>
-	/**
-	 * @typedef {Object} Props
-	 * @property {import('svelte').Snippet} [children]
-	 */
-
-	/** @type {Props & { [key: string]: any }} */
-	let { children, ...rest } = $props();
+<script lang="ts">
+	import type { HTMLFieldsetAttributes } from 'svelte/elements';
+	interface Props extends HTMLFieldsetAttributes {}
+	let { children, ...rest }: Props = $props();
 </script>
 
-<formset {...rest}>
+<fieldset {...rest}>
 	{@render children?.()}
-</formset>
+</fieldset>
 
 <style>
-	formset {
+	fieldset {
 		display: grid;
 		grid-template-columns: 1fr 3fr;
 		gap: 1rem;

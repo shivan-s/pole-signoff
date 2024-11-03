@@ -1,11 +1,7 @@
-<script>
-	/**
-	 * @typedef {Object} Props
-	 * @property {import('svelte').Snippet} [children]
-	 */
-
-	/** @type {Props & { [key: string]: any }} */
-	let { children, ...rest } = $props();
+<script lang="ts">
+	import type { HTMLAttributes } from 'svelte/elements';
+	interface Props extends HTMLAttributes<HTMLHeadingElement> {}
+	let { children, ...rest }: Props = $props();
 </script>
 
 <h2 {...rest}>{@render children?.()}</h2>
