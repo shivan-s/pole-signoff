@@ -11,7 +11,6 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { CHECKED } from '$lib/characters';
 	import H2 from '$lib/components/H2.svelte';
-	import { generateFakeStagehandle } from '$lib/utils/faker';
 	import UL from '$lib/components/UL.svelte';
 
 	interface Props {
@@ -39,6 +38,18 @@
 		<form method="POST" action="?/signup" use:enhance>
 			<div class="flex-col">
 				<FieldSet>
+					<Label for="inviteCode"><abbr title="Invite code to sign up">Invite Code</abbr></Label>
+					<span class="wrapper">
+						<Input
+							title="Invite code to sign up"
+							id="stagehandle"
+							name="stagehandle"
+							type="text"
+							placeholder={data.exampleUUID}
+							bind:value={$form.stagehandle}
+							{...$constraints.stagehandle}
+						/>
+					</span>
 					<Label for="stagehandle"><abbr title="This is like a username">Stage Handle</abbr></Label>
 					<span class="wrapper">
 						<span class="handle" title="Your stage handle"></span>
@@ -48,7 +59,7 @@
 							id="stagehandle"
 							name="stagehandle"
 							type="text"
-							placeholder={generateFakeStagehandle()}
+							placeholder={data.exampleHandle}
 							bind:value={$form.stagehandle}
 							{...$constraints.stagehandle}
 						/>

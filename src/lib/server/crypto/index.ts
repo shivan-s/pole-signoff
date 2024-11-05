@@ -1,4 +1,4 @@
-export { checkPassword, hashPassword, decodeJWT, issueJWT } from './crypto';
+export { checkPassword, hashPassword, decodeJWT, issueJWT, getUUID } from './crypto';
 
 import Hash from './hash';
 export { type Hash };

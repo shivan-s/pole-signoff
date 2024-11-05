@@ -2,10 +2,11 @@ import { superValidate, fail, setError } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
-import { hashPassword } from '$lib/server/crypto';
+import { hashPassword, getUUID } from '$lib/server/crypto';
 import { createUser } from '$lib/server/db/users';
 import { SignupSchema } from '$lib/utils';
 import { LibsqlError } from '@libsql/client';
+import { generateFakeStagehandle } from '$lib/utils/faker';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -14,7 +15,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const form = await superValidate(zod(SignupSchema));
 	return {
 		pageTitle: 'Signup',
-		form
+		form,
+		exampleUUID: getUUID(),
+		exampleHandle: generateFakeStagehandle()
 	};
 };
 

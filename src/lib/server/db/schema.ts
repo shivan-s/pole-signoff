@@ -92,3 +92,13 @@ export const userMovesTable = sqliteTable('user_moves', {
 });
 export type SelectUserMove = typeof userMovesTable.$inferSelect;
 export type InsertUserMove = typeof userMovesTable.$inferInsert;
+
+export const inviteCodesTable = sqliteTable('invite_codes', {
+	uuid: text('uuid').primaryKey(),
+	senderId: integer('sender_id')
+		.references(() => usersTable.id)
+		.notNull(),
+	receiverId: integer('receiver_id').references(() => usersTable.id)
+});
+export type SelectInviteCode = typeof inviteCodesTable.$inferSelect;
+export type InsertInviteCode = typeof inviteCodesTable.$inferInsert;
