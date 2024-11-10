@@ -5,12 +5,19 @@
 	import type { SelectUser } from '$lib/server/db/schema';
 	import { ACADEMY, POLE } from '$lib/characters';
 	import Modal from '$lib/components/Modal.svelte';
+	import { enhance } from '$app/forms';
+	import urls from '$lib/urls';
 
 	interface Props {
 		user?: Pick<SelectUser, 'stagehandle' | 'isAdmin'> | null;
 	}
 
 	let { user = null }: Props = $props();
+
+	const handleClick = () => {
+		const popover = document.getElementById('user')!;
+		popover.hidePopover();
+	};
 </script>
 
 {#if $loading || $navigating}
@@ -35,10 +42,22 @@
 	{/snippet}
 	<ul>
 		<li>
-			<a href="/settings">Settings</a>
+			<a onclick={handleClick} href={urls.settings}>Settings</a>
 		</li>
 		<li>
-			<form method="POST" action="?/logout">
+			<a onclick={handleClick} href={urls.invite}>Invite Friends</a>
+		</li>
+		<li>
+			<form
+				method="POST"
+				action="?/logout"
+				use:enhance={() => {
+					return async ({ update }) => {
+						await update();
+						handleClick();
+					};
+				}}
+			>
 				<button class="logout">Logout</button>
 			</form>
 		</li>

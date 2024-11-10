@@ -23,8 +23,13 @@ export const LoginSchema = z
 
 export const SignupSchema = z
 	.object({
-		inviteCode: z.string().uuid(),
 		stagehandle: StageHandle,
 		password: Password
+	})
+	.strip();
+
+export const InviteCodeSchema = z
+	.object({
+		inviteCode: z.string().uuid()
 	})
 	.strip();

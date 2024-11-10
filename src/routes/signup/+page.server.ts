@@ -1,27 +1,51 @@
-import { superValidate, fail, setError } from 'sveltekit-superforms';
+import { superValidate, fail, setError, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { hashPassword, getUUID } from '$lib/server/crypto';
 import { createUser } from '$lib/server/db/users';
-import { SignupSchema } from '$lib/utils';
+import { InviteCodeSchema, SignupSchema } from '$lib/utils';
 import { LibsqlError } from '@libsql/client';
 import { generateFakeStagehandle } from '$lib/utils/faker';
+import { fetchInviteCode } from '$lib/server/db/inviteCodes';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
 		redirect(303, '/');
 	}
-	const form = await superValidate(zod(SignupSchema));
+	const signupForm = await superValidate(zod(SignupSchema));
+	const inviteForm = await superValidate(zod(InviteCodeSchema));
 	return {
 		pageTitle: 'Signup',
-		form,
+		signupForm,
+		inviteForm,
 		exampleUUID: getUUID(),
 		exampleHandle: generateFakeStagehandle()
 	};
 };
 
 export const actions: Actions = {
+	invite: async ({ request, locals }) => {
+		if (locals.user) {
+			redirect(303, '/');
+		}
+		const form = await superValidate(request, zod(InviteCodeSchema));
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+		const inviteCode = form.data.inviteCode;
+		try {
+			const { users: user } = await fetchInviteCode(inviteCode);
+			return message(form, 'Invited by ');
+		} catch (err) {
+			const DB_ERROR = '?';
+			if (err instanceof LibsqlError && err.message.includes(DB_ERROR)) {
+				setError(form, 'Invite code in not valid');
+				return fail(400, { form });
+			}
+			throw err;
+		}
+	},
 	signup: async ({ request, locals }) => {
 		if (locals.user) {
 			redirect(303, '/');
