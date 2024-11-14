@@ -1,5 +1,7 @@
 # Pole Academy (WIP)
 
+The goal of this app is the catalog pole moves as you are learning them.
+
 ## Development
 
 Running development:
