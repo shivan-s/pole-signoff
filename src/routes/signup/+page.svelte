@@ -46,10 +46,9 @@
 	<p>Got any Questions? <A href="#faq">Make sure to check this out</A></p>
 	{#if !$inviteMessage}
 		<Card>
-			<H2 style="font-size: 1.25rem;">Invite</H2>
+			<H2 style="font-size: 1.25rem;">Invite Code Required to Create an Account</H2>
 			<form method="POST" action="?/invite" use:inviteEnhance>
 				<div class="flex-col">
-					<p>Enter invite code to create an account</p>
 					<FieldSet>
 						<Label for="inviteCode">Invite Code</Label>
 						<span class="wrapper">

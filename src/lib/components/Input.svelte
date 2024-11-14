@@ -25,7 +25,7 @@
 	}
 	span:has(input:user-invalid)::after {
 		position: absolute;
-		transform: translate(-150%, 25%);
+		transform: translate(-150%, 50%);
 		content: '✘';
 		color: var(--danger);
 	}
