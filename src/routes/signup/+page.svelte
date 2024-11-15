@@ -90,9 +90,9 @@
 		<Card>
 			<H2 style="font-size: 1.25rem;">Signup {CHECKED}</H2>
 			<form method="POST" action="?/signup" use:enhance>
+				<input type="hidden" name="inviteCode" value={$inviteForm.inviteCode} />
 				<div class="flex-col">
 					<FieldSet>
-						<span></span>{JSON.stringify(inviteForm, null, 2)}
 						<Label for="stagehandle"
 							><abbr title="This is like a username">Stage Handle</abbr></Label
 						>
