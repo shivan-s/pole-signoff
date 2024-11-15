@@ -15,6 +15,20 @@
 			"when": 1727347278310,
 			"tag": "0001_magical_harry_osborn",
 			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "6",
+			"when": 1731575499399,
+			"tag": "0002_aspiring_synch",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "6",
+			"when": 1731660265808,
+			"tag": "0003_glorious_wild_child",
+			"breakpoints": true
 		}
 	]
 }

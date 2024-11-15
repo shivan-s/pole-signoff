@@ -1,3 +1,3 @@
 export { dateStamp, fromNow } from './time';
 
-export { SignupSchema, LoginSchema } from './schemas';
+export { SignupSchema, LoginSchema, InviteCodeSchema } from './schemas';

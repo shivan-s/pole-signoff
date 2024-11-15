@@ -14,6 +14,8 @@ const StageHandle = z
 
 const Password = z.string().trim().min(8).max(128);
 
+const InviteCode = z.string().trim().min(4).max(100).toLowerCase();
+
 export const LoginSchema = z
 	.object({
 		stagehandle: StageHandle,
@@ -23,7 +25,14 @@ export const LoginSchema = z
 
 export const SignupSchema = z
 	.object({
+		inviteCode: InviteCode,
 		stagehandle: StageHandle,
 		password: Password
+	})
+	.strip();
+
+export const InviteCodeSchema = z
+	.object({
+		inviteCode: InviteCode
 	})
 	.strip();

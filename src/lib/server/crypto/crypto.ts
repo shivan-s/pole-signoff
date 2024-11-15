@@ -3,6 +3,7 @@ import type { SelectPassword, SelectUser } from '$lib/server/db/schema';
 import * as jose from 'jose';
 import { JWEInvalid } from 'jose/errors';
 import Hash from './hash';
+import { v4 as uuid } from 'uuid';
 
 /**
  * Check password for a given user
@@ -66,4 +67,11 @@ export async function decodeJWT(
 		}
 		throw err;
 	}
+}
+
+/**
+ * Return uuid
+ */
+export function getUUID() {
+	return uuid();
 }
