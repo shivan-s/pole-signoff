@@ -12,7 +12,7 @@
 	{#each data.inviteCodes as inviteCode}
 		<li>
 			{inviteCode.createdAt}
-			{inviteCode.uuid}
+			{inviteCode.code}
 			{inviteCode.receiverId}
 		</li>
 	{/each}
