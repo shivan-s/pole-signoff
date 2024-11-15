@@ -36,7 +36,7 @@ export const actions: Actions = {
 		const inviteCode = form.data.inviteCode;
 		try {
 			const { users: user } = await fetchInviteCode(inviteCode);
-			return message(form, 'Invited by ');
+			return message(form, `Invited by ${user.name}`);
 		} catch (err) {
 			const DB_ERROR = '?';
 			if (err instanceof LibsqlError && err.message.includes(DB_ERROR)) {
