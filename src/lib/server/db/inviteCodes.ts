@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { and, eq, isNull } from 'drizzle-orm';
 import { inviteCodesTable, usersTable, type SelectInviteCode, type SelectUser } from './schema';
-import { getUUID } from '$lib/server/crypto';
+import { generateInviteCode } from '$lib/utils/faker';
 
 export async function fetchInviteCodesFromUser(
 	userId: number,
@@ -22,7 +22,7 @@ export async function fetchInviteCodesFromUser(
 export async function createInviteCodeForUser(userId: number): Promise<SelectInviteCode> {
 	const [inviteCode] = await db
 		.insert(inviteCodesTable)
-		.values({ senderId: userId, uuid: getUUID() })
+		.values({ senderId: userId, code: generateInviteCode() })
 		.returning();
 	return inviteCode;
 }
@@ -34,6 +34,6 @@ export async function fetchInviteCode(
 		.select()
 		.from(inviteCodesTable)
 		.innerJoin(usersTable, eq(inviteCodesTable.senderId, usersTable.id))
-		.where(and(eq(inviteCodesTable.uuid, inviteCode)));
+		.where(and(eq(inviteCodesTable.code, inviteCode)));
 	return sender;
 }

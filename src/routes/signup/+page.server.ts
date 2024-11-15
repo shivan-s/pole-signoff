@@ -2,11 +2,11 @@ import { superValidate, fail, setError, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad, Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
-import { hashPassword, getUUID } from '$lib/server/crypto';
+import { hashPassword } from '$lib/server/crypto';
 import { createUser } from '$lib/server/db/users';
 import { InviteCodeSchema, SignupSchema } from '$lib/utils';
 import { LibsqlError } from '@libsql/client';
-import { generateFakeStagehandle } from '$lib/utils/faker';
+import { generateFakeStagehandle, generateInviteCode } from '$lib/utils/faker';
 import { fetchInviteCode } from '$lib/server/db/inviteCodes';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		pageTitle: 'Signup',
 		signupForm,
 		inviteForm,
-		exampleUUID: getUUID(),
+		exampleCode: generateInviteCode(),
 		exampleHandle: generateFakeStagehandle()
 	};
 };

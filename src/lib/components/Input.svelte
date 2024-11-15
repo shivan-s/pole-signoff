@@ -25,7 +25,7 @@
 	}
 	span:has(input:user-invalid)::after {
 		position: absolute;
-		transform: translate(-150%, 50%);
+		transform: translate(-150%, 25%);
 		content: '✘';
 		color: var(--danger);
 	}
@@ -35,7 +35,7 @@
 	}
 	span:has(input:user-valid)::after {
 		position: absolute;
-		transform: translate(-150%, 50%);
+		transform: translate(-150%, 25%);
 		content: '✔';
 		color: var(--success);
 	}

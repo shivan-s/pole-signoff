@@ -57,7 +57,7 @@
 								id="stagehandle"
 								name="stagehandle"
 								type="text"
-								placeholder={data.exampleUUID}
+								placeholder="Four words with no spaces, e.g. {data.exampleCode}"
 								bind:value={$inviteForm.inviteCode}
 								{...$inviteConstraints.inviteCode}
 							/>

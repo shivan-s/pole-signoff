@@ -94,10 +94,10 @@ export type SelectUserMove = typeof userMovesTable.$inferSelect;
 export type InsertUserMove = typeof userMovesTable.$inferInsert;
 
 export const inviteCodesTable = sqliteTable('invite_codes', {
+	code: text('code').primaryKey(),
 	createdAt: text('created_at')
 		.default(sql`(CURRENT_TIMESTAMP)`)
 		.notNull(),
-	uuid: text('uuid').primaryKey(),
 	senderId: integer('sender_id')
 		.references(() => usersTable.id)
 		.notNull(),
