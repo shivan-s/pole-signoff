@@ -15,12 +15,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const payload = await decodeJWT(authToken);
 		if (!payload || !payload.user) {
 			event.cookies.delete('auth-token', { httpOnly: true, path: '/' });
-			redirect(302, '/login');
+			redirect(302, '/');
 		}
 		const user = await fetchUserById(payload.user?.id);
 		if (!user) {
 			event.cookies.delete('auth-token', { httpOnly: true, path: '/' });
-			redirect(302, '/login');
+			redirect(302, '/');
 		}
 		event.locals.user = user;
 	}
