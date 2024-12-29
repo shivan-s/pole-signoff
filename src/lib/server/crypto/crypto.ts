@@ -1,7 +1,7 @@
 import { SECRET } from '$env/static/private';
 import type { SelectPassword, SelectUser } from '$lib/server/db/schema';
 import * as jose from 'jose';
-import { JWEInvalid } from 'jose/errors';
+import { JWEInvalid, JWTExpired } from 'jose/errors';
 import Hash from './hash';
 import { v4 as uuid } from 'uuid';
 
@@ -63,6 +63,10 @@ export async function decodeJWT(
 	} catch (err) {
 		if (err instanceof JWEInvalid && err.code === 'ERR_JWE_INVALID') {
 			console.log('JWE invalid');
+			return null;
+		}
+		if (err instanceof JWTExpired) {
+			console.log('JWT Expired');
 			return null;
 		}
 		throw err;
