@@ -43,7 +43,7 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Clean Install
-        run: npm ci
+        run: npm ci && npm run build
       - name: Lint
         run: npm run lint
   check:
@@ -63,6 +63,6 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Clean Install
-        run: npm ci
+        run: npm ci && npm run build
       - name: Check
         run: npm run check
