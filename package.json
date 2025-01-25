@@ -54,11 +54,13 @@
 		"vite": "^5.4.4",
 		"vitest": "^1.0.0",
 		"wrangler": "^3.41.0",
-		"zod": "^3.23.8"
+		"zod": "^3.23.8",
+		"@inlang/paraglide-js": "1.11.8"
 	},
 	"type": "module",
 	"dependencies": {
 		"@libsql/client": "^0.14.0",
-		"date-fns": "^3.6.0"
+		"date-fns": "^3.6.0",
+		"@inlang/paraglide-sveltekit": "0.15.5"
 	}
 }

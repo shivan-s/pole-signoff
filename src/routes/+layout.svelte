@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
+	import { i18n } from '$lib/i18n';
+
 	import Footer from '$lib/components/Footer.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { page } from '$app/stores';
@@ -21,19 +24,21 @@
 {:else}
 	<title>Pole Academy</title>
 {/if}
-<div class="wrapper">
-	<header><Navbar user={data.user} /></header>
-	{#key data.routeURL}
-		<Container>
-			{#if pageTitle}
-				<header><H1 style="text-align: center">{pageTitle}</H1></header>
-			{/if}
-			{@render children?.()}
-		</Container>
-	{/key}
-	<footer><Footer /></footer>
-</div>
-<Toasts />
+<ParaglideJS {i18n}>
+	<div class="wrapper">
+		<header><Navbar user={data.user} /></header>
+		{#key data.routeURL}
+			<Container>
+				{#if pageTitle}
+					<header><H1 style="text-align: center">{pageTitle}</H1></header>
+				{/if}
+				{@render children?.()}
+			</Container>
+		{/key}
+		<footer><Footer /></footer>
+	</div>
+	<Toasts />
+</ParaglideJS>
 
 <style>
 	:root {
