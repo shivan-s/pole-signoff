@@ -8,6 +8,7 @@ import { issueJWT, checkPassword } from '$lib/server/crypto';
 import { fetchUserWithPasswordByStageHandle } from '$lib/server/db/users';
 import { LoginSchema } from '$lib/utils';
 import { generateFakeStagehandle } from '$lib/utils/faker';
+import * as m from '$lib/paraglide/messages.js';
 
 export const load: PageServerLoad = async ({ url }) => {
 	const rawUsers = await fetchManyUsers({ includePrivate: true, limit: 10 });
@@ -28,7 +29,7 @@ export const load: PageServerLoad = async ({ url }) => {
 	const form = await superValidate(zod(LoginSchema));
 	const isSignup = url.searchParams.get('signup') === '1';
 	return {
-		pageTitle: `${WAVE} Welcome to Pole Academy`,
+		pageTitle: `${WAVE} ${m.welcome_hero()}`,
 		users,
 		form,
 		isSignup
